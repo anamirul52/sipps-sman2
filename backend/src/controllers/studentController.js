@@ -150,7 +150,7 @@ function normalizeClassName(input) {
 function getStatusLabel(points) {
     if (points >= 100) return 'Orang Tua/Wali Menarik Kembali Peserta Didik dari Sekolah (≥100 Poin)';
     if (points >= 76) return 'Pemberian Skorsing (76-99 Poin)';
-    if (points >= 51) return 'Peringatan Tertulis III & Surat Pernyataan Bermeterai (51-75 Poin)';
+    if (points >= 51) return 'Peringatan Tertulis III & Surat Pernyataan Bermaterai (51-75 Poin)';
     if (points >= 26) return 'Peringatan Tertulis II (26-50 Poin)';
     if (points >= 21) return 'Peringatan Tertulis I (21-25 Poin)';
     if (points >= 11) return 'Penyelesaian Langsung (11-20 Poin) - Pemberitahuan Ortu';

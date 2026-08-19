@@ -22,7 +22,7 @@ const SANCTION_THRESHOLDS = [
     },
     { 
         points: 51, 
-        status: 'Peringatan Tertulis III dan Surat Pernyataan Bermeterai (51-75 Poin)', 
+        status: 'Peringatan Tertulis III dan Surat Pernyataan Bermaterai (51-75 Poin)', 
         officers: 'Wali Kelas, BK, Kesiswaan, dan Kepala Sekolah', 
         notes: 'Pemanggilan orang tua/wali' 
     },

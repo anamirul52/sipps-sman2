@@ -98,7 +98,7 @@ const Dashboard = () => {
     },
     {
       range: '51 – 75 Poin',
-      sanction: 'Peringatan Tertulis III & Surat Pernyataan Bermeterai',
+      sanction: 'Peringatan Tertulis III & Surat Pernyataan Bermaterai',
       officer: 'Wali Kelas, BK, Kesiswaan, dan Kepala Sekolah',
       note: 'Pemanggilan orang tua/wali',
       color: 'bg-rose-50 text-rose-800 border-rose-200'
@@ -444,7 +444,7 @@ const Dashboard = () => {
       {/* ================= MODAL DETAIL 2: PELANGGARAN HARI INI ================= */}
       {activeModal === 'today' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-4 animate-in fade-in">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
             <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-amber-50/80">
               <div className="flex items-center gap-3">
@@ -475,55 +475,49 @@ const Dashboard = () => {
                   <p className="text-xs text-gray-400">Seluruh siswa tertib mematuhi tata tertib sekolah hari ini.</p>
                 </div>
               ) : (
-                <div className="overflow-x-auto border border-gray-200 rounded-xl">
+                <div className="overflow-x-auto border border-gray-200 rounded-xl shadow-2xs">
                   <table className="w-full text-left border-collapse text-xs">
-                    <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500">
+                    <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
                       <tr>
-                        <th className="px-3 py-2.5 text-center w-10">No</th>
-                        <th className="px-3 py-2.5 w-40">Nama Siswa</th>
-                        <th className="px-2 py-2.5 text-center w-16">Kelas</th>
-                        <th className="px-3 py-2.5 min-w-[130px]">Pelanggaran</th>
-                        <th className="px-2 py-2.5 text-center w-20">Poin</th>
-                        <th className="px-3 py-2.5 min-w-[130px]">Catatan / Kronologi</th>
-                        <th className="px-3 py-2.5 text-center w-24">Aksi</th>
+                        <th className="px-3 py-3 text-center w-12 whitespace-nowrap">No</th>
+                        <th className="px-4 py-3 min-w-[160px] whitespace-nowrap">Nama Siswa</th>
+                        <th className="px-3 py-3 text-center w-20 whitespace-nowrap">Kelas</th>
+                        <th className="px-4 py-3 min-w-[200px]">Bentuk Pelanggaran</th>
+                        <th className="px-3 py-3 text-center w-24 whitespace-nowrap">Poin</th>
+                        <th className="px-4 py-3 text-center w-40 whitespace-nowrap">Akumulasi Poin</th>
+                        <th className="px-3 py-3 text-center w-24 whitespace-nowrap">Aksi</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
                       {stats.todayViolationsList.map((v, i) => (
                         <tr key={v.id} className="hover:bg-amber-50/30 transition">
-                          <td className="px-3 py-2.5 text-center text-gray-500 font-semibold">{i + 1}</td>
-                          <td className="px-3 py-2.5 font-bold text-gray-900">
-                            <div>{v.student_name}</div>
-                            <div className="text-[10px] text-gray-500 font-mono font-normal">NIPD: {v.nipd || '-'}</div>
+                          <td className="px-3 py-3 text-center text-gray-500 font-semibold">{i + 1}</td>
+                          <td className="px-4 py-3">
+                            <div className="font-bold text-gray-900 text-xs sm:text-sm leading-snug">{v.student_name}</div>
+                            <div className="text-[10px] text-gray-500 font-mono mt-0.5">NIPD: {v.nipd || '-'}</div>
                           </td>
-                          <td className="px-2 py-2.5 text-center">
-                            <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200">
+                          <td className="px-3 py-3 text-center whitespace-nowrap">
+                            <span className="inline-block px-2.5 py-1 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200">
                               {v.class_name || '-'}
                             </span>
                           </td>
-                          <td className="px-3 py-2.5 text-gray-800 font-medium">
+                          <td className="px-4 py-3 text-gray-800 font-medium leading-relaxed">
                             {v.category_name}
                           </td>
-                          <td className="px-2 py-2.5 text-center whitespace-nowrap">
-                            <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-red-50 text-red-700 border border-red-200">
+                          <td className="px-3 py-3 text-center whitespace-nowrap">
+                            <span className="inline-block px-2.5 py-1 rounded-md font-bold text-[11px] bg-red-50 text-red-700 border border-red-200">
                               +{v.point_deduction} Poin
                             </span>
                           </td>
-                          <td className="px-3 py-2.5 text-gray-700">
-                            {v.note ? (
-                              <div className="line-clamp-2 text-[11px] bg-gray-50 p-1.5 rounded border border-gray-200/70" title={v.note}>
-                                {v.note}
-                              </div>
-                            ) : (
-                              <span className="text-gray-400 italic text-[11px]">-</span>
-                            )}
+                          <td className="px-4 py-3 text-center whitespace-nowrap">
+                            <PointBadge points={v.student_total_points} />
                           </td>
-                          <td className="px-3 py-2.5 text-center whitespace-nowrap">
+                          <td className="px-3 py-3 text-center whitespace-nowrap">
                             <button
                               onClick={() => {
                                 setSelectedStudentForSanction(v.student_id);
                               }}
-                              className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1 rounded text-[11px] font-semibold transition inline-flex items-center gap-1 shadow-2xs"
+                              className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1 shadow-2xs"
                               title="Lihat Surat Sanksi"
                             >
                               <HiOutlineEye className="text-xs" /> Surat
@@ -563,7 +557,7 @@ const Dashboard = () => {
       {/* ================= MODAL DETAIL 3: SEMUA PELANGGARAN ================= */}
       {activeModal === 'allViolations' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-4 animate-in fade-in">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
             <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-purple-50/80">
               <div className="flex items-center gap-3">
@@ -572,7 +566,9 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <h3 className="text-base sm:text-lg font-bold text-gray-900">Rekapitulasi Seluruh Pelanggaran Tercatat</h3>
-                  <p className="text-xs text-gray-500">Total {stats.totalViolations} kasus pelanggaran yang tersimpan di sistem</p>
+                  <p className="text-xs text-gray-500">
+                    Total {stats.totalViolations} kasus pelanggaran yang tersimpan di sistem &bull; Rekap akumulasi poin siswa
+                  </p>
                 </div>
               </div>
               <button 
@@ -590,10 +586,10 @@ const Dashboard = () => {
                 <HiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
                 <input
                   type="text"
-                  placeholder="Cari siswa, kelas, jenis pelanggaran, atau catatan..."
+                  placeholder="Cari nama siswa, NIPD, kelas, atau jenis pelanggaran..."
                   value={allViolationsSearch}
                   onChange={(e) => setAllViolationsSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 text-xs sm:text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                  className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-gray-50/50 focus:bg-white transition"
                 />
               </div>
 
@@ -604,63 +600,57 @@ const Dashboard = () => {
                   <p className="text-xs text-gray-400">Database pelanggaran masih bersih.</p>
                 </div>
               ) : (
-                <div className="overflow-x-auto border border-gray-200 rounded-xl">
+                <div className="overflow-x-auto border border-gray-200 rounded-xl shadow-2xs">
                   <table className="w-full text-left border-collapse text-xs">
-                    <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500">
+                    <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
                       <tr>
-                        <th className="px-3 py-2.5 text-center w-10">No</th>
-                        <th className="px-3 py-2.5 w-40">Nama Siswa</th>
-                        <th className="px-2 py-2.5 text-center w-16">Kelas</th>
-                        <th className="px-3 py-2.5 min-w-[130px]">Pelanggaran</th>
-                        <th className="px-2 py-2.5 text-center w-20">Poin</th>
-                        <th className="px-2.5 py-2.5 text-center w-24">Tanggal</th>
-                        <th className="px-3 py-2.5 min-w-[130px]">Catatan / Kronologi</th>
-                        <th className="px-3 py-2.5 text-center w-24">Aksi</th>
+                        <th className="px-3 py-3 text-center w-12 whitespace-nowrap">No</th>
+                        <th className="px-4 py-3 min-w-[160px] whitespace-nowrap">Nama Siswa</th>
+                        <th className="px-3 py-3 text-center w-20 whitespace-nowrap">Kelas</th>
+                        <th className="px-4 py-3 min-w-[200px]">Bentuk Pelanggaran</th>
+                        <th className="px-3 py-3 text-center w-24 whitespace-nowrap">Poin</th>
+                        <th className="px-4 py-3 text-center w-40 whitespace-nowrap">Akumulasi Poin</th>
+                        <th className="px-3 py-3 text-center w-28 whitespace-nowrap">Tanggal</th>
+                        <th className="px-3 py-3 text-center w-24 whitespace-nowrap">Aksi</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
                       {filteredAllViolations.map((v, i) => (
                         <tr key={v.id} className="hover:bg-purple-50/30 transition">
-                          <td className="px-3 py-2.5 text-center text-gray-500 font-semibold">{i + 1}</td>
-                          <td className="px-3 py-2.5 font-bold text-gray-900">
-                            <div>{v.student_name}</div>
-                            <div className="text-[10px] text-gray-500 font-mono font-normal">NIPD: {v.nipd || '-'}</div>
+                          <td className="px-3 py-3 text-center text-gray-500 font-semibold">{i + 1}</td>
+                          <td className="px-4 py-3">
+                            <div className="font-bold text-gray-900 text-xs sm:text-sm leading-snug">{v.student_name}</div>
+                            <div className="text-[10px] text-gray-500 font-mono mt-0.5">NIPD: {v.nipd || '-'}</div>
                           </td>
-                          <td className="px-2 py-2.5 text-center">
-                            <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200">
+                          <td className="px-3 py-3 text-center whitespace-nowrap">
+                            <span className="inline-block px-2.5 py-1 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200">
                               {v.class_name || '-'}
                             </span>
                           </td>
-                          <td className="px-3 py-2.5 text-gray-800 font-medium leading-relaxed">
+                          <td className="px-4 py-3 text-gray-800 font-medium leading-relaxed">
                             {v.category_name}
                           </td>
-                          <td className="px-2 py-2.5 text-center whitespace-nowrap">
-                            <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-red-50 text-red-700 border border-red-200">
+                          <td className="px-3 py-3 text-center whitespace-nowrap">
+                            <span className="inline-block px-2.5 py-1 rounded-md font-bold text-[11px] bg-red-50 text-red-700 border border-red-200">
                               +{v.point_deduction} Poin
                             </span>
                           </td>
-                          <td className="px-2.5 py-2.5 text-center text-gray-600 whitespace-nowrap font-medium text-[11px]">
+                          <td className="px-4 py-3 text-center whitespace-nowrap">
+                            <PointBadge points={v.student_total_points} />
+                          </td>
+                          <td className="px-3 py-3 text-center text-gray-600 whitespace-nowrap font-medium text-[11px]">
                             {new Date(v.violation_date).toLocaleDateString('id-ID', {
                               day: 'numeric',
                               month: 'short',
                               year: 'numeric'
                             })}
                           </td>
-                          <td className="px-3 py-2.5 text-gray-700">
-                            {v.note ? (
-                              <div className="line-clamp-2 text-[11px] bg-gray-50 p-1.5 rounded border border-gray-200/70" title={v.note}>
-                                {v.note}
-                              </div>
-                            ) : (
-                              <span className="text-gray-400 italic text-[11px]">-</span>
-                            )}
-                          </td>
-                          <td className="px-3 py-2.5 text-center whitespace-nowrap">
+                          <td className="px-3 py-3 text-center whitespace-nowrap">
                             <button
                               onClick={() => {
                                 setSelectedStudentForSanction(v.student_id);
                               }}
-                              className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1 rounded text-[11px] font-semibold transition inline-flex items-center gap-1 shadow-2xs"
+                              className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1 shadow-2xs"
                               title="Lihat Surat Sanksi"
                             >
                               <HiOutlineEye className="text-xs" /> Surat
@@ -696,6 +686,7 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+
 
       {/* ================= MODAL DETAIL 4: PERLU PENANGANAN (>= 21 POIN) ================= */}
       {activeModal === 'attention' && (

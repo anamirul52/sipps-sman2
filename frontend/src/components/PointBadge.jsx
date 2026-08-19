@@ -29,7 +29,7 @@ const PointBadge = ({ points, showLabel = true }) => {
     bgClass = 'bg-rose-50';
     textClass = 'text-rose-700';
     borderClass = 'border-rose-200';
-    label = 'SP 3 (Bermeterai)';
+    label = 'SP 3 (Bermaterai)';
   } else if (p <= 99) {
     bgClass = 'bg-red-100';
     textClass = 'text-red-800';
