@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: sipps-sman2-salatiga
+    env: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DB_HOST
+        value: smanda02-anamirul52-e999.h.aivencloud.com
+      - key: DB_PORT
+        value: 16021
+      - key: DB_USER
+        value: avnadmin
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        value: defaultdb
+      - key: DB_SSL
+        value: "true"
+      - key: JWT_SECRET
+        value: smanda02_salatiga_super_secret_jwt_key_2026
