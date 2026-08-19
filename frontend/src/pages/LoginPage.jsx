@@ -99,45 +99,14 @@ const LoginPage = () => {
           </button>
         </form>
 
-        <div className="mt-6 p-4 bg-indigo-50/70 rounded-2xl border border-indigo-100 text-xs text-gray-600">
-          <p className="font-bold text-indigo-950 mb-2">Pilih Cepat Akun Demo (Klik untuk Isi):</p>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => { setEmail('superadmin@school.id'); setPassword('superadmin123'); }}
-              className="text-left p-2.5 bg-white rounded-xl border border-indigo-200 hover:bg-indigo-100 hover:border-indigo-400 transition shadow-sm"
-            >
-              <div className="font-bold text-indigo-700 text-xs">👑 Super Admin</div>
-              <div className="text-[10px] text-gray-500 font-mono">superadmin</div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => { setEmail('bk@school.id'); setPassword('bk123'); }}
-              className="text-left p-2.5 bg-white rounded-xl border border-indigo-200 hover:bg-indigo-100 hover:border-indigo-400 transition shadow-sm"
-            >
-              <div className="font-bold text-indigo-700 text-xs">🧑‍🏫 Guru BK</div>
-              <div className="text-[10px] text-gray-500 font-mono">bk@school.id</div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => { setEmail('piket@school.id'); setPassword('piket123'); }}
-              className="text-left p-2.5 bg-white rounded-xl border border-indigo-200 hover:bg-indigo-100 hover:border-indigo-400 transition shadow-sm"
-            >
-              <div className="font-bold text-indigo-700 text-xs">📋 Guru Piket</div>
-              <div className="text-[10px] text-gray-500 font-mono">piket@school.id</div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => { setEmail('walikelas@school.id'); setPassword('walikelas123'); }}
-              className="text-left p-2.5 bg-white rounded-xl border border-indigo-200 hover:bg-indigo-100 hover:border-indigo-400 transition shadow-sm"
-            >
-              <div className="font-bold text-indigo-700 text-xs">👨‍🏫 Wali Kelas</div>
-              <div className="text-[10px] text-gray-500 font-mono">walikelas@school.id</div>
-            </button>
-          </div>
+        {/* Footer Info Resmi */}
+        <div className="mt-6 pt-4 border-t border-gray-100 text-center space-y-1">
+          <p className="text-xs text-gray-500">
+            Lupa kata sandi? Hubungi <span className="font-semibold text-indigo-600">Administrator / Guru BK</span>
+          </p>
+          <p className="text-[11px] text-gray-400">
+            © {new Date().getFullYear()} SMA Negeri 2 Salatiga. Hak Cipta Dilindungi.
+          </p>
         </div>
       </div>
     </div>

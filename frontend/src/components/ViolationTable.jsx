@@ -32,109 +32,136 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
     fetchViolations();
   }, [page, refreshKey]);
 
-  const renderStatus = (status) => {
-    switch(status) {
-      case 'pending': return <span className="px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-full text-xs font-semibold">Pending</span>;
-      case 'processed': return <span className="px-2.5 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-full text-xs font-semibold">Diproses</span>;
-      case 'resolved': return <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-xs font-semibold">Selesai</span>;
-      default: return <span className="px-2.5 py-1 bg-gray-100 text-gray-800 rounded-full text-xs font-medium">{status}</span>;
-    }
-  };
-
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-      <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50/50">
-        <h2 className="text-lg font-bold text-gray-800">Daftar Riwayat Pelanggaran Siswa</h2>
-        <span className="text-xs text-gray-500 font-medium">Data Pelanggaran Tercatat</span>
+    <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+      <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center bg-gray-50/70">
+        <div>
+          <h2 className="text-sm sm:text-base font-bold text-gray-800">Daftar Riwayat Pelanggaran Siswa</h2>
+          <p className="text-[11px] text-gray-500">Rekap riwayat catatan pelanggaran tata tertib</p>
+        </div>
+        <span className="text-[11px] font-semibold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-200">
+          Data Pelanggaran Tercatat
+        </span>
       </div>
       
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+        <table className="w-full text-left border-collapse">
+          <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
             <tr>
-              <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-10">No</th>
-              <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap min-w-[140px]">Nama Siswa</th>
-              <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Kelas</th>
-              <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[180px]">Kategori Pelanggaran</th>
-              <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Poin</th>
-              <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Tanggal</th>
-              <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Status</th>
-              <th className="px-4 py-3.5 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap min-w-[180px]">Aksi</th>
+              <th className="px-3 py-2.5 text-center w-10">No</th>
+              <th className="px-3 py-2.5 w-40 sm:w-48">Nama Siswa</th>
+              <th className="px-2 py-2.5 text-center w-16">Kelas</th>
+              <th className="px-3 py-2.5 min-w-[130px]">Kategori Pelanggaran</th>
+              <th className="px-2 py-2.5 text-center w-20">Poin</th>
+              <th className="px-2.5 py-2.5 text-center w-24">Tanggal</th>
+              <th className="px-3 py-2.5 min-w-[140px]">Catatan / Kronologi Kejadian</th>
+              <th className="px-3 py-2.5 text-center w-36">Aksi</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 bg-white text-xs">
             {loading ? (
               <tr>
-                <td colSpan="8" className="px-6 py-12 text-center text-gray-400">
+                <td colSpan="8" className="px-4 py-10 text-center text-gray-400">
                   <div className="flex items-center justify-center space-x-2">
                     <svg className="animate-spin h-5 w-5 text-indigo-600" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
                     </svg>
-                    <span className="text-sm">Memuat data pelanggaran...</span>
+                    <span className="text-xs font-medium text-gray-600">Memuat data pelanggaran...</span>
                   </div>
                 </td>
               </tr>
             ) : violations.length === 0 ? (
               <tr>
-                <td colSpan="8" className="px-6 py-10 text-center text-gray-500">
-                  <p className="text-sm">Belum ada data pelanggaran yang dicatat.</p>
+                <td colSpan="8" className="px-4 py-8 text-center text-gray-500">
+                  <p className="text-xs font-medium">Belum ada data pelanggaran yang dicatat.</p>
                 </td>
               </tr>
             ) : (
               violations.map((v, i) => (
                 <tr key={v.id} className="hover:bg-indigo-50/40 transition">
-                  <td className="px-5 py-3.5 text-sm text-gray-500 font-medium">{(page - 1) * 10 + i + 1}</td>
-                  <td className="px-5 py-3.5">
-                    <div className="text-sm font-semibold text-gray-900">{v.student_name}</div>
-                    <div className="text-xs text-gray-500 font-mono">NIPD: {v.nipd || v.nisn || '-'}</div>
+                  {/* No */}
+                  <td className="px-3 py-2.5 text-center text-gray-500 font-semibold text-xs">
+                    {(page - 1) * 10 + i + 1}
                   </td>
-                  <td className="px-4 py-3.5 text-center whitespace-nowrap">
-                    <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-bold text-xs bg-indigo-50 text-indigo-700 border border-indigo-200 min-w-[65px] whitespace-nowrap">
+
+                  {/* Nama Siswa */}
+                  <td className="px-3 py-2.5">
+                    <div className="font-bold text-gray-900 text-xs sm:text-sm leading-snug">
+                      {v.student_name}
+                    </div>
+                    <div className="text-[10px] text-gray-500 font-mono mt-0.5">
+                      NIPD: {v.nipd || v.nisn || '-'}
+                    </div>
+                  </td>
+
+                  {/* Kelas */}
+                  <td className="px-2 py-2.5 text-center">
+                    <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200">
                       {v.class_name || '-'}
                     </span>
                   </td>
-                  <td className="px-5 py-3.5 text-sm text-gray-700 font-medium">{v.category_name}</td>
-                  <td className="px-5 py-3.5 text-sm">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-red-50 text-red-700 border border-red-200">
+
+                  {/* Kategori Pelanggaran */}
+                  <td className="px-3 py-2.5 text-xs text-gray-800 font-medium leading-relaxed">
+                    {v.category_name}
+                  </td>
+
+                  {/* Poin */}
+                  <td className="px-2 py-2.5 text-center whitespace-nowrap">
+                    <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-red-50 text-red-700 border border-red-200">
                       +{v.point_deduction} Poin
                     </span>
                   </td>
-                  <td className="px-5 py-3.5 text-sm text-gray-600">
+
+                  {/* Tanggal */}
+                  <td className="px-2.5 py-2.5 text-center text-xs text-gray-600 whitespace-nowrap font-medium">
                     {new Date(v.violation_date).toLocaleDateString('id-ID', {
                       day: 'numeric',
                       month: 'short',
                       year: 'numeric'
                     })}
                   </td>
-                  <td className="px-5 py-3.5">{renderStatus(v.status)}</td>
-                  <td className="px-5 py-3.5 text-center">
-                    <div className="flex items-center justify-center space-x-1.5">
+
+                  {/* Catatan / Kronologi */}
+                  <td className="px-3 py-2.5 text-xs text-gray-700">
+                    {v.note ? (
+                      <div className="line-clamp-2 text-[11px] bg-gray-50 px-2 py-1.5 rounded border border-gray-200/80 leading-relaxed text-gray-800" title={v.note}>
+                        {v.note}
+                      </div>
+                    ) : (
+                      <span className="text-[11px] text-gray-400 italic">- Tidak ada catatan -</span>
+                    )}
+                  </td>
+
+                  {/* Aksi */}
+                  <td className="px-3 py-2.5 text-center whitespace-nowrap">
+                    <div className="flex items-center justify-center gap-1">
                       {/* Tombol Surat */}
                       <button 
                         onClick={() => onViewSanction && onViewSanction(v.student_id)}
-                        className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2 py-1 rounded text-xs font-medium transition flex items-center"
+                        className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2 py-1 rounded text-[11px] font-semibold transition flex items-center shadow-2xs"
                         title="Lihat Surat Sanksi"
                       >
-                        <HiOutlineEye className="mr-1" /> Surat
+                        <HiOutlineEye className="mr-0.5 text-xs" /> Surat
                       </button>
 
                       {/* Tombol Edit */}
                       <button 
                         onClick={() => onEditViolation && onEditViolation(v)}
-                        className="text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2 py-1 rounded text-xs font-medium transition flex items-center"
+                        className="text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2 py-1 rounded text-[11px] font-semibold transition flex items-center shadow-2xs"
                         title="Edit Data Pelanggaran"
                       >
-                        <HiOutlinePencilAlt className="mr-1" /> Edit
+                        <HiOutlinePencilAlt className="mr-0.5 text-xs" /> Edit
                       </button>
 
                       {/* Tombol Hapus */}
                       <button 
                         onClick={() => onDeleteViolation && onDeleteViolation(v)}
-                        className="text-red-700 hover:text-red-900 bg-red-50 hover:bg-red-100 border border-red-200 px-2 py-1 rounded text-xs font-medium transition flex items-center"
+                        className="text-red-700 hover:text-red-900 bg-red-50 hover:bg-red-100 border border-red-200 px-2 py-1 rounded text-[11px] font-semibold transition flex items-center shadow-2xs"
                         title="Hapus Pelanggaran Ini"
                       >
-                        <HiOutlineTrash className="mr-1" /> Hapus
+                        <HiOutlineTrash className="mr-0.5 text-xs" /> Hapus
                       </button>
                     </div>
                   </td>
@@ -146,26 +173,26 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
       </div>
 
       {/* Pagination */}
-      <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between bg-gray-50/50">
-        <div className="text-sm text-gray-500">
-          Halaman <span className="font-semibold text-gray-700">{page}</span> dari <span className="font-semibold text-gray-700">{totalPages}</span>
+      <div className="px-4 py-3 border-t border-gray-200 flex items-center justify-between bg-gray-50/70 text-xs">
+        <div className="text-gray-500">
+          Halaman <span className="font-bold text-gray-700">{page}</span> dari <span className="font-bold text-gray-700">{totalPages}</span>
         </div>
-        <div className="flex space-x-2">
+        <div className="flex space-x-1.5">
           <button
             onClick={() => setPage(p => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-50 transition"
+            className="px-2.5 py-1.5 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 transition text-gray-700 font-medium flex items-center shadow-2xs"
             title="Halaman Sebelumnya"
           >
-            <HiChevronLeft className="text-base" />
+            <HiChevronLeft className="text-sm mr-0.5" /> Prev
           </button>
           <button
             onClick={() => setPage(p => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="p-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-50 transition"
+            className="px-2.5 py-1.5 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 transition text-gray-700 font-medium flex items-center shadow-2xs"
             title="Halaman Berikutnya"
           >
-            <HiChevronRight className="text-base" />
+            Next <HiChevronRight className="text-sm ml-0.5" />
           </button>
         </div>
       </div>
@@ -174,3 +201,4 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
 };
 
 export default ViolationTable;
+

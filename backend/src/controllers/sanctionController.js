@@ -63,103 +63,197 @@ exports.generatePdf = async (req, res) => {
             ORDER BY sv.violation_date ASC
         `, [sanction.student_id]);
 
-        const doc = new PDFDocument({ margin: 50 });
+        const doc = new PDFDocument({ 
+            size: 'A4',
+            margins: { top: 35, bottom: 35, left: 50, right: 50 }
+        });
         const fs = require('fs');
         const path = require('path');
         
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', `attachment; filename="Surat_Sanksi_${sanction.student_name.replace(/ /g, '_')}.pdf"`);
+        res.setHeader('Content-Disposition', `attachment; filename="Surat_Sanksi_${sanction.student_name.replace(/[^a-zA-Z0-9_]/g, '_')}.pdf"`);
         
         doc.pipe(res);
+        doc.fillColor('#000000').strokeColor('#000000');
 
-        // Logo & Kop Surat Resmi
+        // ================= KOP SURAT RESMI =================
         const logoPath = path.join(__dirname, '../../assets/logo.png');
         if (fs.existsSync(logoPath)) {
-            doc.image(logoPath, 50, 45, { width: 55 });
+            doc.image(logoPath, 50, 32, { width: 52 });
         }
 
-        // Header Kop Surat
-        doc.fontSize(11).font('Helvetica-Bold').text('PEMERINTAH PROVINSI JAWA TENGAH', 115, 45, { align: 'center' });
-        doc.fontSize(11).font('Helvetica-Bold').text('DINAS PENDIDIKAN DAN KEBUDAYAAN', 115, 58, { align: 'center' });
-        doc.fontSize(14).font('Helvetica-Bold').text('SMA NEGERI 2 SALATIGA', 115, 71, { align: 'center' });
-        doc.fontSize(9).font('Helvetica').text('Jl. Tegalrejo No. 67, Kec. Argomulyo, Kota Salatiga, Jawa Tengah 50733', 115, 87, { align: 'center' });
-        doc.fontSize(8).text('Website: sman2salatiga.sch.id | Email: smanegeri2salatiga@gmail.com', 115, 98, { align: 'center' });
+        // Teks Kop Surat (Center & Black)
+        const kopX = 105;
+        const kopW = 440;
+        doc.fontSize(11).font('Helvetica-Bold').text('PEMERINTAH PROVINSI JAWA TENGAH', kopX, 28, { align: 'center', width: kopW });
+        doc.fontSize(11).font('Helvetica-Bold').text('DINAS PENDIDIKAN DAN KEBUDAYAAN', kopX, 42, { align: 'center', width: kopW });
+        doc.fontSize(14).font('Helvetica-Bold').text('SEKOLAH MENENGAH ATAS NEGERI 2 SALATIGA', kopX, 56, { align: 'center', width: kopW });
+        doc.fontSize(8.5).font('Helvetica').text('Jalan Tegalrejo Nomor 79, Argomulyo, Kota Salatiga, Jawa Tengah 50733', kopX, 74, { align: 'center', width: kopW });
+        doc.fontSize(8).font('Helvetica').text('Website: sma2salatiga.sch.id | Email: sma2salatiga@gmail.com', kopX, 86, { align: 'center', width: kopW });
         
         // Garis Pembatas Kop Surat
-        doc.moveTo(50, 115).lineTo(550, 115).lineWidth(2).stroke();
-        doc.moveTo(50, 117.5).lineTo(550, 117.5).lineWidth(0.5).stroke();
-        doc.moveDown(3);
+        doc.moveTo(50, 100).lineTo(545, 100).lineWidth(1.8).stroke();
+        doc.moveTo(50, 102.5).lineTo(545, 102.5).lineWidth(0.5).stroke();
 
-        // Judul Surat
-        doc.y = 135;
-        doc.fontSize(12).font('Helvetica-Bold').text('SURAT PANGGILAN / PEMBERITAHUAN SANKSI SISWA', { align: 'center', underline: true });
-        doc.fontSize(10).font('Helvetica').text(`Nomor: 421.3 / BK / ${new Date().getFullYear()}`, { align: 'center' });
-        doc.moveDown(1.5);
-
-        // Informasi Siswa
-        doc.fontSize(10).font('Helvetica');
-        doc.text(`Perihal: ${sanction.status_letter}`);
-        doc.moveDown(0.5);
-        doc.text('Dengan hormat,');
-        doc.text('Sehubungan dengan tata tertib sekolah, kami memberitahukan bahwa siswa dengan data:');
-        doc.moveDown(0.5);
-        
-        const startX = 65;
-        doc.text(`Nama Lengkap   : ${sanction.student_name}`, startX);
-        doc.text(`NIPD           : ${sanction.nipd || '-'}`, startX);
-        doc.text(`Kelas          : ${sanction.class_name || '-'}`, startX);
-        doc.text(`Akumulasi Poin : ${sanction.total_points} Poin`, startX);
-        doc.text(`Status Sanksi  : ${sanction.status_letter}`, startX);
-        doc.moveDown(1);
-
-        doc.text('Telah melakukan catatan pelanggaran tata tertib sekolah sebagai berikut:');
-        doc.moveDown(0.5);
-
-        // Tabel Pelanggaran
-        let y = doc.y;
-        doc.font('Helvetica-Bold');
-        doc.text('Tanggal', 65, y);
-        doc.text('Pelanggaran', 165, y);
-        doc.text('Poin', 440, y);
-        
-        y += 16;
-        doc.font('Helvetica');
-        violations.forEach(v => {
-            const dateStr = new Date(v.violation_date).toLocaleDateString('id-ID');
-            doc.text(dateStr, 65, y);
-            doc.text(v.category_name, 165, y, { width: 260 });
-            doc.text(`+${v.point_deduction} Poin`, 440, y);
-            y += 20;
-            
-            if (y > 680) {
-                doc.addPage();
-                y = 50;
-            }
+        // ================= JUDUL & NOMOR SURAT =================
+        doc.y = 112;
+        const currentYear = new Date().getFullYear();
+        const fullDateStr = new Date(sanction.generated_at || Date.now()).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
         });
 
-        doc.y = y + 15;
-        doc.text('Sehubungan dengan hal tersebut di atas, kami mengharap kehadiran Bapak/Ibu Orang Tua/Wali Murid untuk hadir ke ruang Bimbingan Konseling (BK) SMA Negeri 2 Salatiga guna koordinasi pembinaan peserta didik.');
-        doc.moveDown(2);
+        doc.fontSize(11).font('Helvetica-Bold').text('SURAT PEMBERITAHUAN PELANGGARAN TATA TERTIB', { align: 'center', underline: true });
+        doc.fontSize(9.5).font('Helvetica').text(`Nomor: 421.3 / ${sanction.id.toString().padStart(3, '0')} / BK / ${currentYear}`, { align: 'center' });
+        doc.moveDown(0.9);
 
-        // Tanda tangan
+        // ================= TUJUAN SURAT & TANGGAL =================
+        const topY = doc.y;
+        doc.fontSize(9.5).font('Helvetica').text(`Salatiga, ${fullDateStr}`, 350, topY, { align: 'right', width: 195 });
+        
+        doc.text('Yth. Orang Tua / Wali Peserta Didik dari:', 50, topY);
+        doc.font('Helvetica');
+        
+        // Jeda vertikal yang lebih lega sebelum data siswa
+        doc.y = topY + 18;
+
+        const bioItems = [
+            { label: 'Nama Peserta Didik', val: sanction.student_name },
+            { label: 'NIPD / NISN', val: sanction.nipd || '-' },
+            { label: 'Kelas', val: sanction.class_name || '-' },
+            { label: 'Akumulasi Poin', val: `${sanction.total_points} Poin` },
+            { label: 'Status Tindakan', val: sanction.status_letter }
+        ];
+
+        bioItems.forEach(item => {
+            const lineY = doc.y;
+            doc.font('Helvetica-Bold').text(item.label, 65, lineY);
+            doc.font('Helvetica').text(`:  ${item.val}`, 175, lineY);
+            doc.y = lineY + 17.5;
+        });
+
+        doc.y += 4;
+        doc.font('Helvetica').text('di tempat', 50, doc.y);
+        doc.moveDown(1.0);
+
+
+        // ================= ISI SURAT (SPASI 1,5 LEGA) =================
+        doc.text('Dengan hormat,', 50);
+        doc.moveDown(0.5);
+
+        const introText = `Sehubungan dengan pelaksanaan tata tertib sekolah serta upaya pembinaan kedisiplinan dan pembentukan karakter peserta didik di SMA Negeri 2 Salatiga, bersama ini kami sampaikan bahwa peserta didik tersebut di atas telah mencapai akumulasi ${sanction.total_points} poin pelanggaran.`;
+        doc.text(introText, 50, doc.y, { width: 495, align: 'justify', lineGap: 5.5 });
+        doc.moveDown(0.7);
+
+        doc.text('Adapun rincian catatan pelanggaran yang telah dilakukan adalah sebagai berikut:', 50);
+        doc.moveDown(0.5);
+
+        // ================= TABEL RINCIAN PELANGGARAN =================
+        const tblX = 50;
+        const tblW = 495;
+        const colW = { no: 25, date: 70, cat: 185, point: 45, note: 170 };
+        const hdrH = 20;
+        let curY = doc.y;
+
+        // Header Tabel
+        doc.rect(tblX, curY, tblW, hdrH).lineWidth(0.8).stroke();
+        doc.font('Helvetica-Bold').fontSize(8.5);
+        doc.text('No', tblX, curY + 6, { width: colW.no, align: 'center' });
+        doc.text('Tanggal', tblX + colW.no, curY + 6, { width: colW.date, align: 'center' });
+        doc.text('Bentuk Pelanggaran', tblX + colW.no + colW.date + 4, curY + 6, { width: colW.cat - 8 });
+        doc.text('Poin', tblX + colW.no + colW.date + colW.cat, curY + 6, { width: colW.point, align: 'center' });
+        doc.text('Catatan / Kronologi', tblX + colW.no + colW.date + colW.cat + colW.point + 4, curY + 6, { width: colW.note - 8 });
+
+        curY += hdrH;
+        doc.font('Helvetica').fontSize(8);
+
+        if (violations.length === 0) {
+            doc.rect(tblX, curY, tblW, 20).lineWidth(0.5).stroke();
+            doc.text('Belum ada rincian pelanggaran yang tercatat', tblX, curY + 6, { width: tblW, align: 'center' });
+            curY += 20;
+        } else {
+            violations.forEach((v, idx) => {
+                const dStr = new Date(v.violation_date).toLocaleDateString('id-ID');
+                const cStr = v.category_name || '-';
+                const pStr = `+${v.point_deduction}`;
+                const nStr = v.note || '-';
+
+                const catHeight = doc.heightOfString(cStr, { width: colW.cat - 8 });
+                const noteHeight = doc.heightOfString(nStr, { width: colW.note - 8 });
+                const rowH = Math.max(22, Math.max(catHeight, noteHeight) + 8);
+
+                doc.rect(tblX, curY, tblW, rowH).lineWidth(0.5).stroke();
+                doc.text((idx + 1).toString(), tblX, curY + 6, { width: colW.no, align: 'center' });
+                doc.text(dStr, tblX + colW.no, curY + 6, { width: colW.date, align: 'center' });
+                doc.text(cStr, tblX + colW.no + colW.date + 4, curY + 6, { width: colW.cat - 8, height: rowH - 6 });
+                doc.text(pStr, tblX + colW.no + colW.date + colW.cat, curY + 6, { width: colW.point, align: 'center' });
+                doc.text(nStr, tblX + colW.no + colW.date + colW.cat + colW.point + 4, curY + 6, { width: colW.note - 8, height: rowH - 6 });
+
+                curY += rowH;
+
+                if (curY > 700) {
+                    doc.addPage();
+                    curY = 45;
+                }
+            });
+        }
+
+        // ================= UNDANGAN & TINDAK LANJUT (SPASI 1,5) =================
+        doc.y = curY;
+        doc.moveDown(0.9);
+
+        doc.fontSize(9.5).font('Helvetica');
+        const inviteText = 'Guna menindaklanjuti hal tersebut dalam rangka pembinaan dan penyelesaian bersama, kami mengharap kehadiran Bapak/Ibu Orang Tua/Wali pada:';
+        doc.text(inviteText, 50, doc.y, { width: 495, align: 'justify', lineGap: 5.5 });
+        doc.moveDown(0.6);
+
+        const inviteDetails = [
+            { label: 'Tempat', val: 'Ruang Bimbingan dan Konseling SMA Negeri 2 Salatiga' },
+            { label: 'Waktu', val: 'Pukul 08.00 s.d. 14.00 WIB (Pada jam kerja dinas)' },
+            { label: 'Keperluan', val: 'Pembinaan dan penanganan sanksi pelanggaran tata tertib peserta didik' }
+        ];
+
+        inviteDetails.forEach(item => {
+            const lineY = doc.y;
+            doc.font('Helvetica-Bold').text(item.label, 65, lineY);
+            doc.font('Helvetica').text(`:  ${item.val}`, 145, lineY, { width: 395 });
+            doc.y = lineY + 16.5;
+        });
+
+        doc.moveDown(0.8);
+        doc.text('Demikian surat pemberitahuan ini kami sampaikan. Atas perhatian dan kerja sama Bapak/Ibu, kami ucapkan terima kasih.', 50, doc.y, { width: 495, align: 'justify', lineGap: 5.5 });
+        doc.moveDown(1.2);
+
+        // ================= TANDA TANGAN =================
         const signY = doc.y;
-        const dateStr = new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-        
-        doc.text(`Salatiga, ${dateStr}`, 350, signY);
-        doc.text('Wali Kelas,', 65, signY + 15);
-        doc.text('Guru Bimbingan Konseling (BK),', 350, signY + 15);
-        
-        doc.text('( _______________________ )', 65, signY + 70);
-        doc.text('( _______________________ )', 350, signY + 70);
+        const leftX = 50;
+        const rightX = 350;
 
-        doc.text('Mengetahui,', 65, signY + 95, { align: 'center' });
-        doc.text('Kepala SMA Negeri 2 Salatiga', 65, signY + 110, { align: 'center' });
-        doc.text('( _______________________ )', 65, signY + 165, { align: 'center' });
+        doc.font('Helvetica').fontSize(9.5);
+        doc.text('Wali Kelas,', leftX, signY, { align: 'center', width: 150 });
+        doc.text('Guru Bimbingan dan Konseling,', rightX, signY, { align: 'center', width: 160 });
+
+        doc.text('( _______________________ )', leftX, signY + 45, { align: 'center', width: 150 });
+        doc.text('( _______________________ )', rightX, signY + 45, { align: 'center', width: 160 });
+
+        // Mengetahui Kepala Sekolah
+        const chiefY = signY + 60;
+        doc.text('Mengetahui,', 50, chiefY, { align: 'center', width: 495 });
+        doc.text('Kepala SMA Negeri 2 Salatiga', 50, chiefY + 12, { align: 'center', width: 495 });
+        doc.text('( ____________________________________ )', 50, chiefY + 50, { align: 'center', width: 495 });
 
         doc.end();
+
+
+
+
+
 
     } catch (error) {
         console.error('Error generating PDF:', error);
         res.status(500).json({ success: false, message: 'Gagal membuat PDF' });
     }
 };
+
+

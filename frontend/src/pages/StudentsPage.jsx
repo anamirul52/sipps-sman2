@@ -257,48 +257,67 @@ const StudentsPage = () => {
   return (
     <Layout>
       <div className="space-y-6">
-        {/* Header Title & Action Buttons */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        {/* Header Title & Main Action Buttons */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <HiAcademicCap className="text-indigo-600 text-2xl sm:text-3xl" />
-              Data Siswa
+              <div className="p-2 bg-indigo-600 text-white rounded-xl shadow-sm">
+                <HiAcademicCap className="text-2xl" />
+              </div>
+              <span>Data Siswa</span>
             </h1>
-            <p className="text-xs sm:text-sm text-gray-500">Kelola seluruh data siswa sekolah, import 1 angkatan massal, dan export ke Excel</p>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">Kelola seluruh data siswa sekolah</p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
-            {/* Tombol Unduh Template */}
+          {/* Action Buttons Toolbar */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+            {/* 1. Tombol Unduh Template */}
             <button
               onClick={() => setShowTemplateModal(true)}
-              className="flex items-center space-x-1.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium px-3.5 py-2.5 rounded-lg shadow-sm text-sm transition"
-              title="Pilihan Template Excel Siap Pakai"
+              className="flex items-center gap-2 bg-white border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 text-gray-700 font-semibold px-3.5 py-2 rounded-xl shadow-xs text-xs sm:text-sm transition group"
+              title="Unduh format file Excel resmi untuk pengisian data siswa"
             >
-              <HiDownload className="text-base text-indigo-600" />
-              <span>Template Excel</span>
+              <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition">
+                <HiDownload className="text-base" />
+              </div>
+              <div className="text-left">
+                <div className="leading-tight">Template Excel</div>
+                <div className="text-[10px] text-gray-400 font-normal">Format Standar</div>
+              </div>
             </button>
 
-            {/* Export Excel Button */}
+            {/* 2. Export Excel Button */}
             <button
               onClick={handleExportExcel}
               disabled={exporting || students.length === 0}
-              className="flex items-center space-x-1.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium px-3.5 py-2.5 rounded-lg shadow-sm text-sm transition"
-              title="Ekspor data siswa saat ini ke format Excel"
+              className="flex items-center gap-2 bg-white border border-blue-200 hover:border-blue-300 hover:bg-blue-50/50 text-blue-700 font-semibold px-3.5 py-2 rounded-xl shadow-xs text-xs sm:text-sm transition group disabled:opacity-50"
+              title="Ekspor seluruh data siswa saat ini ke dalam format Excel (.xlsx)"
             >
-              <HiDocumentReport className="text-base" />
-              <span>{exporting ? 'Mengekspor...' : 'Export Excel'}</span>
+              <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition">
+                <HiDocumentReport className="text-base" />
+              </div>
+              <div className="text-left">
+                <div className="leading-tight">{exporting ? 'Mengekspor...' : 'Export Excel'}</div>
+                <div className="text-[10px] text-blue-400 font-normal">Unduh Data (.xlsx)</div>
+              </div>
             </button>
 
-            {/* Import Excel Button */}
+            {/* 3. Import Excel Button */}
             <button
               onClick={() => { setShowImportModal(true); setImportResult(null); }}
-              className="flex items-center space-x-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-3.5 py-2.5 rounded-lg shadow text-sm transition"
+              className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3.5 py-2 rounded-xl shadow-sm text-xs sm:text-sm transition group"
+              title="Unggah file Excel untuk memasukkan data siswa massal / 1 angkatan sekaligus"
             >
-              <HiUpload className="text-base" />
-              <span>Import Excel</span>
+              <div className="p-1.5 bg-white/20 text-white rounded-lg group-hover:bg-white group-hover:text-emerald-700 transition">
+                <HiUpload className="text-base" />
+              </div>
+              <div className="text-left">
+                <div className="leading-tight">Import Excel</div>
+                <div className="text-[10px] text-emerald-100 font-normal">Input Massal</div>
+              </div>
             </button>
 
-            {/* Tambah Manual Button */}
+            {/* 4. Tambah Manual Button */}
             <button
               onClick={() => {
                 setFormData({
@@ -309,13 +328,95 @@ const StudentsPage = () => {
                 });
                 setShowModal(true);
               }}
-              className="flex items-center space-x-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-3.5 py-2.5 rounded-lg shadow text-sm transition"
+              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-xl shadow-md text-xs sm:text-sm transition group"
+              title="Tambah data satu siswa baru secara manual"
             >
-              <HiPlus className="text-base" />
-              <span>Tambah Siswa</span>
+              <div className="p-1.5 bg-white/20 text-white rounded-lg group-hover:bg-white group-hover:text-indigo-700 transition">
+                <HiPlus className="text-base" />
+              </div>
+              <div className="text-left">
+                <div className="leading-tight">Tambah Siswa</div>
+                <div className="text-[10px] text-indigo-100 font-normal">Input Manual</div>
+              </div>
             </button>
           </div>
         </div>
+
+        {/* Feature Highlights / Quick Info Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {/* Card 1: Tambah Siswa */}
+          <div 
+            onClick={() => {
+              setFormData({
+                nipd: '',
+                name: '',
+                class_id: selectedClass || '',
+                parent_phone: ''
+              });
+              setShowModal(true);
+            }}
+            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-indigo-300 hover:shadow-md transition cursor-pointer group flex items-start gap-3"
+          >
+            <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
+              <HiUserAdd className="text-lg" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-indigo-600 transition">Tambah Siswa Manual</h4>
+              <p className="text-[11px] text-gray-500 leading-relaxed mt-0.5">
+                Input data individu siswa baru beserta NIPD, kelas, dan kontak orang tua.
+              </p>
+            </div>
+          </div>
+
+          {/* Card 2: Import Excel */}
+          <div 
+            onClick={() => { setShowImportModal(true); setImportResult(null); }}
+            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-emerald-300 hover:shadow-md transition cursor-pointer group flex items-start gap-3"
+          >
+            <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
+              <HiUpload className="text-lg" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-emerald-600 transition">Import Excel Massal</h4>
+              <p className="text-[11px] text-gray-500 leading-relaxed mt-0.5">
+                Upload 1 angkatan ratusan siswa secara instan menggunakan spreadsheet.
+              </p>
+            </div>
+          </div>
+
+          {/* Card 3: Export Excel */}
+          <div 
+            onClick={handleExportExcel}
+            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-blue-300 hover:shadow-md transition cursor-pointer group flex items-start gap-3"
+          >
+            <div className="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
+              <HiDocumentReport className="text-lg" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-blue-600 transition">Export Rekap Excel</h4>
+              <p className="text-[11px] text-gray-500 leading-relaxed mt-0.5">
+                Unduh rekapitulasi data seluruh siswa aktif ke format file spreadsheet (.xlsx).
+              </p>
+            </div>
+          </div>
+
+          {/* Card 4: Template Excel */}
+          <div 
+            onClick={() => setShowTemplateModal(true)}
+            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-purple-300 hover:shadow-md transition cursor-pointer group flex items-start gap-3"
+          >
+            <div className="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
+              <HiDownload className="text-lg" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-purple-600 transition">Template Resmi Excel</h4>
+              <p className="text-[11px] text-gray-500 leading-relaxed mt-0.5">
+                Unduh format tabel resmi dengan struktur kelas SMAN 2 Salatiga siap isi.
+              </p>
+            </div>
+          </div>
+        </div>
+
 
         {/* Tingkat Tabs & Filter Box */}
         <div className="bg-white rounded-xl shadow p-5 space-y-4">

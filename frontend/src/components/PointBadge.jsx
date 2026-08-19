@@ -1,4 +1,4 @@
-const PointBadge = ({ points }) => {
+const PointBadge = ({ points, showLabel = true }) => {
   const p = Number(points) || 0;
   let bgClass = '';
   let textClass = '';
@@ -19,17 +19,17 @@ const PointBadge = ({ points }) => {
     bgClass = 'bg-amber-50';
     textClass = 'text-amber-700';
     borderClass = 'border-amber-200';
-    label = 'Peringatan I';
+    label = 'SP 1';
   } else if (p <= 50) {
     bgClass = 'bg-orange-50';
     textClass = 'text-orange-700';
     borderClass = 'border-orange-200';
-    label = 'Peringatan II';
+    label = 'SP 2';
   } else if (p <= 75) {
     bgClass = 'bg-rose-50';
     textClass = 'text-rose-700';
     borderClass = 'border-rose-200';
-    label = 'Peringatan III (Bermeterai)';
+    label = 'SP 3 (Bermeterai)';
   } else if (p <= 99) {
     bgClass = 'bg-red-100';
     textClass = 'text-red-800';
@@ -39,15 +39,19 @@ const PointBadge = ({ points }) => {
     bgClass = 'bg-red-800';
     textClass = 'text-white';
     borderClass = 'border-red-900';
-    label = 'Ditarik Kembali Ortu';
+    label = 'Ditarik Ortu';
   }
 
   return (
-    <span className={`inline-flex items-center whitespace-nowrap px-2.5 py-1 rounded-full font-semibold text-xs border ${bgClass} ${textClass} ${borderClass}`}>
-      <span className="font-bold mr-1">{p} Poin</span>
-      <span className="opacity-90">({label})</span>
+    <span 
+      className={`inline-flex items-center px-2 py-0.5 rounded-full font-bold text-[11px] border ${bgClass} ${textClass} ${borderClass} whitespace-nowrap`}
+      title={`Akumulasi: ${p} Poin (${label})`}
+    >
+      <span>{p} Poin</span>
+      {showLabel && <span className="ml-1 font-semibold opacity-90">({label})</span>}
     </span>
   );
 };
 
 export default PointBadge;
+
