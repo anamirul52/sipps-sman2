@@ -11,6 +11,7 @@ import {
   HiClipboardList,
   HiX,
   HiArrowRight,
+  HiArrowLeft,
   HiSearch,
   HiOutlineDocumentText,
   HiOutlineEye,
@@ -42,6 +43,7 @@ const Dashboard = () => {
   const [allViolationsSearch, setAllViolationsSearch] = useState('');
   const [allViolationsGradeFilter, setAllViolationsGradeFilter] = useState('ALL'); // 'ALL' | 'X' | 'XI' | 'XII'
   const [allViolationsClassFilter, setAllViolationsClassFilter] = useState('');
+  const [selectedStudentForDetail, setSelectedStudentForDetail] = useState(null);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -149,27 +151,46 @@ const Dashboard = () => {
     c.class_name.toLowerCase().includes(classSearch.toLowerCase())
   );
 
+  // Grouping data pelanggaran berdasarkan siswa
+  const groupedStudentsMap = new Map();
+  stats.allViolationsList.forEach(v => {
+    const studentId = v.student_id;
+    if (!groupedStudentsMap.has(studentId)) {
+      groupedStudentsMap.set(studentId, {
+        student_id: v.student_id,
+        student_name: v.student_name,
+        nipd: v.nipd,
+        class_name: v.class_name,
+        student_total_points: v.student_total_points,
+        violations: []
+      });
+    }
+    groupedStudentsMap.get(studentId).violations.push(v);
+  });
+
+  const groupedStudentsList = Array.from(groupedStudentsMap.values());
+
   // Perhitungan Kategori Kelas untuk Modal Rekapitulasi
   const totalAllViolationsCount = stats.allViolationsList.length;
-  const gradeXCount = stats.allViolationsList.filter(v => (v.class_name || '').startsWith('X-')).length;
-  const gradeXICount = stats.allViolationsList.filter(v => (v.class_name || '').startsWith('XI-')).length;
-  const gradeXIICount = stats.allViolationsList.filter(v => (v.class_name || '').startsWith('XII-')).length;
+  const totalViolatorsCount = groupedStudentsList.length;
+  const gradeXCount = groupedStudentsList.filter(s => (s.class_name || '').startsWith('X-')).length;
+  const gradeXICount = groupedStudentsList.filter(s => (s.class_name || '').startsWith('XI-')).length;
+  const gradeXIICount = groupedStudentsList.filter(s => (s.class_name || '').startsWith('XII-')).length;
 
   const availableClassesForFilter = stats.classesSummary.length > 0
     ? stats.classesSummary.filter(c => allViolationsGradeFilter === 'ALL' || c.class_name.startsWith(allViolationsGradeFilter + '-'))
     : [];
 
-  const filteredAllViolations = stats.allViolationsList.filter(v => {
+  const filteredGroupedStudents = groupedStudentsList.filter(s => {
     const text = allViolationsSearch.toLowerCase();
     const matchesSearch = !text || (
-      (v.student_name || '').toLowerCase().includes(text) ||
-      (v.nipd || '').toLowerCase().includes(text) ||
-      (v.class_name || '').toLowerCase().includes(text) ||
-      (v.category_name || '').toLowerCase().includes(text) ||
-      (v.note || '').toLowerCase().includes(text)
+      (s.student_name || '').toLowerCase().includes(text) ||
+      (s.nipd || '').toLowerCase().includes(text) ||
+      (s.class_name || '').toLowerCase().includes(text) ||
+      s.violations.some(v => (v.category_name || '').toLowerCase().includes(text) || (v.note || '').toLowerCase().includes(text))
     );
 
-    const className = v.class_name || '';
+    const className = s.class_name || '';
     const matchesGrade = allViolationsGradeFilter === 'ALL' || className.startsWith(allViolationsGradeFilter + '-');
     const matchesClass = !allViolationsClassFilter || className === allViolationsClassFilter;
 
@@ -299,12 +320,42 @@ const Dashboard = () => {
           </span>
         </div>
         
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[650px] sm:min-w-full">
+        {/* Mobile View: Cards (Tampil di Layar HP) */}
+        <div className="sm:hidden p-3 space-y-2.5">
+          {recentViolations.map((v, index) => (
+            <div key={v.id} className="bg-white p-3 rounded-xl border border-gray-200 shadow-2xs space-y-2">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <div className="font-bold text-gray-900 text-xs">{v.student_name}</div>
+                  <div className="text-[11px] text-gray-500 mt-0.5">
+                    Kelas: <span className="font-semibold text-indigo-700">{v.class_name || '-'}</span>
+                  </div>
+                </div>
+                <PointBadge points={v.student_total_points} />
+              </div>
+              <div className="text-xs text-gray-800 bg-gray-50 p-2 rounded-lg border border-gray-100 flex items-center justify-between gap-2">
+                <span className="font-medium text-[11px]">{v.category_name}</span>
+                <span className="font-bold text-red-600 text-[11px] whitespace-nowrap">+{v.point_deduction} Poin</span>
+              </div>
+              <div className="text-[10px] text-gray-400 text-right">
+                {new Date(v.violation_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+              </div>
+            </div>
+          ))}
+          {recentViolations.length === 0 && (
+            <div className="py-8 text-center text-xs text-gray-500">
+              Belum ada data pelanggaran hari ini.
+            </div>
+          )}
+        </div>
+
+        {/* Desktop View: Table (Tampil di Tablet/PC) */}
+        <div className="hidden sm:block overflow-x-auto">
+          <table className="w-full text-left border-collapse min-w-full">
             <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
               <tr>
                 <th className="px-3 py-2.5 text-center w-10 whitespace-nowrap">No</th>
-                <th className="px-3.5 py-2.5 min-w-[150px] sm:min-w-[180px] whitespace-nowrap">Nama Siswa</th>
+                <th className="px-3.5 py-2.5 min-w-[150px] whitespace-nowrap">Nama Siswa</th>
                 <th className="px-3 py-2.5 text-center min-w-[80px] whitespace-nowrap">Kelas</th>
                 <th className="px-3.5 py-2.5 min-w-[180px]">Kategori Pelanggaran</th>
                 <th className="px-3 py-2.5 text-center min-w-[75px] whitespace-nowrap">Poin</th>
@@ -324,7 +375,7 @@ const Dashboard = () => {
                       {v.class_name || '-'}
                     </span>
                   </td>
-                  <td className="px-3.5 py-2.5 text-xs text-gray-800 font-medium leading-relaxed min-w-[180px]">
+                  <td className="px-3.5 py-2.5 text-xs text-gray-800 font-medium leading-relaxed">
                     {v.category_name}
                   </td>
                   <td className="px-3 py-2.5 text-center whitespace-nowrap">
@@ -368,7 +419,30 @@ const Dashboard = () => {
           </span>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Mobile View: Cards */}
+        <div className="sm:hidden p-3 space-y-2.5">
+          {sanctionTiers.map((tier, idx) => (
+            <div key={idx} className="bg-white p-3 rounded-xl border border-gray-200 shadow-2xs space-y-1.5">
+              <div className="flex items-center justify-between gap-2">
+                <span className={`px-2 py-0.5 rounded-md border ${tier.color} font-mono font-bold text-[11px]`}>
+                  {tier.range}
+                </span>
+                <span className="text-xs font-bold text-gray-900">{tier.sanction}</span>
+              </div>
+              <div className="text-[11px] text-gray-600">
+                <span className="font-semibold text-gray-700">Petugas:</span> {tier.officer}
+              </div>
+              {tier.note && (
+                <div className="text-[10px] text-gray-500 bg-gray-50 p-1.5 rounded border border-gray-100">
+                  {tier.note}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop View: Table */}
+        <div className="hidden sm:block overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
               <tr>
@@ -512,7 +586,7 @@ const Dashboard = () => {
             </div>
 
             {/* Modal Content */}
-            <div className="p-6 overflow-y-auto flex-1 space-y-4">
+            <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
               {stats.todayViolationsList.length === 0 ? (
                 <div className="text-center py-12 space-y-2">
                   <HiShieldCheck className="text-4xl text-emerald-500 mx-auto" />
@@ -520,64 +594,95 @@ const Dashboard = () => {
                   <p className="text-xs text-gray-400">Seluruh siswa tertib mematuhi tata tertib sekolah hari ini.</p>
                 </div>
               ) : (
-                <div className="overflow-x-auto border border-gray-200 rounded-xl shadow-2xs">
-                  <table className="w-full text-left border-collapse text-xs">
-                    <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
-                      <tr>
-                        <th className="px-3 py-3 text-center w-12 whitespace-nowrap">No</th>
-                        <th className="px-4 py-3 min-w-[160px] whitespace-nowrap">Nama Siswa</th>
-                        <th className="px-3 py-3 text-center w-20 whitespace-nowrap">Kelas</th>
-                        <th className="px-4 py-3 min-w-[200px]">Bentuk Pelanggaran</th>
-                        <th className="px-3 py-3 text-center w-24 whitespace-nowrap">Poin</th>
-                        <th className="px-4 py-3 text-center w-40 whitespace-nowrap">Akumulasi Poin</th>
-                        <th className="px-3 py-3 text-center w-24 whitespace-nowrap">Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 bg-white">
-                      {stats.todayViolationsList.map((v, i) => (
-                        <tr key={v.id} className="hover:bg-amber-50/30 transition">
-                          <td className="px-3 py-3 text-center text-gray-500 font-semibold">{i + 1}</td>
-                          <td className="px-4 py-3">
-                            <div className="font-bold text-gray-900 text-xs sm:text-sm leading-snug">{v.student_name}</div>
-                            <div className="text-[10px] text-gray-500 font-mono mt-0.5">NIPD: {v.nipd || '-'}</div>
-                          </td>
-                          <td className="px-3 py-3 text-center whitespace-nowrap">
-                            <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap min-w-[55px]">
-                              {v.class_name || '-'}
-                            </span>
-                          </td>
-                          <td className="px-4 py-3 text-gray-800 font-medium leading-relaxed">
-                            {v.category_name}
-                          </td>
-                          <td className="px-3 py-3 text-center whitespace-nowrap">
-                            <span className="inline-block px-2.5 py-1 rounded-md font-bold text-[11px] bg-red-50 text-red-700 border border-red-200">
-                              +{v.point_deduction} Poin
-                            </span>
-                          </td>
-                          <td className="px-4 py-3 text-center whitespace-nowrap">
-                            <PointBadge points={v.student_total_points} />
-                          </td>
-                          <td className="px-3 py-3 text-center whitespace-nowrap">
-                            <button
-                              onClick={() => {
-                                setSelectedStudentForSanction(v.student_id);
-                              }}
-                              className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1 shadow-2xs"
-                              title="Lihat Surat Sanksi"
-                            >
-                              <HiOutlineEye className="text-xs" /> Surat
-                            </button>
-                          </td>
+                <>
+                  {/* Mobile View: Cards */}
+                  <div className="sm:hidden space-y-3">
+                    {stats.todayViolationsList.map((v, i) => (
+                      <div key={v.id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs space-y-2.5">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0">
+                            <div className="font-bold text-gray-900 text-xs sm:text-sm leading-tight truncate">{v.student_name}</div>
+                            <div className="text-[11px] text-gray-500 mt-0.5">
+                              NIPD: {v.nipd || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{v.class_name || '-'}</span>
+                            </div>
+                          </div>
+                          <PointBadge points={v.student_total_points} />
+                        </div>
+                        <div className="text-xs text-gray-800 bg-amber-50/60 p-2.5 rounded-lg border border-amber-100 flex items-center justify-between gap-2">
+                          <span className="font-medium text-[11px] leading-snug">{v.category_name}</span>
+                          <span className="font-bold text-red-600 text-[11px] whitespace-nowrap">+{v.point_deduction} Poin</span>
+                        </div>
+                        <div className="pt-1">
+                          <button
+                            onClick={() => setSelectedStudentForSanction(v.student_id)}
+                            className="w-full py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
+                          >
+                            <HiOutlineDocumentText className="text-sm" />
+                            <span>Lihat Surat Sanksi</span>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Desktop View: Table */}
+                  <div className="hidden sm:block overflow-hidden border border-gray-200 rounded-xl shadow-2xs">
+                    <table className="w-full text-left border-collapse text-xs table-fixed">
+                      <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
+                        <tr>
+                          <th className="px-2 py-3 text-center w-10">No</th>
+                          <th className="px-3 py-3 w-[26%]">Nama Siswa</th>
+                          <th className="px-2 py-3 text-center w-16">Kelas</th>
+                          <th className="px-3 py-3 w-[28%]">Bentuk Pelanggaran</th>
+                          <th className="px-2 py-3 text-center w-16">Poin</th>
+                          <th className="px-2 py-3 text-center w-[16%]">Akumulasi</th>
+                          <th className="px-2 py-3 text-center w-16">Aksi</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200 bg-white">
+                        {stats.todayViolationsList.map((v, i) => (
+                          <tr key={v.id} className="hover:bg-amber-50/30 transition">
+                            <td className="px-2 py-3 text-center text-gray-500 font-semibold">{i + 1}</td>
+                            <td className="px-3 py-3">
+                              <div className="font-bold text-gray-900 text-xs truncate" title={v.student_name}>{v.student_name}</div>
+                              <div className="text-[10px] text-gray-500 font-mono mt-0.5">NIPD: {v.nipd || '-'}</div>
+                            </td>
+                            <td className="px-2 py-3 text-center">
+                              <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap">
+                                {v.class_name || '-'}
+                              </span>
+                            </td>
+                            <td className="px-3 py-3 text-gray-800 font-medium text-xs leading-snug">
+                              {v.category_name}
+                            </td>
+                            <td className="px-2 py-3 text-center whitespace-nowrap">
+                              <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-red-50 text-red-700 border border-red-200">
+                                +{v.point_deduction}p
+                              </span>
+                            </td>
+                            <td className="px-2 py-3 text-center">
+                              <PointBadge points={v.student_total_points} />
+                            </td>
+                            <td className="px-2 py-3 text-center">
+                              <button
+                                onClick={() => setSelectedStudentForSanction(v.student_id)}
+                                className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2 py-1 rounded-md text-[11px] font-semibold transition inline-flex items-center gap-1 shadow-2xs cursor-pointer"
+                                title="Lihat Surat Sanksi"
+                              >
+                                <HiOutlineEye className="text-xs" /> Surat
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-3.5 border-t border-gray-200 bg-gray-50 flex justify-between items-center">
+            <div className="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-gray-200 bg-gray-50 flex justify-between items-center">
               <button
                 onClick={() => {
                   setActiveModal(null);
@@ -601,296 +706,490 @@ const Dashboard = () => {
 
       {/* ================= MODAL DETAIL 3: SEMUA PELANGGARAN ================= */}
       {activeModal === 'allViolations' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-4 animate-in fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-purple-50/80">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-purple-600 text-white rounded-xl">
-                  <HiClipboardList className="text-xl" />
+            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-gray-200 flex justify-between items-center bg-purple-50/80">
+              {selectedStudentForDetail ? (
+                <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                  <button
+                    onClick={() => setSelectedStudentForDetail(null)}
+                    className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl transition flex items-center gap-1.5 shadow-sm text-xs font-semibold cursor-pointer flex-shrink-0"
+                    title="Kembali ke Rekapitulasi Siswa"
+                  >
+                    <HiArrowLeft className="text-base" />
+                    <span className="hidden sm:inline">Kembali</span>
+                  </button>
+                  <div className="truncate">
+                    <h3 className="text-sm sm:text-lg font-bold text-gray-900 truncate">
+                      Rincian: {selectedStudentForDetail.student_name}
+                    </h3>
+                    <p className="text-[11px] sm:text-xs text-gray-500 truncate">
+                      Kelas: <strong>{selectedStudentForDetail.class_name}</strong> &bull; Total {selectedStudentForDetail.violations.length} Kasus Pelanggaran
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-gray-900">Rekapitulasi Seluruh Pelanggaran Tercatat</h3>
-                  <p className="text-xs text-gray-500">
-                    Total {stats.totalViolations} kasus pelanggaran yang tersimpan di sistem &bull; Rekap akumulasi poin siswa
-                  </p>
+              ) : (
+                <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                  <div className="p-2 bg-purple-600 text-white rounded-xl flex-shrink-0">
+                    <HiClipboardList className="text-lg sm:text-xl" />
+                  </div>
+                  <div className="truncate">
+                    <h3 className="text-sm sm:text-lg font-bold text-gray-900 truncate">Rekapitulasi Seluruh Pelanggaran Tercatat</h3>
+                    <p className="text-[11px] sm:text-xs text-gray-500 truncate">
+                      Total {stats.totalViolations} kasus &bull; Rekap akumulasi poin siswa
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
               <button 
-                onClick={() => setActiveModal(null)}
-                className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white"
+                onClick={() => {
+                  setActiveModal(null);
+                  setSelectedStudentForDetail(null);
+                }}
+                className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
               >
                 <HiX className="text-xl" />
               </button>
             </div>
 
             {/* Modal Content */}
-            <div className="p-6 overflow-y-auto flex-1 space-y-4">
-              {/* Search input & Class Dropdown */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="sm:col-span-2 relative">
-                  <HiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
-                  <input
-                    type="text"
-                    placeholder="Cari nama siswa, NIPD, kelas, atau jenis pelanggaran..."
-                    value={allViolationsSearch}
-                    onChange={(e) => setAllViolationsSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-gray-50/50 focus:bg-white transition"
-                  />
-                </div>
-                <div>
-                  <select
-                    value={allViolationsClassFilter}
-                    onChange={(e) => setAllViolationsClassFilter(e.target.value)}
-                    className="w-full px-3 py-2.5 text-xs sm:text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white transition text-gray-700 font-medium"
-                  >
-                    <option value="">-- Semua Rombel Kelas --</option>
-                    {availableClassesForFilter.map((c) => (
-                      <option key={c.id || c.class_name} value={c.class_name}>
-                        Kelas {c.class_name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Category Per Kelas / Angkatan Quick Tabs */}
-              <div className="flex flex-wrap items-center justify-between gap-2 pt-1 pb-1 border-b border-gray-100">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-xs font-semibold text-gray-500 mr-1 flex items-center gap-1">
-                    <HiFilter className="text-xs" /> Kategori:
-                  </span>
-                  
-                  {/* Tab Semua */}
-                  <button
-                    onClick={() => {
-                      setAllViolationsGradeFilter('ALL');
-                      setAllViolationsClassFilter('');
-                    }}
-                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
-                      allViolationsGradeFilter === 'ALL' && !allViolationsClassFilter
-                        ? 'bg-purple-600 text-white shadow-2xs'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    }`}
-                  >
-                    <span>Semua Kelas</span>
-                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                      allViolationsGradeFilter === 'ALL' && !allViolationsClassFilter ? 'bg-purple-800/60 text-white' : 'bg-gray-200 text-gray-700'
-                    }`}>
-                      {totalAllViolationsCount}
-                    </span>
-                  </button>
-
-                  {/* Tab Kelas X */}
-                  <button
-                    onClick={() => {
-                      setAllViolationsGradeFilter('X');
-                      setAllViolationsClassFilter('');
-                    }}
-                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
-                      allViolationsGradeFilter === 'X'
-                        ? 'bg-indigo-600 text-white shadow-2xs'
-                        : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200'
-                    }`}
-                  >
-                    <span>Kelas X (10)</span>
-                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                      allViolationsGradeFilter === 'X' ? 'bg-indigo-800/60 text-white' : 'bg-indigo-100 text-indigo-800'
-                    }`}>
-                      {gradeXCount}
-                    </span>
-                  </button>
-
-                  {/* Tab Kelas XI */}
-                  <button
-                    onClick={() => {
-                      setAllViolationsGradeFilter('XI');
-                      setAllViolationsClassFilter('');
-                    }}
-                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
-                      allViolationsGradeFilter === 'XI'
-                        ? 'bg-blue-600 text-white shadow-2xs'
-                        : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200'
-                    }`}
-                  >
-                    <span>Kelas XI (11)</span>
-                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                      allViolationsGradeFilter === 'XI' ? 'bg-blue-800/60 text-white' : 'bg-blue-100 text-blue-800'
-                    }`}>
-                      {gradeXICount}
-                    </span>
-                  </button>
-
-                  {/* Tab Kelas XII */}
-                  <button
-                    onClick={() => {
-                      setAllViolationsGradeFilter('XII');
-                      setAllViolationsClassFilter('');
-                    }}
-                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
-                      allViolationsGradeFilter === 'XII'
-                        ? 'bg-amber-600 text-white shadow-2xs'
-                        : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200'
-                    }`}
-                  >
-                    <span>Kelas XII (12)</span>
-                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                      allViolationsGradeFilter === 'XII' ? 'bg-amber-800/60 text-white' : 'bg-amber-100 text-amber-800'
-                    }`}>
-                      {gradeXIICount}
-                    </span>
-                  </button>
+            {selectedStudentForDetail ? (
+              /* VIEW 2: DETAIL PELANGGARAN SISWA IN-MODAL */
+              <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2.5 bg-purple-50/70 p-3.5 sm:p-4 rounded-xl border border-purple-100 text-xs sm:text-sm">
+                  <div className="min-w-0">
+                    <span className="text-gray-600">Nama Siswa: </span>
+                    <strong className="text-gray-900 font-bold">{selectedStudentForDetail.student_name}</strong>
+                    <span className="text-gray-500 ml-1.5">({selectedStudentForDetail.class_name} &bull; NIPD: {selectedStudentForDetail.nipd || '-'})</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-600 font-medium">Akumulasi Total:</span>
+                    <PointBadge points={selectedStudentForDetail.student_total_points} />
+                  </div>
                 </div>
 
-                {/* Info Hasil & Reset */}
-                <div className="flex items-center gap-2 text-xs text-gray-500">
-                  <span>Hasil: <strong>{filteredAllViolations.length}</strong> kasus</span>
-                  {(allViolationsSearch || allViolationsGradeFilter !== 'ALL' || allViolationsClassFilter) && (
-                    <button
-                      onClick={() => {
-                        setAllViolationsSearch('');
-                        setAllViolationsGradeFilter('ALL');
-                        setAllViolationsClassFilter('');
-                      }}
-                      className="text-xs text-purple-700 hover:text-purple-900 font-semibold underline ml-1"
-                    >
-                      Reset Filter
-                    </button>
-                  )}
+                {/* Mobile View: Cards */}
+                <div className="sm:hidden space-y-2.5">
+                  {selectedStudentForDetail.violations.map((v, idx) => (
+                    <div key={v.id || idx} className="bg-white p-3 rounded-xl border border-gray-200 shadow-2xs space-y-2">
+                      <div className="flex items-start justify-between gap-2">
+                        <span className="font-bold text-gray-900 text-xs leading-snug">{v.category_name}</span>
+                        <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-red-50 text-red-700 border border-red-200 whitespace-nowrap">
+                          +{v.point_deduction} Poin
+                        </span>
+                      </div>
+                      <div className="text-[11px] text-gray-500 flex items-center justify-between pt-1 border-t border-gray-100">
+                        <span>Tanggal: {new Date(v.violation_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                        {v.note && <span className="italic text-gray-600 truncate max-w-[150px]">{v.note}</span>}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
 
-              {filteredAllViolations.length === 0 ? (
-                <div className="text-center py-12 space-y-2">
-                  <HiShieldCheck className="text-4xl text-emerald-500 mx-auto" />
-                  <div className="font-bold text-gray-800 text-sm">Tidak ada pelanggaran sesuai kategori/filter</div>
-                  <p className="text-xs text-gray-400">Tidak ada kasus yang tercatat untuk filter ini.</p>
-                </div>
-              ) : (
-                <div className="overflow-x-auto border border-gray-200 rounded-xl shadow-2xs">
-                  <table className="w-full text-left border-collapse text-xs">
-                    <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
+                {/* Desktop View: Table */}
+                <div className="hidden sm:block overflow-hidden border border-gray-200 rounded-xl shadow-2xs">
+                  <table className="w-full text-left border-collapse text-xs table-fixed">
+                    <thead className="bg-gray-50 text-[11px] uppercase font-bold text-gray-500 border-b border-gray-200">
                       <tr>
-                        <th className="px-3 py-3 text-center w-12 whitespace-nowrap">No</th>
-                        <th className="px-4 py-3 min-w-[160px] whitespace-nowrap">Nama Siswa</th>
-                        <th className="px-3 py-3 text-center w-20 whitespace-nowrap">Kelas</th>
-                        <th className="px-4 py-3 min-w-[200px]">Bentuk Pelanggaran</th>
-                        <th className="px-3 py-3 text-center w-24 whitespace-nowrap">Poin</th>
-                        <th className="px-4 py-3 text-center w-40 whitespace-nowrap">Akumulasi Poin</th>
-                        <th className="px-3 py-3 text-center w-28 whitespace-nowrap">Tanggal</th>
-                        <th className="px-3 py-3 text-center w-24 whitespace-nowrap">Aksi</th>
+                        <th className="px-2 py-3 text-center w-10">No</th>
+                        <th className="px-3 py-3 w-[45%]">Bentuk Pelanggaran</th>
+                        <th className="px-2 py-3 text-center w-20">Poin</th>
+                        <th className="px-2 py-3 text-center w-28">Tanggal</th>
+                        <th className="px-3 py-3 w-[25%]">Catatan / Kronologi</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200 bg-white">
-                      {filteredAllViolations.map((v, i) => (
-                        <tr key={v.id} className="hover:bg-purple-50/30 transition">
-                          <td className="px-3 py-3 text-center text-gray-500 font-semibold">{i + 1}</td>
-                          <td className="px-4 py-3">
-                            <div className="font-bold text-gray-900 text-xs sm:text-sm leading-snug">{v.student_name}</div>
-                            <div className="text-[10px] text-gray-500 font-mono mt-0.5">NIPD: {v.nipd || '-'}</div>
-                          </td>
-                          <td className="px-3 py-3 text-center whitespace-nowrap">
-                            <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap min-w-[55px]">
-                              {v.class_name || '-'}
-                            </span>
-                          </td>
-                          <td className="px-4 py-3 text-gray-800 font-medium leading-relaxed">
-                            {v.category_name}
-                          </td>
-                          <td className="px-3 py-3 text-center whitespace-nowrap">
+                    <tbody className="divide-y divide-gray-100 bg-white">
+                      {selectedStudentForDetail.violations.map((v, idx) => (
+                        <tr key={v.id || idx} className="hover:bg-purple-50/20 transition">
+                          <td className="px-2 py-3 text-center text-gray-500 font-semibold">{idx + 1}</td>
+                          <td className="px-3 py-3 font-semibold text-gray-900 leading-snug">{v.category_name}</td>
+                          <td className="px-2 py-3 text-center whitespace-nowrap">
                             <span className="inline-block px-2.5 py-1 rounded-md font-bold text-[11px] bg-red-50 text-red-700 border border-red-200">
                               +{v.point_deduction} Poin
                             </span>
                           </td>
-                          <td className="px-4 py-3 text-center whitespace-nowrap">
-                            <PointBadge points={v.student_total_points} />
-                          </td>
-                          <td className="px-3 py-3 text-center text-gray-600 whitespace-nowrap font-medium text-[11px]">
+                          <td className="px-2 py-3 text-center text-gray-600 whitespace-nowrap font-medium">
                             {new Date(v.violation_date).toLocaleDateString('id-ID', {
                               day: 'numeric',
                               month: 'short',
                               year: 'numeric'
                             })}
                           </td>
-                          <td className="px-3 py-3 text-center whitespace-nowrap">
-                            <button
-                              onClick={() => {
-                                setSelectedStudentForSanction(v.student_id);
-                              }}
-                              className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-3 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1 shadow-2xs"
-                              title="Lihat Surat Sanksi"
-                            >
-                              <HiOutlineEye className="text-xs" /> Surat
-                            </button>
+                          <td className="px-3 py-3 text-gray-600 leading-relaxed text-xs">
+                            {v.note || '-'}
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-              )}
-            </div>
+              </div>
+            ) : (
+              /* VIEW 1: TABEL REKAPITULASI GROUPED BY STUDENT */
+              <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
+                {/* Search input & Class Dropdown */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                  <div className="sm:col-span-2 relative">
+                    <HiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
+                    <input
+                      type="text"
+                      placeholder="Cari nama siswa, NIPD, kelas, atau jenis pelanggaran..."
+                      value={allViolationsSearch}
+                      onChange={(e) => setAllViolationsSearch(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-gray-50/50 focus:bg-white transition"
+                    />
+                  </div>
+                  <div>
+                    <select
+                      value={allViolationsClassFilter}
+                      onChange={(e) => setAllViolationsClassFilter(e.target.value)}
+                      className="w-full px-3 py-2.5 text-xs sm:text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white transition text-gray-700 font-medium"
+                    >
+                      <option value="">-- Semua Rombel Kelas --</option>
+                      {availableClassesForFilter.map((c) => (
+                        <option key={c.id || c.class_name} value={c.class_name}>
+                          Kelas {c.class_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Category Per Kelas / Angkatan Quick Tabs */}
+                <div className="flex flex-wrap items-center justify-between gap-2 pt-1 pb-1 border-b border-gray-100">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="text-xs font-semibold text-gray-500 mr-1 flex items-center gap-1">
+                      <HiFilter className="text-xs" /> Kategori:
+                    </span>
+                    
+                    {/* Tab Semua */}
+                    <button
+                      onClick={() => {
+                        setAllViolationsGradeFilter('ALL');
+                        setAllViolationsClassFilter('');
+                      }}
+                      className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                        allViolationsGradeFilter === 'ALL' && !allViolationsClassFilter
+                          ? 'bg-purple-600 text-white shadow-2xs'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      }`}
+                    >
+                      <span>Semua Kelas</span>
+                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                        allViolationsGradeFilter === 'ALL' && !allViolationsClassFilter ? 'bg-purple-800/60 text-white' : 'bg-gray-200 text-gray-700'
+                      }`}>
+                        {totalViolatorsCount}
+                      </span>
+                    </button>
+
+                    {/* Tab Kelas X */}
+                    <button
+                      onClick={() => {
+                        setAllViolationsGradeFilter('X');
+                        setAllViolationsClassFilter('');
+                      }}
+                      className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                        allViolationsGradeFilter === 'X'
+                          ? 'bg-indigo-600 text-white shadow-2xs'
+                          : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200'
+                      }`}
+                    >
+                      <span>Kelas X (10)</span>
+                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                        allViolationsGradeFilter === 'X' ? 'bg-indigo-800/60 text-white' : 'bg-indigo-100 text-indigo-800'
+                      }`}>
+                        {gradeXCount}
+                      </span>
+                    </button>
+
+                    {/* Tab Kelas XI */}
+                    <button
+                      onClick={() => {
+                        setAllViolationsGradeFilter('XI');
+                        setAllViolationsClassFilter('');
+                      }}
+                      className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                        allViolationsGradeFilter === 'XI'
+                          ? 'bg-blue-600 text-white shadow-2xs'
+                          : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200'
+                      }`}
+                    >
+                      <span>Kelas XI (11)</span>
+                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                        allViolationsGradeFilter === 'XI' ? 'bg-blue-800/60 text-white' : 'bg-blue-100 text-blue-800'
+                      }`}>
+                        {gradeXICount}
+                      </span>
+                    </button>
+
+                    {/* Tab Kelas XII */}
+                    <button
+                      onClick={() => {
+                        setAllViolationsGradeFilter('XII');
+                        setAllViolationsClassFilter('');
+                      }}
+                      className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                        allViolationsGradeFilter === 'XII'
+                          ? 'bg-amber-600 text-white shadow-2xs'
+                          : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200'
+                      }`}
+                    >
+                      <span>Kelas XII (12)</span>
+                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                        allViolationsGradeFilter === 'XII' ? 'bg-amber-800/60 text-white' : 'bg-amber-100 text-amber-800'
+                      }`}>
+                        {gradeXIICount}
+                      </span>
+                    </button>
+                  </div>
+
+                  {/* Info Hasil & Reset */}
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <span>Hasil: <strong>{filteredGroupedStudents.length}</strong> siswa</span>
+                    {(allViolationsSearch || allViolationsGradeFilter !== 'ALL' || allViolationsClassFilter) && (
+                      <button
+                        onClick={() => {
+                          setAllViolationsSearch('');
+                          setAllViolationsGradeFilter('ALL');
+                          setAllViolationsClassFilter('');
+                        }}
+                        className="text-xs text-purple-700 hover:text-purple-900 font-semibold underline ml-1 cursor-pointer"
+                      >
+                        Reset Filter
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {filteredGroupedStudents.length === 0 ? (
+                  <div className="text-center py-12 space-y-2">
+                    <HiShieldCheck className="text-4xl text-emerald-500 mx-auto" />
+                    <div className="font-bold text-gray-800 text-sm">Tidak ada siswa sesuai filter</div>
+                    <p className="text-xs text-gray-400">Tidak ada riwayat pelanggaran untuk kriteria pencarian ini.</p>
+                  </div>
+                ) : (
+                  <>
+                    {/* Mobile View: Cards */}
+                    <div className="md:hidden space-y-3">
+                      {filteredGroupedStudents.map((s, i) => {
+                        const latestViolation = s.violations[0];
+                        return (
+                          <div key={s.student_id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs space-y-2.5">
+                            {/* Header: Nama Siswa & Badge Poin */}
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="min-w-0">
+                                <div className="font-bold text-gray-900 text-xs sm:text-sm leading-tight truncate">{s.student_name}</div>
+                                <div className="text-[11px] text-gray-500 mt-0.5">
+                                  NIPD: {s.nipd || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{s.class_name || '-'}</span>
+                                </div>
+                              </div>
+                              <PointBadge points={s.student_total_points} />
+                            </div>
+
+                            {/* Info Pelanggaran & Tanggal */}
+                            <div className="flex items-center justify-between text-xs pt-2 border-t border-gray-100">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
+                                {s.violations.length} Kasus Pelanggaran
+                              </span>
+                              <span className="text-[11px] text-gray-500">
+                                Terakhir: {latestViolation ? new Date(latestViolation.violation_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) : '-'}
+                              </span>
+                            </div>
+
+                            {/* Tombol Aksi 2 Kolom Penuh */}
+                            <div className="grid grid-cols-2 gap-2 pt-1">
+                              <button
+                                onClick={() => setSelectedStudentForDetail(s)}
+                                className="w-full py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
+                              >
+                                <HiOutlineEye className="text-sm" />
+                                <span>Rincian ({s.violations.length})</span>
+                              </button>
+                              <button
+                                onClick={() => setSelectedStudentForSanction(s.student_id)}
+                                className="w-full py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
+                              >
+                                <HiOutlineDocumentText className="text-sm" />
+                                <span>Surat Sanksi</span>
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Desktop View: Table (Tampil di Layar Lebar tanpa Scroll Samping) */}
+                    <div className="hidden md:block overflow-hidden border border-gray-200 rounded-xl shadow-2xs">
+                      <table className="w-full text-left border-collapse text-xs table-fixed">
+                        <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
+                          <tr>
+                            <th className="px-2 py-3 text-center w-10">No</th>
+                            <th className="px-3 py-3 w-[26%]">Nama Siswa</th>
+                            <th className="px-2 py-3 text-center w-16">Kelas</th>
+                            <th className="px-2 py-3 text-center w-[18%]">Total Kasus</th>
+                            <th className="px-2 py-3 text-center w-[16%]">Akumulasi Poin</th>
+                            <th className="px-2 py-3 text-center w-[12%]">Tanggal</th>
+                            <th className="px-2 py-3 text-center w-[16%]">Aksi</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200 bg-white">
+                          {filteredGroupedStudents.map((s, i) => {
+                            const latestViolation = s.violations[0];
+                            return (
+                              <tr key={s.student_id} className="hover:bg-purple-50/30 transition">
+                                <td className="px-2 py-3 text-center text-gray-500 font-semibold">{i + 1}</td>
+                                <td className="px-3 py-3">
+                                  <div className="font-bold text-gray-900 text-xs truncate" title={s.student_name}>{s.student_name}</div>
+                                  <div className="text-[10px] text-gray-500 font-mono mt-0.5">NIPD: {s.nipd || '-'}</div>
+                                </td>
+                                <td className="px-2 py-3 text-center">
+                                  <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap">
+                                    {s.class_name || '-'}
+                                  </span>
+                                </td>
+                                <td className="px-2 py-3 text-center">
+                                  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200 whitespace-nowrap">
+                                    {s.violations.length} Kasus
+                                  </span>
+                                </td>
+                                <td className="px-2 py-3 text-center">
+                                  <PointBadge points={s.student_total_points} />
+                                </td>
+                                <td className="px-2 py-3 text-center text-gray-600 font-medium text-[11px] whitespace-nowrap">
+                                  {latestViolation ? new Date(latestViolation.violation_date).toLocaleDateString('id-ID', {
+                                    day: 'numeric',
+                                    month: 'short'
+                                  }) : '-'}
+                                </td>
+                                <td className="px-2 py-3 text-center">
+                                  <div className="flex items-center justify-center gap-1">
+                                    <button
+                                      onClick={() => setSelectedStudentForDetail(s)}
+                                      className="text-purple-700 hover:text-purple-900 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-1 rounded-md text-[11px] font-semibold transition inline-flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                                      title="Lihat Daftar Bentuk Pelanggaran Siswa"
+                                    >
+                                      <HiOutlineEye className="text-xs" />
+                                      <span>Rincian ({s.violations.length})</span>
+                                    </button>
+                                    <button
+                                      onClick={() => setSelectedStudentForSanction(s.student_id)}
+                                      className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2 py-1 rounded-md text-[11px] font-semibold transition inline-flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                                      title="Lihat Surat Sanksi Siswa"
+                                    >
+                                      <HiOutlineDocumentText className="text-xs" />
+                                      <span>Surat</span>
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
 
             {/* Modal Footer */}
-            <div className="px-6 py-3.5 border-t border-gray-200 bg-gray-50 flex flex-wrap justify-between items-center gap-2">
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => {
-                    setActiveModal(null);
-                    navigate('/violations');
-                  }}
-                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
-                >
-                  <span>Buka Menu Pelanggaran Lengkap</span>
-                  <HiArrowRight className="text-sm" />
-                </button>
-                <button
-                  onClick={handleExportViolations}
-                  className="px-3.5 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
-                  title="Export Seluruh Pelanggaran ke Excel"
-                >
-                  <HiDocumentDownload className="text-base" />
-                  <span>Export Excel</span>
-                </button>
-              </div>
-              <button
-                onClick={() => setActiveModal(null)}
-                className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition text-xs sm:text-sm font-medium"
-              >
-                Tutup
-              </button>
+            <div className="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-gray-200 bg-gray-50 flex flex-wrap justify-between items-center gap-2">
+              {selectedStudentForDetail ? (
+                <div className="flex flex-wrap items-center gap-2 w-full justify-between">
+                  <button
+                    onClick={() => setSelectedStudentForDetail(null)}
+                    className="px-3.5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
+                  >
+                    <HiArrowLeft className="text-sm" />
+                    <span>Kembali</span>
+                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        const sid = selectedStudentForDetail.student_id;
+                        setSelectedStudentForDetail(null);
+                        setSelectedStudentForSanction(sid);
+                      }}
+                      className="px-3.5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    >
+                      <HiOutlineDocumentText className="text-base" />
+                      <span>Surat Sanksi</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setActiveModal(null);
+                        setSelectedStudentForDetail(null);
+                      }}
+                      className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition text-xs sm:text-sm font-medium cursor-pointer"
+                    >
+                      Tutup
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      onClick={() => {
+                        setActiveModal(null);
+                        navigate('/violations');
+                      }}
+                      className="px-3.5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    >
+                      <span>Buka Menu Pelanggaran</span>
+                      <HiArrowRight className="text-sm" />
+                    </button>
+                    <button
+                      onClick={handleExportViolations}
+                      className="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
+                      title="Export Seluruh Pelanggaran ke Excel"
+                    >
+                      <HiDocumentDownload className="text-base" />
+                      <span>Excel</span>
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setActiveModal(null);
+                      setSelectedStudentForDetail(null);
+                    }}
+                    className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition text-xs sm:text-sm font-medium cursor-pointer"
+                  >
+                    Tutup
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
       )}
 
-
       {/* ================= MODAL DETAIL 4: PERLU PENANGANAN (>= 21 POIN) ================= */}
       {activeModal === 'attention' && (
-
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-4 animate-in fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-rose-50/80">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-rose-600 text-white rounded-xl">
-                  <HiExclamation className="text-xl" />
+            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-gray-200 flex justify-between items-center bg-rose-50/80">
+              <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <div className="p-2 bg-rose-600 text-white rounded-xl flex-shrink-0">
+                  <HiExclamation className="text-lg sm:text-xl" />
                 </div>
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-gray-900">Daftar Siswa Perlu Penanganan Khusus</h3>
-                  <p className="text-xs text-gray-500">Siswa dengan akumulasi &ge; 21 Poin yang telah mencapai ambang batas sanksi resmi</p>
+                <div className="truncate">
+                  <h3 className="text-sm sm:text-lg font-bold text-gray-900 truncate">Siswa Perlu Penanganan Khusus</h3>
+                  <p className="text-[11px] sm:text-xs text-gray-500 truncate">Siswa dengan akumulasi &ge; 21 Poin</p>
                 </div>
               </div>
               <button 
                 onClick={() => setActiveModal(null)}
-                className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white"
+                className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
               >
                 <HiX className="text-xl" />
               </button>
             </div>
 
             {/* Modal Content */}
-            <div className="p-6 overflow-y-auto flex-1 space-y-4">
+            <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
               {stats.studentsNeedAttentionList.length === 0 ? (
                 <div className="text-center py-12 space-y-2">
                   <HiShieldCheck className="text-4xl text-emerald-500 mx-auto" />
@@ -898,60 +1197,89 @@ const Dashboard = () => {
                   <p className="text-xs text-gray-400">Seluruh siswa berada dalam batas aman tata tertib sekolah.</p>
                 </div>
               ) : (
-                <div className="overflow-x-auto border border-gray-200 rounded-xl">
-                  <table className="w-full text-left border-collapse text-xs">
-                    <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500">
-                      <tr>
-                        <th className="px-3 py-2.5 text-center w-10">No</th>
-                        <th className="px-3 py-2.5 w-44">Nama Siswa</th>
-                        <th className="px-2 py-2.5 text-center w-16">Kelas</th>
-                        <th className="px-3 py-2.5 text-center w-40">Status Akumulasi Poin</th>
-                        <th className="px-3 py-2.5 text-center w-36">Aksi Tindakan</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 bg-white">
-                      {stats.studentsNeedAttentionList.map((s, i) => (
-                        <tr key={s.id} className="hover:bg-rose-50/30 transition">
-                          <td className="px-3 py-2.5 text-center text-gray-500 font-semibold">{i + 1}</td>
-                          <td className="px-3 py-2.5">
-                            <div className="font-bold text-gray-900">{s.student_name}</div>
-                            <div className="text-[10px] text-gray-500 font-mono">NIPD: {s.nipd || '-'}</div>
-                          </td>
-                          <td className="px-2 py-2.5 text-center whitespace-nowrap">
-                            <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap min-w-[55px]">
-                              {s.class_name || '-'}
-                            </span>
-                          </td>
-                          <td className="px-3 py-2.5 text-center whitespace-nowrap">
-                            <PointBadge points={s.total_points} />
-                          </td>
-                          <td className="px-3 py-2.5 text-center whitespace-nowrap">
-                            <button
-                              onClick={() => setSelectedStudentForSanction(s.id)}
-                              className="px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-[11px] transition inline-flex items-center gap-1 shadow-2xs"
-                              title="Lihat & Cetak Surat Sanksi"
-                            >
-                              <HiOutlineDocumentText className="text-xs" /> Lihat Surat Sanksi
-                            </button>
-                          </td>
+                <>
+                  {/* Mobile View: Cards */}
+                  <div className="sm:hidden space-y-3">
+                    {stats.studentsNeedAttentionList.map((s, i) => (
+                      <div key={s.id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs space-y-2.5">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0">
+                            <div className="font-bold text-gray-900 text-xs sm:text-sm leading-tight truncate">{s.student_name}</div>
+                            <div className="text-[11px] text-gray-500 mt-0.5">
+                              NIPD: {s.nipd || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{s.class_name || '-'}</span>
+                            </div>
+                          </div>
+                          <PointBadge points={s.total_points} />
+                        </div>
+                        <div className="pt-1">
+                          <button
+                            onClick={() => setSelectedStudentForSanction(s.id)}
+                            className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow-xs cursor-pointer"
+                          >
+                            <HiOutlineDocumentText className="text-sm" />
+                            <span>Lihat & Cetak Surat Sanksi</span>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Desktop View: Table */}
+                  <div className="hidden sm:block overflow-hidden border border-gray-200 rounded-xl shadow-2xs">
+                    <table className="w-full text-left border-collapse text-xs table-fixed">
+                      <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500">
+                        <tr>
+                          <th className="px-2 py-3 text-center w-10">No</th>
+                          <th className="px-3 py-3 w-[35%]">Nama Siswa</th>
+                          <th className="px-2 py-3 text-center w-16">Kelas</th>
+                          <th className="px-2 py-3 text-center w-[25%]">Status Akumulasi Poin</th>
+                          <th className="px-2 py-3 text-center w-[25%]">Aksi Tindakan</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200 bg-white">
+                        {stats.studentsNeedAttentionList.map((s, i) => (
+                          <tr key={s.id} className="hover:bg-rose-50/30 transition">
+                            <td className="px-2 py-3 text-center text-gray-500 font-semibold">{i + 1}</td>
+                            <td className="px-3 py-3">
+                              <div className="font-bold text-gray-900 text-xs truncate">{s.student_name}</div>
+                              <div className="text-[10px] text-gray-500 font-mono mt-0.5">NIPD: {s.nipd || '-'}</div>
+                            </td>
+                            <td className="px-2 py-3 text-center whitespace-nowrap">
+                              <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap">
+                                {s.class_name || '-'}
+                              </span>
+                            </td>
+                            <td className="px-2 py-3 text-center whitespace-nowrap">
+                              <PointBadge points={s.total_points} />
+                            </td>
+                            <td className="px-2 py-3 text-center whitespace-nowrap">
+                              <button
+                                onClick={() => setSelectedStudentForSanction(s.id)}
+                                className="px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-[11px] transition inline-flex items-center gap-1 shadow-2xs cursor-pointer"
+                                title="Lihat & Cetak Surat Sanksi"
+                              >
+                                <HiOutlineDocumentText className="text-xs" /> Surat Sanksi
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-3.5 border-t border-gray-200 bg-gray-50 flex justify-between items-center">
+            <div className="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-gray-200 bg-gray-50 flex justify-between items-center">
               <button
                 onClick={() => {
                   setActiveModal(null);
-                  navigate('/students');
+                  navigate('/violations');
                 }}
                 className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
               >
-                <span>Buka Menu Data Siswa</span>
+                <span>Buka Menu Pelanggaran Lengkap</span>
                 <HiArrowRight className="text-sm" />
               </button>
               <button

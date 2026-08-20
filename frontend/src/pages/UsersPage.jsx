@@ -317,8 +317,82 @@ const UsersPage = () => {
         </div>
 
         {/* Table of Users */}
+        {/* Table / Cards of Users */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Mobile View: Cards (Tampil di Layar HP) */}
+          <div className="md:hidden p-3 space-y-3">
+            {loading ? (
+              <div className="p-8 text-center text-gray-400">
+                <div className="flex flex-col items-center justify-center space-y-2">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                  <span className="text-xs">Memuat data pengguna...</span>
+                </div>
+              </div>
+            ) : users.length === 0 ? (
+              <div className="p-8 text-center text-gray-500">
+                <p className="text-xs">Tidak ada akun guru yang sesuai filter pencarian.</p>
+              </div>
+            ) : (
+              users.map((u, index) => {
+                const isSelf = currentUser && currentUser.id === u.id;
+                return (
+                  <div key={u.id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs space-y-2.5">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <div className="text-sm font-bold text-gray-900 flex items-center gap-1.5">
+                          {u.name}
+                          {isSelf && (
+                            <span className="text-[10px] bg-blue-100 text-blue-700 px-1.5 py-0.2 rounded font-semibold">
+                              Anda
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-xs text-gray-500 font-mono mt-0.5">
+                          Login: {u.email}
+                        </div>
+                      </div>
+                      {renderRoleBadge(u.role)}
+                    </div>
+
+                    {u.role === 'wali_kelas' && (
+                      <div className="text-xs text-emerald-800 bg-emerald-50/70 p-2 rounded-lg border border-emerald-100 flex items-center justify-between">
+                        <span className="text-[11px] text-gray-600">Kelas Binaan:</span>
+                        <span className="font-bold">Kelas {u.assigned_class_name || 'Belum diatur'}</span>
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between pt-1 border-t border-gray-100 text-xs">
+                      <span className="text-[10px] text-gray-400">
+                        Terdaftar: {new Date(u.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => handleOpenEdit(u)}
+                          className="px-3 py-1.5 text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg flex items-center gap-1 transition"
+                          title="Edit Akun"
+                        >
+                          <HiPencilAlt className="text-sm" />
+                          <span>Edit</span>
+                        </button>
+                        <button
+                          onClick={() => setUserToDelete(u)}
+                          disabled={isSelf}
+                          className="px-3 py-1.5 text-xs font-semibold text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg flex items-center gap-1 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                          title="Hapus Akun"
+                        >
+                          <HiTrash className="text-sm" />
+                          <span>Hapus</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
+
+          {/* Desktop View: Table (Tampil di Tablet / PC) */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>

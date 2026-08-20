@@ -562,9 +562,88 @@ const StudentsPage = () => {
           </div>
         </div>
 
-        {/* Table of Students */}
+        {/* Table / Cards of Students */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-          <div className="overflow-x-auto">
+          {/* Mobile View: Cards (Tampil di Layar HP) */}
+          <div className="md:hidden p-3 space-y-3">
+            {loading ? (
+              <div className="p-8 text-center text-gray-400">
+                <div className="flex flex-col items-center justify-center space-y-2">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                  <span className="text-xs">Memuat seluruh data siswa...</span>
+                </div>
+              </div>
+            ) : students.length === 0 ? (
+              <div className="p-8 text-center text-gray-500">
+                <div className="flex flex-col items-center justify-center space-y-2">
+                  <div className="bg-gray-100 p-3 rounded-full text-gray-400">
+                    <HiUsers className="text-2xl" />
+                  </div>
+                  <div className="font-medium text-xs text-gray-700">
+                    {selectedClassObj 
+                      ? `Belum ada data siswa di Kelas ${selectedClassObj.class_name}` 
+                      : 'Tidak ada data siswa yang cocok'}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              students.map((student, index) => (
+                <div key={student.id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs space-y-2.5">
+                  {/* Header: Nama Siswa, Kelas & Poin */}
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="font-bold text-gray-900 text-xs sm:text-sm leading-tight truncate">
+                        {student.name}
+                      </div>
+                      <div className="text-[11px] text-gray-500 mt-0.5">
+                        NIPD: {student.nipd || student.nisn || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{student.class_name || '-'}</span>
+                      </div>
+                    </div>
+                    <PointBadge points={student.total_points || 0} />
+                  </div>
+
+                  {/* Kontak Ortu */}
+                  <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded-lg border border-gray-100 flex items-center justify-between">
+                    <span className="text-[11px] text-gray-500">No. HP Orang Tua:</span>
+                    {student.parent_phone ? (
+                      <a 
+                        href={`tel:${student.parent_phone}`} 
+                        className="font-semibold text-indigo-600 flex items-center gap-1 hover:underline text-xs"
+                      >
+                        <HiPhone className="text-xs" />
+                        <span>{student.parent_phone}</span>
+                      </a>
+                    ) : (
+                      <span className="text-gray-400 italic text-[11px]">-</span>
+                    )}
+                  </div>
+
+                  {/* Tombol Aksi 2 Kolom */}
+                  <div className="grid grid-cols-2 gap-2 pt-0.5">
+                    <button
+                      onClick={() => handleOpenEdit(student)}
+                      className="w-full py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition"
+                      title="Edit data siswa ini"
+                    >
+                      <HiPencilAlt className="text-sm" />
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      onClick={() => setStudentToDelete(student)}
+                      className="w-full py-1.5 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition"
+                      title="Hapus data siswa ini"
+                    >
+                      <HiTrash className="text-sm" />
+                      <span>Hapus</span>
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Desktop View: Table (Tampil di Tablet / PC) */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>

@@ -227,8 +227,89 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
         </div>
       </div>
       
-      {/* Table Content */}
-      <div className="overflow-x-auto">
+      {/* Mobile View: Cards (Tampil di Layar HP) */}
+      <div className="sm:hidden p-3 space-y-3">
+        {loading ? (
+          <div className="p-8 text-center text-gray-400">
+            <div className="flex items-center justify-center space-x-2">
+              <svg className="animate-spin h-5 w-5 text-indigo-600" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+              </svg>
+              <span className="text-xs font-medium text-gray-600">Memuat data pelanggaran...</span>
+            </div>
+          </div>
+        ) : violations.length === 0 ? (
+          <div className="p-8 text-center text-gray-500">
+            <p className="text-xs font-medium">Tidak ada data pelanggaran yang sesuai filter.</p>
+          </div>
+        ) : (
+          violations.map((v, i) => (
+            <div key={v.id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs space-y-2.5">
+              {/* Header: Nama Siswa, Kelas & Poin */}
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <div className="font-bold text-gray-900 text-xs sm:text-sm leading-tight truncate">
+                    {v.student_name}
+                  </div>
+                  <div className="text-[11px] text-gray-500 mt-0.5">
+                    NIPD: {v.nipd || v.nisn || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{v.class_name || '-'}</span>
+                  </div>
+                </div>
+                <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-red-50 text-red-700 border border-red-200 whitespace-nowrap">
+                  +{v.point_deduction} Poin
+                </span>
+              </div>
+
+              {/* Bentuk Pelanggaran & Tanggal */}
+              <div className="bg-gray-50 p-2.5 rounded-lg border border-gray-100 space-y-1">
+                <div className="text-xs font-medium text-gray-800 leading-snug">
+                  {v.category_name}
+                </div>
+                <div className="text-[10px] text-gray-400">
+                  Tanggal: {new Date(v.violation_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                </div>
+                {v.note && (
+                  <div className="text-[11px] text-gray-600 italic pt-1 border-t border-gray-200/60 leading-relaxed">
+                    "{v.note}"
+                  </div>
+                )}
+              </div>
+
+              {/* Tombol Aksi 3 Kolom */}
+              <div className="grid grid-cols-3 gap-1.5 pt-0.5">
+                <button 
+                  onClick={() => onViewSanction && onViewSanction(v.student_id)}
+                  className="w-full py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition"
+                  title="Lihat Surat Sanksi"
+                >
+                  <HiOutlineEye className="text-sm" />
+                  <span>Surat</span>
+                </button>
+                <button 
+                  onClick={() => onEditViolation && onEditViolation(v)}
+                  className="w-full py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition"
+                  title="Edit Data Pelanggaran"
+                >
+                  <HiOutlinePencilAlt className="text-sm" />
+                  <span>Edit</span>
+                </button>
+                <button 
+                  onClick={() => onDeleteViolation && onDeleteViolation(v)}
+                  className="w-full py-1.5 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition"
+                  title="Hapus Pelanggaran Ini"
+                >
+                  <HiOutlineTrash className="text-sm" />
+                  <span>Hapus</span>
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Desktop View: Table (Tampil di Tablet / PC) */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
             <tr>

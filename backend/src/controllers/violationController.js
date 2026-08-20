@@ -553,7 +553,7 @@ exports.exportExcel = async (req, res) => {
             FROM students s
             LEFT JOIN classes c ON s.class_id = c.id
             JOIN student_violations sv ON sv.student_id = s.id
-            GROUP BY s.id
+            GROUP BY s.id, s.nipd, s.name, c.class_name, s.total_points, s.parent_phone
             ORDER BY s.total_points DESC, s.name ASC
         `);
 
@@ -562,9 +562,9 @@ exports.exportExcel = async (req, res) => {
             'NIPD': sr.nipd || '-',
             'Nama Siswa': sr.student_name,
             'Kelas': sr.class_name || '-',
-            'Total Kasus': sr.total_violations,
-            'Total Akumulasi Poin': sr.total_points,
-            'Status Penanganan / Sanksi': getSanctionStatus(sr.total_points),
+            'Total Kasus': parseInt(sr.total_violations, 10) || 0,
+            'Total Akumulasi Poin': parseInt(sr.total_points, 10) || 0,
+            'Status Penanganan / Sanksi': getSanctionStatus(parseInt(sr.total_points, 10) || 0),
             'No HP Orang Tua': sr.parent_phone || '-'
         }));
 
@@ -588,15 +588,22 @@ exports.exportExcel = async (req, res) => {
             LEFT JOIN student_violations sv ON sv.student_id = s.id
             LEFT JOIN violation_categories vc ON sv.category_id = vc.id
             GROUP BY c.id, c.class_name
-            ORDER BY FIELD(SUBSTRING_INDEX(c.class_name, '-', 1), 'X', 'XI', 'XII'), c.class_name ASC
+            ORDER BY 
+                CASE 
+                    WHEN c.class_name LIKE 'X-%' THEN 1 
+                    WHEN c.class_name LIKE 'XI-%' THEN 2 
+                    WHEN c.class_name LIKE 'XII-%' THEN 3 
+                    ELSE 4 
+                END, 
+                c.class_name ASC
         `);
 
         const rowsSheet3 = classRecap.map((cr, i) => ({
             'No': i + 1,
             'Kelas': cr.class_name,
-            'Jumlah Kasus Pelanggaran': cr.violation_count,
-            'Total Poin Pelanggaran': Number(cr.total_class_points),
-            'Jumlah Siswa Terlibat': cr.students_involved
+            'Jumlah Kasus Pelanggaran': parseInt(cr.violation_count, 10) || 0,
+            'Total Poin Pelanggaran': parseInt(cr.total_class_points, 10) || 0,
+            'Jumlah Siswa Terlibat': parseInt(cr.students_involved, 10) || 0
         }));
 
         const ws3 = XLSX.utils.json_to_sheet(rowsSheet3);
@@ -608,7 +615,8 @@ exports.exportExcel = async (req, res) => {
 
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader('Content-Disposition', `attachment; filename="Laporan_Pelanggaran_Siswa_SMAN2_${dateStr}.xlsx"`);
-        res.send(buffer);
+        res.setHeader('Content-Length', buffer.length);
+        return res.end(buffer);
 
     } catch (error) {
         console.error('Error in exportExcel violations:', error);
