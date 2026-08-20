@@ -5,18 +5,26 @@ exports.getStats = async (req, res) => {
     try {
         conn = await pool.getConnection();
 
+        // Tanggal hari ini presisi zona waktu Indonesia Barat (WIB / Asia/Jakarta)
+        const todayWIB = new Intl.DateTimeFormat('en-CA', { 
+            timeZone: 'Asia/Jakarta', 
+            year: 'numeric', 
+            month: '2-digit', 
+            day: '2-digit' 
+        }).format(new Date());
+
         // 1. Single aggregated count query (4 counts in 1 instant query)
         const [countsData] = await conn.query(`
             SELECT 
                 (SELECT COUNT(*) FROM students) as total_students,
-                (SELECT COUNT(*) FROM student_violations WHERE violation_date = CURRENT_DATE) as today_violations,
+                (SELECT COUNT(*) FROM student_violations WHERE violation_date = ?) as today_violations,
                 (SELECT COUNT(*) FROM student_violations) as total_violations,
                 (SELECT COUNT(*) FROM students WHERE total_points >= 21) as students_need_attention
-        `);
+        `, [todayWIB]);
 
         const statsRow = countsData[0] || {};
 
-        // 2. Rincian Pelanggaran Hari Ini
+        // 2. Rincian Pelanggaran Hari Ini (Sesuai tanggal hari ini WIB)
         const [todayViolationsList] = await conn.query(`
             SELECT 
                 sv.id, sv.student_id, sv.violation_date, sv.note,
@@ -27,9 +35,9 @@ exports.getStats = async (req, res) => {
             JOIN students s ON sv.student_id = s.id
             LEFT JOIN classes c ON s.class_id = c.id
             JOIN violation_categories vc ON sv.category_id = vc.id
-            WHERE sv.violation_date = CURRENT_DATE
+            WHERE sv.violation_date = ?
             ORDER BY sv.created_at DESC
-        `);
+        `, [todayWIB]);
 
         // 3. Rincian Semua Pelanggaran
         const [allViolationsList] = await conn.query(`

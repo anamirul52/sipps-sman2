@@ -35,3 +35,4 @@ backend/init_and_migrate.js
 backend/init_aiven.js
 backend/test_postgres_queries.js
 backend/add_indexes.js
+backend/test_timezone.js

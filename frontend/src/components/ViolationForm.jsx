@@ -33,13 +33,13 @@ const ViolationForm = ({ onSuccess }) => {
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Fetch initial categories & sample students
+  // Fetch initial categories & all students
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
         const [catRes, studentRes] = await Promise.all([
           api.get('/categories'),
-          api.get('/students?limit=25')
+          api.get('/students?limit=all')
         ]);
         setCategories(catRes.data.data || []);
         const loadedStudents = studentRes.data.data || [];
@@ -52,28 +52,33 @@ const ViolationForm = ({ onSuccess }) => {
     fetchInitialData();
   }, []);
 
-  // Search siswa dengan debounce
+  // Pencarian instan seluruh data siswa (nama, NIPD, kelas)
   useEffect(() => {
-    if (!searchQuery.trim()) {
+    // Jika siswa sudah dipilih dan searchQuery sesuai, tutup dropdown
+    if (selectedStudent && selectedStudent.name === searchQuery) {
+      setShowStudentDropdown(false);
+      return;
+    }
+
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) {
       setStudents(allStudents);
       return;
     }
 
-    const timer = setTimeout(async () => {
-      setLoadingStudents(true);
-      try {
-        const res = await api.get(`/students?search=${encodeURIComponent(searchQuery)}&limit=25`);
-        setStudents(res.data.data || []);
-        setShowStudentDropdown(true);
-      } catch (err) {
-        setStudents([]);
-      } finally {
-        setLoadingStudents(false);
-      }
-    }, 200);
+    // Filter in-memory instan (0ms latency) pada seluruh 1.167 siswa
+    const matched = allStudents.filter((s) => {
+      const nameMatch = (s.name || '').toLowerCase().includes(query);
+      const nipdMatch = (s.nipd || s.nisn || '').toLowerCase().includes(query);
+      const classMatch = (s.class_name || '').toLowerCase().includes(query);
+      return nameMatch || nipdMatch || classMatch;
+    });
 
-    return () => clearTimeout(timer);
-  }, [searchQuery, allStudents]);
+    setStudents(matched);
+    if (!selectedStudent) {
+      setShowStudentDropdown(true);
+    }
+  }, [searchQuery, allStudents, selectedStudent]);
 
   // Tutup dropdowns saat klik di luar
   useEffect(() => {
@@ -99,6 +104,7 @@ const ViolationForm = ({ onSuccess }) => {
     setSelectedStudent(null);
     setSearchQuery('');
     setStudents(allStudents);
+    setShowStudentDropdown(false);
   };
 
   // Toggle Category Checkbox
@@ -207,7 +213,9 @@ const ViolationForm = ({ onSuccess }) => {
                   }
                   setShowStudentDropdown(true);
                 }}
-                onFocus={() => setShowStudentDropdown(true)}
+                onFocus={() => {
+                  if (!selectedStudent) setShowStudentDropdown(true);
+                }}
                 placeholder="Ketik nama atau NIPD siswa..."
                 className={`w-full rounded-xl border px-4 py-2.5 pr-10 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm ${
                   selectedStudent ? 'border-green-500 bg-green-50/30' : 'border-gray-300'
@@ -241,7 +249,7 @@ const ViolationForm = ({ onSuccess }) => {
             )}
             
             {/* Student Dropdown list */}
-            {showStudentDropdown && (
+            {showStudentDropdown && !selectedStudent && (
               <div className="absolute z-30 w-full mt-1 bg-white rounded-xl shadow-2xl max-h-60 overflow-y-auto border border-gray-200 divide-y divide-gray-100 animate-in fade-in">
                 <div className="px-3 py-1.5 bg-gray-50 text-[11px] font-semibold text-gray-500 uppercase tracking-wider sticky top-0 flex justify-between items-center z-10 border-b border-gray-100">
                   <span>Daftar Siswa ({students.length})</span>
