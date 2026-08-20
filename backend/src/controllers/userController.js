@@ -64,7 +64,7 @@ exports.create = async (req, res) => {
         if (!name || !email || !password || !role) {
             return res.status(400).json({ 
                 success: false, 
-                message: 'Nama, email, kata sandi, dan role jabatan wajib diisi' 
+                message: 'Nama, nama pengguna/email, kata sandi, dan role jabatan wajib diisi' 
             });
         }
 
@@ -78,11 +78,11 @@ exports.create = async (req, res) => {
 
         await connection.beginTransaction();
 
-        // Cek duplikasi email
+        // Cek duplikasi nama pengguna / email
         const [existing] = await connection.query('SELECT id FROM users WHERE email = ?', [email]);
         if (existing.length > 0) {
             await connection.rollback();
-            return res.status(400).json({ success: false, message: 'Email sudah terdaftar. Gunakan email lain.' });
+            return res.status(400).json({ success: false, message: 'Nama pengguna/email sudah terdaftar. Gunakan yang lain.' });
         }
 
         // Hash kata sandi
@@ -137,7 +137,7 @@ exports.update = async (req, res) => {
         const { name, email, password, role, class_id } = req.body;
 
         if (!name || !email || !role) {
-            return res.status(400).json({ success: false, message: 'Nama, email, dan role wajib diisi' });
+            return res.status(400).json({ success: false, message: 'Nama, nama pengguna/email, dan role wajib diisi' });
         }
 
         await connection.beginTransaction();
@@ -149,11 +149,11 @@ exports.update = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Pengguna tidak ditemukan' });
         }
 
-        // Cek apakah email sudah dipakai user lain
+        // Cek apakah username/email sudah dipakai user lain
         const [duplicateEmail] = await connection.query('SELECT id FROM users WHERE email = ? AND id != ?', [email, id]);
         if (duplicateEmail.length > 0) {
             await connection.rollback();
-            return res.status(400).json({ success: false, message: 'Email sudah digunakan oleh akun lain' });
+            return res.status(400).json({ success: false, message: 'Nama pengguna/email sudah digunakan oleh akun lain' });
         }
 
         // Update profil user

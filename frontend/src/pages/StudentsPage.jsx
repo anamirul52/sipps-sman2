@@ -15,6 +15,7 @@ import {
   HiCheckCircle, 
   HiExclamation,
   HiTrash,
+  HiPencilAlt,
   HiExclamationCircle,
   HiAcademicCap,
   HiUsers,
@@ -39,6 +40,16 @@ const StudentsPage = () => {
     parent_phone: ''
   });
   const [submitting, setSubmitting] = useState(false);
+
+  // Modal Edit Siswa State
+  const [studentToEdit, setStudentToEdit] = useState(null);
+  const [editFormData, setEditFormData] = useState({
+    nipd: '',
+    name: '',
+    class_id: '',
+    parent_phone: ''
+  });
+  const [submittingEdit, setSubmittingEdit] = useState(false);
 
   // Modal Template Download State
   const [showTemplateModal, setShowTemplateModal] = useState(false);
@@ -127,6 +138,39 @@ const StudentsPage = () => {
       toast.error(msg);
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  // Buka Modal Edit Siswa
+  const handleOpenEdit = (student) => {
+    setStudentToEdit(student);
+    setEditFormData({
+      nipd: student.nipd || student.nisn || '',
+      name: student.name || '',
+      class_id: student.class_id || '',
+      parent_phone: student.parent_phone || ''
+    });
+  };
+
+  // Simpan Perubahan Data Siswa
+  const handleEditStudent = async (e) => {
+    e.preventDefault();
+    if (!editFormData.nipd || !editFormData.name || !editFormData.class_id) {
+      toast.error('Mohon lengkapi NIPD, Nama Siswa, dan Kelas');
+      return;
+    }
+
+    setSubmittingEdit(true);
+    try {
+      const res = await api.put(`/students/${studentToEdit.id}`, editFormData);
+      toast.success(res.data.message || 'Data siswa berhasil diperbarui!');
+      setStudentToEdit(null);
+      fetchStudents();
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Gagal memperbarui data siswa';
+      toast.error(msg);
+    } finally {
+      setSubmittingEdit(false);
     }
   };
 
@@ -270,19 +314,19 @@ const StudentsPage = () => {
           </div>
 
           {/* Action Buttons Toolbar */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-2.5">
             {/* 1. Tombol Unduh Template */}
             <button
               onClick={() => setShowTemplateModal(true)}
-              className="flex items-center gap-2 bg-white border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 text-gray-700 font-semibold px-3.5 py-2 rounded-xl shadow-xs text-xs sm:text-sm transition group"
+              className="flex items-center gap-2 bg-white border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 text-gray-700 font-semibold px-2.5 sm:px-3.5 py-2 rounded-xl shadow-xs text-xs sm:text-sm transition group"
               title="Unduh format file Excel resmi untuk pengisian data siswa"
             >
-              <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition">
-                <HiDownload className="text-base" />
+              <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition flex-shrink-0">
+                <HiDownload className="text-sm sm:text-base" />
               </div>
-              <div className="text-left">
-                <div className="leading-tight">Template Excel</div>
-                <div className="text-[10px] text-gray-400 font-normal">Format Standar</div>
+              <div className="text-left truncate">
+                <div className="leading-tight truncate">Template Excel</div>
+                <div className="text-[10px] text-gray-400 font-normal truncate">Format Standar</div>
               </div>
             </button>
 
@@ -290,30 +334,30 @@ const StudentsPage = () => {
             <button
               onClick={handleExportExcel}
               disabled={exporting || students.length === 0}
-              className="flex items-center gap-2 bg-white border border-blue-200 hover:border-blue-300 hover:bg-blue-50/50 text-blue-700 font-semibold px-3.5 py-2 rounded-xl shadow-xs text-xs sm:text-sm transition group disabled:opacity-50"
+              className="flex items-center gap-2 bg-white border border-blue-200 hover:border-blue-300 hover:bg-blue-50/50 text-blue-700 font-semibold px-2.5 sm:px-3.5 py-2 rounded-xl shadow-xs text-xs sm:text-sm transition group disabled:opacity-50"
               title="Ekspor seluruh data siswa saat ini ke dalam format Excel (.xlsx)"
             >
-              <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition">
-                <HiDocumentReport className="text-base" />
+              <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition flex-shrink-0">
+                <HiDocumentReport className="text-sm sm:text-base" />
               </div>
-              <div className="text-left">
-                <div className="leading-tight">{exporting ? 'Mengekspor...' : 'Export Excel'}</div>
-                <div className="text-[10px] text-blue-400 font-normal">Unduh Data (.xlsx)</div>
+              <div className="text-left truncate">
+                <div className="leading-tight truncate">{exporting ? 'Mengekspor...' : 'Export Excel'}</div>
+                <div className="text-[10px] text-blue-400 font-normal truncate">Unduh Data (.xlsx)</div>
               </div>
             </button>
 
             {/* 3. Import Excel Button */}
             <button
               onClick={() => { setShowImportModal(true); setImportResult(null); }}
-              className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3.5 py-2 rounded-xl shadow-sm text-xs sm:text-sm transition group"
+              className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-2.5 sm:px-3.5 py-2 rounded-xl shadow-sm text-xs sm:text-sm transition group"
               title="Unggah file Excel untuk memasukkan data siswa massal / 1 angkatan sekaligus"
             >
-              <div className="p-1.5 bg-white/20 text-white rounded-lg group-hover:bg-white group-hover:text-emerald-700 transition">
-                <HiUpload className="text-base" />
+              <div className="p-1.5 bg-white/20 text-white rounded-lg group-hover:bg-white group-hover:text-emerald-700 transition flex-shrink-0">
+                <HiUpload className="text-sm sm:text-base" />
               </div>
-              <div className="text-left">
-                <div className="leading-tight">Import Excel</div>
-                <div className="text-[10px] text-emerald-100 font-normal">Input Massal</div>
+              <div className="text-left truncate">
+                <div className="leading-tight truncate">Import Excel</div>
+                <div className="text-[10px] text-emerald-100 font-normal truncate">Input Massal</div>
               </div>
             </button>
 
@@ -328,22 +372,22 @@ const StudentsPage = () => {
                 });
                 setShowModal(true);
               }}
-              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-xl shadow-md text-xs sm:text-sm transition group"
+              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-2.5 sm:px-4 py-2 rounded-xl shadow-md text-xs sm:text-sm transition group"
               title="Tambah data satu siswa baru secara manual"
             >
-              <div className="p-1.5 bg-white/20 text-white rounded-lg group-hover:bg-white group-hover:text-indigo-700 transition">
-                <HiPlus className="text-base" />
+              <div className="p-1.5 bg-white/20 text-white rounded-lg group-hover:bg-white group-hover:text-indigo-700 transition flex-shrink-0">
+                <HiPlus className="text-sm sm:text-base" />
               </div>
-              <div className="text-left">
-                <div className="leading-tight">Tambah Siswa</div>
-                <div className="text-[10px] text-indigo-100 font-normal">Input Manual</div>
+              <div className="text-left truncate">
+                <div className="leading-tight truncate">Tambah Siswa</div>
+                <div className="text-[10px] text-indigo-100 font-normal truncate">Input Manual</div>
               </div>
             </button>
           </div>
         </div>
 
         {/* Feature Highlights / Quick Info Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
           {/* Card 1: Tambah Siswa */}
           <div 
             onClick={() => {
@@ -417,59 +461,57 @@ const StudentsPage = () => {
           </div>
         </div>
 
-
         {/* Tingkat Tabs & Filter Box */}
-        <div className="bg-white rounded-xl shadow p-5 space-y-4">
+        <div className="bg-white rounded-xl shadow p-4 sm:p-5 space-y-4">
           {/* Quick Level Filter Tabs */}
-          <div className="flex items-center justify-between flex-wrap gap-3 pb-3 border-b border-gray-100">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider mr-1">Tingkat / Angkatan:</span>
+          <div className="flex items-center justify-between flex-wrap gap-2.5 pb-3 border-b border-gray-100">
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full flex-nowrap sm:flex-wrap">
               <button
                 onClick={() => handleGradeChange('ALL')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition ${
                   gradeFilter === 'ALL'
                     ? 'bg-indigo-600 text-white shadow-sm'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
-                Semua Tingkat (10 - 12)
+                Semua Tingkat
               </button>
               <button
                 onClick={() => handleGradeChange('X')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition ${
                   gradeFilter === 'X'
                     ? 'bg-indigo-600 text-white shadow-sm'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
-                Angkatan Kelas 10 (X)
+                Kelas 10 (X)
               </button>
               <button
                 onClick={() => handleGradeChange('XI')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition ${
                   gradeFilter === 'XI'
                     ? 'bg-indigo-600 text-white shadow-sm'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
-                Angkatan Kelas 11 (XI)
+                Kelas 11 (XI)
               </button>
               <button
                 onClick={() => handleGradeChange('XII')}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition ${
                   gradeFilter === 'XII'
                     ? 'bg-indigo-600 text-white shadow-sm'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
-                Angkatan Kelas 12 (XII)
+                Kelas 12 (XII)
               </button>
             </div>
 
             {/* Quick Summary Pill */}
-            <div className="flex items-center space-x-2 text-xs bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-lg font-medium border border-indigo-100">
-              <HiUsers className="text-base" />
-              <span>Data Tampil: <strong>{students.length}</strong> Siswa</span>
+            <div className="flex items-center space-x-1.5 text-xs bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-lg font-semibold border border-indigo-100 whitespace-nowrap">
+              <HiUsers className="text-sm" />
+              <span>{students.length} Siswa</span>
             </div>
           </div>
 
@@ -534,7 +576,7 @@ const StudentsPage = () => {
                   <th className="px-4 py-3.5 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[100px] whitespace-nowrap">Kelas</th>
                   <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[150px] whitespace-nowrap">No. Telp Ortu</th>
                   <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[180px] whitespace-nowrap">Akumulasi Poin</th>
-                  <th className="px-4 py-3.5 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-24 whitespace-nowrap">Aksi</th>
+                  <th className="px-4 py-3.5 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-36 min-w-[130px] whitespace-nowrap">Aksi</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -581,8 +623,8 @@ const StudentsPage = () => {
                   </tr>
                 ) : (
                   students.map((student, index) => (
-                    <tr key={student.id} className="hover:bg-indigo-50/40 transition">
-                      <td className="px-4 py-3.5 text-xs sm:text-sm text-gray-500 font-medium text-center whitespace-nowrap">{index + 1}</td>
+                    <tr key={student.id} className="hover:bg-indigo-50/30 transition">
+                      <td className="px-4 py-3.5 text-xs sm:text-sm text-center text-gray-500 font-medium whitespace-nowrap">{index + 1}</td>
                       <td className="px-4 py-3.5 whitespace-nowrap">
                         <div className="text-xs sm:text-sm font-semibold text-gray-900">{student.name}</div>
                       </td>
@@ -606,14 +648,24 @@ const StudentsPage = () => {
                         <PointBadge points={student.total_points || 0} />
                       </td>
                       <td className="px-4 py-3.5 text-center whitespace-nowrap">
-                        <button
-                          onClick={() => setStudentToDelete(student)}
-                          className="inline-flex items-center space-x-1 text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 border border-red-200 px-2.5 py-1 rounded-lg text-xs font-medium transition"
-                          title="Hapus data siswa ini"
-                        >
-                          <HiTrash className="text-sm" />
-                          <span>Hapus</span>
-                        </button>
+                        <div className="flex items-center justify-center space-x-1.5">
+                          <button
+                            onClick={() => handleOpenEdit(student)}
+                            className="inline-flex items-center space-x-1 text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-1 rounded-lg text-xs font-medium transition"
+                            title="Edit data siswa ini"
+                          >
+                            <HiPencilAlt className="text-sm" />
+                            <span>Edit</span>
+                          </button>
+                          <button
+                            onClick={() => setStudentToDelete(student)}
+                            className="inline-flex items-center space-x-1 text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 border border-red-200 px-2.5 py-1 rounded-lg text-xs font-medium transition"
+                            title="Hapus data siswa ini"
+                          >
+                            <HiTrash className="text-sm" />
+                            <span>Hapus</span>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -1048,6 +1100,107 @@ const StudentsPage = () => {
                     className="px-5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium shadow disabled:opacity-50"
                   >
                     {submitting ? 'Menyimpan...' : 'Simpan Siswa'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Modal Edit Data Siswa */}
+        {studentToEdit && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all">
+              <div className="px-6 py-4 bg-amber-50 border-b border-amber-100 flex justify-between items-center">
+                <h3 className="text-lg font-bold text-amber-950 flex items-center">
+                  <HiPencilAlt className="mr-2 text-amber-600 text-xl" />
+                  Edit Data Siswa
+                </h3>
+                <button
+                  onClick={() => setStudentToEdit(null)}
+                  className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white transition"
+                >
+                  <HiX className="text-xl" />
+                </button>
+              </div>
+
+              <form onSubmit={handleEditStudent} className="p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    NIPD / NISN <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.nipd}
+                    onChange={(e) => setEditFormData({ ...editFormData, nipd: e.target.value })}
+                    placeholder="Contoh: 0012345678"
+                    className="w-full rounded-lg border border-gray-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Nama Lengkap Siswa <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.name}
+                    onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })}
+                    placeholder="Nama lengkap siswa"
+                    className="w-full rounded-lg border border-gray-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Kelas <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    required
+                    value={editFormData.class_id}
+                    onChange={(e) => setEditFormData({ ...editFormData, class_id: e.target.value })}
+                    className="w-full rounded-lg border border-gray-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white"
+                  >
+                    <option value="">-- Pilih Kelas --</option>
+                    {classes.map((c) => (
+                      <option key={c.id} value={c.id}>Kelas {c.class_name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Nomor WhatsApp / Telp Orang Tua
+                  </label>
+                  <input
+                    type="text"
+                    value={editFormData.parent_phone}
+                    onChange={(e) => setEditFormData({ ...editFormData, parent_phone: e.target.value })}
+                    placeholder="Contoh: 081234567890"
+                    className="w-full rounded-lg border border-gray-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div className="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+                  <button
+                    type="button"
+                    onClick={() => setStudentToEdit(null)}
+                    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm font-medium"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={submittingEdit}
+                    className="px-5 py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium shadow disabled:opacity-50 flex items-center space-x-1.5"
+                  >
+                    {submittingEdit ? (
+                      <span>Menyimpan Perubahan...</span>
+                    ) : (
+                      <span>Simpan Perubahan</span>
+                    )}
                   </button>
                 </div>
               </form>

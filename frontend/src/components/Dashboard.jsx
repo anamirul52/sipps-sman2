@@ -300,42 +300,42 @@ const Dashboard = () => {
         </div>
         
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse min-w-[650px] sm:min-w-full">
             <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
               <tr>
-                <th className="px-3 py-2.5 text-center w-10">No</th>
-                <th className="px-3 py-2.5 w-44 sm:w-52">Nama Siswa</th>
-                <th className="px-2 py-2.5 text-center w-16">Kelas</th>
-                <th className="px-3 py-2.5 min-w-[130px]">Kategori Pelanggaran</th>
-                <th className="px-2 py-2.5 text-center w-20">Poin</th>
-                <th className="px-3 py-2.5 text-center w-40">Akumulasi Poin</th>
-                <th className="px-2.5 py-2.5 text-center w-24">Tanggal</th>
+                <th className="px-3 py-2.5 text-center w-10 whitespace-nowrap">No</th>
+                <th className="px-3.5 py-2.5 min-w-[150px] sm:min-w-[180px] whitespace-nowrap">Nama Siswa</th>
+                <th className="px-3 py-2.5 text-center min-w-[80px] whitespace-nowrap">Kelas</th>
+                <th className="px-3.5 py-2.5 min-w-[180px]">Kategori Pelanggaran</th>
+                <th className="px-3 py-2.5 text-center min-w-[75px] whitespace-nowrap">Poin</th>
+                <th className="px-3.5 py-2.5 text-center min-w-[140px] whitespace-nowrap">Akumulasi Poin</th>
+                <th className="px-3 py-2.5 text-center min-w-[95px] whitespace-nowrap">Tanggal</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white text-xs">
               {recentViolations.map((v, index) => (
                 <tr key={v.id} className="hover:bg-indigo-50/40 transition">
-                  <td className="px-3 py-2.5 text-center text-gray-500 font-semibold text-xs">{index + 1}</td>
-                  <td className="px-3 py-2.5">
+                  <td className="px-3 py-2.5 text-center text-gray-500 font-semibold text-xs whitespace-nowrap">{index + 1}</td>
+                  <td className="px-3.5 py-2.5 whitespace-nowrap">
                     <div className="font-bold text-gray-900 text-xs sm:text-sm leading-snug">{v.student_name}</div>
                   </td>
-                  <td className="px-2 py-2.5 text-center">
-                    <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200">
+                  <td className="px-3 py-2.5 text-center whitespace-nowrap">
+                    <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap min-w-[55px]">
                       {v.class_name || '-'}
                     </span>
                   </td>
-                  <td className="px-3 py-2.5 text-xs text-gray-800 font-medium leading-relaxed">
+                  <td className="px-3.5 py-2.5 text-xs text-gray-800 font-medium leading-relaxed min-w-[180px]">
                     {v.category_name}
                   </td>
-                  <td className="px-2 py-2.5 text-center whitespace-nowrap">
-                    <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-red-50 text-red-700 border border-red-200">
+                  <td className="px-3 py-2.5 text-center whitespace-nowrap">
+                    <span className="inline-flex items-center justify-center px-2 py-0.5 rounded font-bold text-[11px] bg-red-50 text-red-700 border border-red-200 whitespace-nowrap">
                       +{v.point_deduction} Poin
                     </span>
                   </td>
-                  <td className="px-3 py-2.5 text-center whitespace-nowrap">
+                  <td className="px-3.5 py-2.5 text-center whitespace-nowrap">
                     <PointBadge points={v.student_total_points} />
                   </td>
-                  <td className="px-2.5 py-2.5 text-center text-xs text-gray-600 whitespace-nowrap font-medium">
+                  <td className="px-3 py-2.5 text-center text-xs text-gray-600 whitespace-nowrap font-medium">
                     {new Date(v.violation_date).toLocaleDateString('id-ID', {
                       day: 'numeric',
                       month: 'short',
@@ -404,29 +404,29 @@ const Dashboard = () => {
 
       {/* ================= MODAL DETAIL 1: TOTAL SISWA & ROMBEL KELAS ================= */}
       {activeModal === 'students' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-4 animate-in fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-indigo-50/80">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-indigo-600 text-white rounded-xl">
-                  <HiUsers className="text-xl" />
+            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-gray-200 flex justify-between items-center bg-indigo-50/80">
+              <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <div className="p-2 bg-indigo-600 text-white rounded-xl flex-shrink-0">
+                  <HiUsers className="text-lg sm:text-xl" />
                 </div>
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-gray-900">Rincian Data Siswa & Rombel Kelas</h3>
-                  <p className="text-xs text-gray-500">Total {stats.totalStudents} siswa terdaftar di {stats.classesSummary.length} rombel kelas</p>
+                <div className="truncate">
+                  <h3 className="text-sm sm:text-lg font-bold text-gray-900 truncate">Rincian Data Siswa & Rombel</h3>
+                  <p className="text-[11px] sm:text-xs text-gray-500 truncate">Total {stats.totalStudents} siswa terdaftar di {stats.classesSummary.length} rombel kelas</p>
                 </div>
               </div>
               <button 
                 onClick={() => setActiveModal(null)}
-                className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white"
+                className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
               >
                 <HiX className="text-xl" />
               </button>
             </div>
 
             {/* Modal Content */}
-            <div className="p-6 overflow-y-auto flex-1 space-y-4">
+            <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
               {/* Search input */}
               <div className="relative">
                 <HiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
@@ -542,7 +542,7 @@ const Dashboard = () => {
                             <div className="text-[10px] text-gray-500 font-mono mt-0.5">NIPD: {v.nipd || '-'}</div>
                           </td>
                           <td className="px-3 py-3 text-center whitespace-nowrap">
-                            <span className="inline-block px-2.5 py-1 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200">
+                            <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap min-w-[55px]">
                               {v.class_name || '-'}
                             </span>
                           </td>
@@ -790,7 +790,7 @@ const Dashboard = () => {
                             <div className="text-[10px] text-gray-500 font-mono mt-0.5">NIPD: {v.nipd || '-'}</div>
                           </td>
                           <td className="px-3 py-3 text-center whitespace-nowrap">
-                            <span className="inline-block px-2.5 py-1 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200">
+                            <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap min-w-[55px]">
                               {v.class_name || '-'}
                             </span>
                           </td>
@@ -917,8 +917,8 @@ const Dashboard = () => {
                             <div className="font-bold text-gray-900">{s.student_name}</div>
                             <div className="text-[10px] text-gray-500 font-mono">NIPD: {s.nipd || '-'}</div>
                           </td>
-                          <td className="px-2 py-2.5 text-center">
-                            <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200">
+                          <td className="px-2 py-2.5 text-center whitespace-nowrap">
+                            <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap min-w-[55px]">
                               {s.class_name || '-'}
                             </span>
                           </td>

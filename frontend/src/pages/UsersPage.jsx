@@ -280,8 +280,8 @@ const UsersPage = () => {
         {/* Filters & Search */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-5 space-y-4">
           {/* Role Filter Tabs */}
-          <div className="flex items-center gap-1.5 flex-wrap pb-2 border-b border-gray-100">
-            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider mr-1">Filter Role:</span>
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-gray-100 flex-nowrap sm:flex-wrap">
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider mr-1 whitespace-nowrap hidden sm:inline">Filter Role:</span>
             {[
               { id: 'ALL', label: 'Semua Akun' },
               { id: 'admin', label: '👑 Super Admin' },
@@ -292,7 +292,7 @@ const UsersPage = () => {
               <button
                 key={tab.id}
                 onClick={() => setRoleFilter(tab.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition ${
                   roleFilter === tab.id
                     ? 'bg-indigo-600 text-white shadow-xs'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -310,7 +310,7 @@ const UsersPage = () => {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Cari berdasarkan nama guru atau email pengguna..."
+              placeholder="Cari berdasarkan nama lengkap atau nama pengguna / username..."
               className="w-full pl-10 pr-4 py-2.5 bg-gray-50/80 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
             />
           </div>
@@ -324,7 +324,7 @@ const UsersPage = () => {
                 <tr>
                   <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-10">No</th>
                   <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[160px]">Nama Lengkap</th>
-                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[180px]">Email / Login</th>
+                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[180px]">Nama Pengguna / Login</th>
                   <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Jabatan / Role</th>
                   <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Kelas Binaan</th>
                   <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Terdaftar</th>
@@ -451,19 +451,19 @@ const UsersPage = () => {
                   />
                 </div>
 
-                {/* Email Login */}
+                {/* Nama Pengguna / Login */}
                 <div>
                   <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
-                    Email Pengguna (Untuk Login) <span className="text-red-500">*</span>
+                    Nama Pengguna / Username (Untuk Login) <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
                     <HiOutlineMail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
                     <input
-                      type="email"
+                      type="text"
                       required
                       value={addForm.email}
                       onChange={(e) => setAddForm({ ...addForm, email: e.target.value })}
-                      placeholder="bambang.bk@sman2salatiga.sch.id"
+                      placeholder="Contoh: bambang, guru_bk, atau email"
                       className="pl-10 w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
                     />
                   </div>
@@ -591,13 +591,14 @@ const UsersPage = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
-                    Email Pengguna <span className="text-red-500">*</span>
+                    Nama Pengguna / Username (Untuk Login) <span className="text-red-500">*</span>
                   </label>
                   <input
-                    type="email"
+                    type="text"
                     required
                     value={editForm.email}
                     onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                    placeholder="Contoh: bambang, guru_bk, atau email"
                     className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
                   />
                 </div>

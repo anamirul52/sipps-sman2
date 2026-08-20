@@ -470,6 +470,54 @@ exports.downloadTemplate = async (req, res) => {
     }
 };
 
+exports.updateStudent = async (req, res) => {
+    const connection = await pool.getConnection();
+    try {
+        const { id } = req.params;
+        const nipd = req.body.nipd || req.body.nisn;
+        const { name, class_id, parent_phone } = req.body;
+
+        if (!nipd || !name || !class_id) {
+            return res.status(400).json({ success: false, message: 'NIPD, Nama Siswa, dan Kelas wajib diisi' });
+        }
+
+        await connection.beginTransaction();
+
+        // Cek apakah siswa ada
+        const [existing] = await connection.query('SELECT * FROM students WHERE id = ?', [id]);
+        if (existing.length === 0) {
+            await connection.rollback();
+            return res.status(404).json({ success: false, message: 'Data siswa tidak ditemukan' });
+        }
+
+        // Cek duplikasi NIPD dengan siswa lain
+        const [duplicateNipd] = await connection.query('SELECT id FROM students WHERE nipd = ? AND id != ?', [nipd, id]);
+        if (duplicateNipd.length > 0) {
+            await connection.rollback();
+            return res.status(400).json({ success: false, message: 'NIPD/NISN sudah digunakan oleh siswa lain' });
+        }
+
+        await connection.query(
+            'UPDATE students SET nipd = ?, name = ?, class_id = ?, parent_phone = ? WHERE id = ?',
+            [nipd, name, class_id, parent_phone || '', id]
+        );
+
+        await connection.commit();
+
+        res.json({
+            success: true,
+            message: `Data siswa "${name}" berhasil diperbarui!`,
+            data: { id, nipd, name, class_id, parent_phone }
+        });
+    } catch (error) {
+        await connection.rollback();
+        console.error('Error in updateStudent:', error);
+        res.status(500).json({ success: false, message: 'Gagal memperbarui data siswa: ' + error.message });
+    } finally {
+        connection.release();
+    }
+};
+
 exports.deleteStudent = async (req, res) => {
     const connection = await pool.getConnection();
     try {

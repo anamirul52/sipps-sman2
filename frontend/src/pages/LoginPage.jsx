@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
-import { HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi';
+import { HiOutlineUser, HiOutlineLockClosed } from 'react-icons/hi';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { user, login } = useAuth();
@@ -21,11 +21,11 @@ const LoginPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await login(email, password);
+      await login(username, password);
       toast.success('Login berhasil! Selamat datang.');
       navigate('/', { replace: true });
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Login gagal. Periksa kembali email dan password Anda.');
+      toast.error(err.response?.data?.message || 'Login gagal. Periksa kembali nama pengguna dan kata sandi Anda.');
     } finally {
       setLoading(false);
     }
@@ -54,19 +54,19 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">
-              Email Pengguna
+              Nama Pengguna
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                <HiOutlineMail className="text-gray-400 text-lg" />
+                <HiOutlineUser className="text-gray-400 text-lg" />
               </div>
               <input
-                type="email"
+                type="text"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="pl-10 w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                placeholder="email@school.id"
+                placeholder="Masukkan nama pengguna / email"
               />
             </div>
           </div>

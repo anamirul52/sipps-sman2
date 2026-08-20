@@ -30,22 +30,26 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const identifier = req.body.username || req.body.email;
+        const { password } = req.body;
 
-        if (!email || !password) {
-            return res.status(400).json({ success: false, message: 'Email dan password wajib diisi' });
+        if (!identifier || !password) {
+            return res.status(400).json({ success: false, message: 'Nama pengguna/email dan password wajib diisi' });
         }
 
-        const [users] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+        const [users] = await pool.query(
+            'SELECT * FROM users WHERE email = ? OR name = ?',
+            [identifier, identifier]
+        );
         const user = users[0];
 
         if (!user) {
-            return res.status(401).json({ success: false, message: 'Email atau password salah' });
+            return res.status(401).json({ success: false, message: 'Nama pengguna atau password salah' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(401).json({ success: false, message: 'Email atau password salah' });
+            return res.status(401).json({ success: false, message: 'Nama pengguna atau password salah' });
         }
 
         const payload = {
