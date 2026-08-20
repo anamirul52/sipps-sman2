@@ -35,14 +35,27 @@ if (!global._pgPool) {
 const pool = global._pgPool;
 
 // Helper function to translate MySQL SQL queries into PostgreSQL compliant SQL
-function translateMySqlToPostgreSql(sql) {
-    let index = 0;
-    let convertedSql = sql;
+function formatQueryAndParams(sql, rawParams = []) {
+    let flatParams = [];
+    let paramIndex = 0;
 
-    // 1. Convert `?` placeholders to `$1, $2, $3, ...`
-    convertedSql = convertedSql.replace(/\?/g, () => {
-        index += 1;
-        return `$${index}`;
+    // 1. Convert `?` placeholders to `$1, $2, $3, ...` and handle array parameters for `IN (?)`
+    let convertedSql = sql.replace(/\?/g, () => {
+        const paramVal = rawParams[paramIndex];
+        paramIndex += 1;
+
+        if (Array.isArray(paramVal)) {
+            // Expand array parameter: IN (?) -> IN ($1, $2, $3, ...)
+            if (paramVal.length === 0) return 'NULL';
+            const placeholders = paramVal.map(val => {
+                flatParams.push(val);
+                return `$${flatParams.length}`;
+            });
+            return placeholders.join(', ');
+        } else {
+            flatParams.push(paramVal);
+            return `$${flatParams.length}`;
+        }
     });
 
     // 2. Convert common MySQL date functions
@@ -50,11 +63,9 @@ function translateMySqlToPostgreSql(sql) {
     convertedSql = convertedSql.replace(/\bNOW\(\)/gi, 'CURRENT_TIMESTAMP');
 
     // 3. Convert GROUP_CONCAT to STRING_AGG
-    // e.g. GROUP_CONCAT(c.id SEPARATOR ',') -> STRING_AGG(c.id::text, ',')
     convertedSql = convertedSql.replace(/GROUP_CONCAT\s*\(\s*(DISTINCT\s+)?c\.id\s+SEPARATOR\s+['"]([^'"]+)['"]\s*\)/gi, (match, dist, sep) => {
         return `STRING_AGG(${dist || ''}c.id::text, '${sep}')`;
     });
-    // e.g. GROUP_CONCAT(c.class_name SEPARATOR ', ') -> STRING_AGG(c.class_name, ', ')
     convertedSql = convertedSql.replace(/GROUP_CONCAT\s*\(\s*(DISTINCT\s+)?([^,)]+)\s+SEPARATOR\s+['"]([^'"]+)['"]\s*\)/gi, (match, dist, col, sep) => {
         return `STRING_AGG(${dist || ''}${col.trim()}, '${sep}')`;
     });
@@ -67,28 +78,26 @@ function translateMySqlToPostgreSql(sql) {
         return `CASE split_part(${col.trim()}, '${sep}', 1) WHEN 'X' THEN 1 WHEN 'XI' THEN 2 WHEN 'XII' THEN 3 ELSE 4 END`;
     });
 
-    // 5. Convert FIELD(u.role, 'admin', 'bk', 'wali_kelas', 'piket')
+    // 5. Convert FIELD(u.role, ...)
     convertedSql = convertedSql.replace(/FIELD\s*\(\s*u\.role\s*,\s*['"]admin['"]\s*,\s*['"]bk['"]\s*,\s*['"]wali_kelas['"]\s*,\s*['"]piket['"]\s*\)/gi, () => {
         return `CASE u.role WHEN 'admin' THEN 1 WHEN 'bk' THEN 2 WHEN 'wali_kelas' THEN 3 WHEN 'piket' THEN 4 ELSE 5 END`;
     });
-
-    // 6. Convert FIELD(u.role, 'admin', 'bk', 'piket', 'wali_kelas')
     convertedSql = convertedSql.replace(/FIELD\s*\(\s*u\.role\s*,\s*['"]admin['"]\s*,\s*['"]bk['"]\s*,\s*['"]piket['"]\s*,\s*['"]wali_kelas['"]\s*\)/gi, () => {
         return `CASE u.role WHEN 'admin' THEN 1 WHEN 'bk' THEN 2 WHEN 'piket' THEN 3 WHEN 'wali_kelas' THEN 4 ELSE 5 END`;
     });
 
-    // 7. For INSERT statements without RETURNING, append RETURNING id so result.insertId is accessible
+    // 6. For INSERT statements without RETURNING, append RETURNING id so result.insertId is accessible
     if (/^\s*INSERT\s+INTO\s+/i.test(convertedSql) && !/\bRETURNING\b/i.test(convertedSql)) {
         convertedSql = convertedSql.trim().replace(/;+$/, '') + ' RETURNING id';
     }
 
-    return convertedSql;
+    return { formattedSql: convertedSql, flatParams };
 }
 
 // Wrapper for Query execution returning [rows, result] like mysql2/promise
 async function executeQuery(target, sql, params = []) {
-    const formattedSql = translateMySqlToPostgreSql(sql);
-    const flatParams = Array.isArray(params) ? params : [];
+    const rawParams = Array.isArray(params) ? params : [];
+    const { formattedSql, flatParams } = formatQueryAndParams(sql, rawParams);
     
     const result = await target.query(formattedSql, flatParams);
     
