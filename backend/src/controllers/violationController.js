@@ -1,4 +1,5 @@
 const pool = require('../config/db');
+const XLSX = require('xlsx');
 
 // Kebijakan 7 Jenjang Sanksi Berdasarkan Total Poin
 const SANCTION_THRESHOLDS = [
@@ -44,36 +45,57 @@ exports.create = async (req, res) => {
     const connection = await pool.getConnection();
     
     try {
-        const { student_id, category_id, violation_date, note, photo_proof_url } = req.body;
+        const { student_id, category_id, category_ids, violation_date, note, photo_proof_url } = req.body;
         const reported_by_teacher_id = req.user.id;
 
-        if (!student_id || !category_id || !violation_date) {
-            return res.status(400).json({ success: false, message: 'student_id, category_id, dan violation_date wajib diisi' });
+        // Normalisasi category_ids (bisa array atau single ID)
+        let selectedCategoryIds = [];
+        if (Array.isArray(category_ids) && category_ids.length > 0) {
+            selectedCategoryIds = category_ids.map(id => parseInt(id)).filter(id => !isNaN(id));
+        } else if (Array.isArray(category_id) && category_id.length > 0) {
+            selectedCategoryIds = category_id.map(id => parseInt(id)).filter(id => !isNaN(id));
+        } else if (category_id) {
+            selectedCategoryIds = [parseInt(category_id)];
+        }
+
+        if (!student_id || selectedCategoryIds.length === 0 || !violation_date) {
+            return res.status(400).json({ success: false, message: 'student_id, minimal 1 kategori pelanggaran, dan violation_date wajib diisi' });
         }
 
         await connection.beginTransaction();
 
-        // Ambil info kategori (untuk point deduction)
-        const [categories] = await connection.query('SELECT point_deduction, name FROM violation_categories WHERE id = ?', [category_id]);
+        // Ambil info seluruh kategori yang dipilih
+        const [categories] = await connection.query(
+            'SELECT id, point_deduction, name FROM violation_categories WHERE id IN (?)',
+            [selectedCategoryIds]
+        );
+
         if (categories.length === 0) {
             throw new Error('Kategori pelanggaran tidak ditemukan');
         }
-        const pointDeduction = categories[0].point_deduction;
-        const categoryName = categories[0].name;
 
-        // Insert ke student_violations
-        const [insertViolation] = await connection.query(
-            `INSERT INTO student_violations 
-            (student_id, category_id, reported_by_teacher_id, violation_date, note, photo_proof_url, status) 
-            VALUES (?, ?, ?, ?, ?, ?, 'pending')`,
-            [student_id, category_id, reported_by_teacher_id, violation_date, note, photo_proof_url || null]
-        );
-        const violationId = insertViolation.insertId;
+        let totalPointDeduction = 0;
+        let createdViolationIds = [];
+        let categoryNames = [];
+
+        // Insert ke student_violations untuk setiap kategori yang dipilih
+        for (const cat of categories) {
+            totalPointDeduction += cat.point_deduction;
+            categoryNames.push(cat.name);
+
+            const [insertViolation] = await connection.query(
+                `INSERT INTO student_violations 
+                (student_id, category_id, reported_by_teacher_id, violation_date, note, photo_proof_url, status) 
+                VALUES (?, ?, ?, ?, ?, ?, 'pending')`,
+                [student_id, cat.id, reported_by_teacher_id, violation_date, note, photo_proof_url || null]
+            );
+            createdViolationIds.push(insertViolation.insertId);
+        }
 
         // Update total poin siswa
         await connection.query(
             'UPDATE students SET total_points = total_points + ? WHERE id = ?',
-            [pointDeduction, student_id]
+            [totalPointDeduction, student_id]
         );
 
         // Ambil total poin terbaru
@@ -91,7 +113,7 @@ exports.create = async (req, res) => {
                 );
 
                 if (!existingSanction) {
-                    const violationSummary = `Siswa telah mencapai ${newTotalPoints} poin pelanggaran (Ambang Batas: ${threshold.points} Poin). Pelanggaran terbaru: ${categoryName} (+${pointDeduction} poin). Petugas: ${threshold.officers}. Keterangan: ${threshold.notes || '-'}.`;
+                    const violationSummary = `Siswa telah mencapai ${newTotalPoints} poin pelanggaran (Ambang Batas: ${threshold.points} Poin). Pelanggaran terbaru: ${categoryNames.join(', ')} (+${totalPointDeduction} poin). Petugas: ${threshold.officers}. Keterangan: ${threshold.notes || '-'}.`;
                     
                     const [insertSanction] = await connection.query(
                         'INSERT INTO sanctions_letters (student_id, violation_summary, point_threshold, status_letter) VALUES (?, ?, ?, ?)',
@@ -106,9 +128,10 @@ exports.create = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: 'Pelanggaran berhasil dicatat',
+            message: `${selectedCategoryIds.length} pelanggaran berhasil dicatat (+${totalPointDeduction} poin)`,
             data: {
-                violation_id: violationId,
+                violation_ids: createdViolationIds,
+                total_point_deduction: totalPointDeduction,
                 new_total_points: newTotalPoints,
                 sanctions_created: newSanctions
             }
@@ -128,6 +151,36 @@ exports.getAll = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
         const offset = (page - 1) * limit;
+        const { search = '', class_id = '', start_date = '', end_date = '' } = req.query;
+
+        let whereClause = ' WHERE 1=1 ';
+        const params = [];
+        const countParams = [];
+
+        if (search) {
+            whereClause += ' AND (s.name LIKE ? OR s.nipd LIKE ? OR vc.name LIKE ? OR c.class_name LIKE ? OR sv.note LIKE ?)';
+            const searchParam = `%${search}%`;
+            params.push(searchParam, searchParam, searchParam, searchParam, searchParam);
+            countParams.push(searchParam, searchParam, searchParam, searchParam, searchParam);
+        }
+
+        if (class_id) {
+            whereClause += ' AND s.class_id = ?';
+            params.push(class_id);
+            countParams.push(class_id);
+        }
+
+        if (start_date) {
+            whereClause += ' AND sv.violation_date >= ?';
+            params.push(start_date);
+            countParams.push(start_date);
+        }
+
+        if (end_date) {
+            whereClause += ' AND sv.violation_date <= ?';
+            params.push(end_date);
+            countParams.push(end_date);
+        }
 
         const query = `
             SELECT 
@@ -141,17 +194,29 @@ exports.getAll = async (req, res) => {
             LEFT JOIN classes c ON s.class_id = c.id
             JOIN violation_categories vc ON sv.category_id = vc.id
             LEFT JOIN users u ON sv.reported_by_teacher_id = u.id
-            ORDER BY sv.created_at DESC
+            ${whereClause}
+            ORDER BY sv.violation_date DESC, sv.id DESC
             LIMIT ? OFFSET ?
         `;
 
-        const [violations] = await pool.query(query, [limit, offset]);
-        const [[{ total }]] = await pool.query('SELECT COUNT(*) as total FROM student_violations');
+        params.push(limit, offset);
+
+        const [violations] = await pool.query(query, params);
+        
+        const countQuery = `
+            SELECT COUNT(*) as total 
+            FROM student_violations sv
+            JOIN students s ON sv.student_id = s.id
+            LEFT JOIN classes c ON s.class_id = c.id
+            JOIN violation_categories vc ON sv.category_id = vc.id
+            ${whereClause}
+        `;
+        const [[{ total }]] = await pool.query(countQuery, countParams);
 
         res.json({
             success: true,
             data: violations,
-            pagination: { page, limit, total, totalPages: Math.ceil(total / limit) }
+            pagination: { page, limit, total, totalPages: Math.ceil(total / limit) || 1 }
         });
     } catch (error) {
         console.error('Error in violation getAll:', error);
@@ -363,5 +428,190 @@ exports.getCategories = async (req, res) => {
     } catch (error) {
         console.error('Error in getCategories:', error);
         res.status(500).json({ success: false, message: 'Gagal mengambil kategori pelanggaran' });
+    }
+};
+
+/**
+ * EXPORT DATA PELANGGARAN SISWA KE EXCEL
+ * Mendukung filter search, class_id, grade, date range, dan category
+ * Menghasilkan multi-sheet Excel (Riwayat Pelanggaran, Rekap Siswa, Rekap Kelas)
+ */
+exports.exportExcel = async (req, res) => {
+    try {
+        const { search = '', class_id = '', grade = '', start_date = '', end_date = '', category_id = '' } = req.query;
+
+        let query = `
+            SELECT 
+                sv.id,
+                sv.violation_date,
+                s.nipd,
+                s.name as student_name,
+                c.class_name,
+                vc.name as category_name,
+                vc.point_deduction,
+                s.total_points as student_total_points,
+                u.name as reported_by,
+                sv.note
+            FROM student_violations sv
+            JOIN students s ON sv.student_id = s.id
+            LEFT JOIN classes c ON s.class_id = c.id
+            JOIN violation_categories vc ON sv.category_id = vc.id
+            LEFT JOIN users u ON sv.reported_by_teacher_id = u.id
+            WHERE 1=1
+        `;
+        const params = [];
+
+        if (search) {
+            query += ' AND (s.name LIKE ? OR s.nipd LIKE ? OR vc.name LIKE ? OR c.class_name LIKE ? OR sv.note LIKE ?)';
+            params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
+        }
+
+        if (class_id) {
+            query += ' AND s.class_id = ?';
+            params.push(class_id);
+        }
+
+        if (grade && grade !== 'ALL') {
+            query += ' AND c.class_name LIKE ?';
+            params.push(`${grade}-%`);
+        }
+
+        if (category_id) {
+            query += ' AND sv.category_id = ?';
+            params.push(category_id);
+        }
+
+        if (start_date) {
+            query += ' AND sv.violation_date >= ?';
+            params.push(start_date);
+        }
+
+        if (end_date) {
+            query += ' AND sv.violation_date <= ?';
+            params.push(end_date);
+        }
+
+        query += ' ORDER BY sv.violation_date DESC, sv.id DESC';
+
+        const [violations] = await pool.query(query, params);
+
+        const wb = XLSX.utils.book_new();
+
+        // Helper untuk status sanksi resmi
+        function getSanctionStatus(points) {
+            if (points >= 100) return 'Orang Tua/Wali Menarik Kembali Peserta Didik dari Sekolah (≥100 Poin)';
+            if (points >= 76) return 'Pemberian Skorsing (76-99 Poin)';
+            if (points >= 51) return 'Peringatan Tertulis III & Surat Pernyataan Bermaterai (51-75 Poin)';
+            if (points >= 26) return 'Peringatan Tertulis II (26-50 Poin)';
+            if (points >= 21) return 'Peringatan Tertulis I (21-25 Poin)';
+            if (points >= 11) return 'Penyelesaian Langsung (11-20 Poin) - Pemberitahuan Ortu';
+            return 'Penyelesaian Langsung (0-10 Poin)';
+        }
+
+        // Sheet 1: Daftar Riwayat Pelanggaran
+        const rowsSheet1 = violations.map((v, i) => ({
+            'No': i + 1,
+            'Tanggal': v.violation_date ? new Date(v.violation_date).toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '-',
+            'NIPD': v.nipd || '-',
+            'Nama Siswa': v.student_name,
+            'Kelas': v.class_name || '-',
+            'Bentuk Pelanggaran': v.category_name,
+            'Poin': v.point_deduction,
+            'Akumulasi Poin Siswa': v.student_total_points,
+            'Status Sanksi Terakhir': getSanctionStatus(v.student_total_points),
+            'Petugas / Guru Pelapor': v.reported_by || 'Sistem',
+            'Catatan / Kronologi': v.note || '-'
+        }));
+
+        const ws1 = XLSX.utils.json_to_sheet(rowsSheet1.length > 0 ? rowsSheet1 : [
+            { 'No': '-', 'Tanggal': '-', 'NIPD': '-', 'Nama Siswa': 'Belum ada catatan pelanggaran', 'Kelas': '-', 'Bentuk Pelanggaran': '-', 'Poin': 0, 'Akumulasi Poin Siswa': 0, 'Status Sanksi Terakhir': '-', 'Petugas / Guru Pelapor': '-', 'Catatan / Kronologi': '-' }
+        ]);
+        ws1['!cols'] = [
+            { wch: 6 },  // No
+            { wch: 14 }, // Tanggal
+            { wch: 16 }, // NIPD
+            { wch: 30 }, // Nama Siswa
+            { wch: 10 }, // Kelas
+            { wch: 45 }, // Pelanggaran
+            { wch: 8 },  // Poin
+            { wch: 20 }, // Akumulasi Poin
+            { wch: 45 }, // Status Sanksi
+            { wch: 24 }, // Pelapor
+            { wch: 40 }  // Catatan
+        ];
+        XLSX.utils.book_append_sheet(wb, ws1, 'Riwayat Pelanggaran');
+
+        // Sheet 2: Rekap Per Siswa yang Memiliki Catatan
+        const [studentRecap] = await pool.query(`
+            SELECT 
+                s.nipd,
+                s.name as student_name,
+                c.class_name,
+                s.total_points,
+                COUNT(sv.id) as total_violations,
+                s.parent_phone
+            FROM students s
+            LEFT JOIN classes c ON s.class_id = c.id
+            JOIN student_violations sv ON sv.student_id = s.id
+            GROUP BY s.id
+            ORDER BY s.total_points DESC, s.name ASC
+        `);
+
+        const rowsSheet2 = studentRecap.map((sr, i) => ({
+            'Peringkat': i + 1,
+            'NIPD': sr.nipd || '-',
+            'Nama Siswa': sr.student_name,
+            'Kelas': sr.class_name || '-',
+            'Total Kasus': sr.total_violations,
+            'Total Akumulasi Poin': sr.total_points,
+            'Status Penanganan / Sanksi': getSanctionStatus(sr.total_points),
+            'No HP Orang Tua': sr.parent_phone || '-'
+        }));
+
+        const ws2 = XLSX.utils.json_to_sheet(rowsSheet2.length > 0 ? rowsSheet2 : [
+            { 'Peringkat': '-', 'NIPD': '-', 'Nama Siswa': 'Belum ada siswa dengan catatan pelanggaran', 'Kelas': '-', 'Total Kasus': 0, 'Total Akumulasi Poin': 0, 'Status Penanganan / Sanksi': '-', 'No HP Orang Tua': '-' }
+        ]);
+        ws2['!cols'] = [
+            { wch: 10 }, { wch: 16 }, { wch: 30 }, { wch: 12 }, { wch: 14 }, { wch: 20 }, { wch: 45 }, { wch: 20 }
+        ];
+        XLSX.utils.book_append_sheet(wb, ws2, 'Rekap Siswa Terpanggil');
+
+        // Sheet 3: Rekap Per Kelas
+        const [classRecap] = await pool.query(`
+            SELECT 
+                c.class_name,
+                COUNT(sv.id) as violation_count,
+                COALESCE(SUM(vc.point_deduction), 0) as total_class_points,
+                COUNT(DISTINCT s.id) as students_involved
+            FROM classes c
+            LEFT JOIN students s ON s.class_id = c.id
+            LEFT JOIN student_violations sv ON sv.student_id = s.id
+            LEFT JOIN violation_categories vc ON sv.category_id = vc.id
+            GROUP BY c.id, c.class_name
+            ORDER BY FIELD(SUBSTRING_INDEX(c.class_name, '-', 1), 'X', 'XI', 'XII'), c.class_name ASC
+        `);
+
+        const rowsSheet3 = classRecap.map((cr, i) => ({
+            'No': i + 1,
+            'Kelas': cr.class_name,
+            'Jumlah Kasus Pelanggaran': cr.violation_count,
+            'Total Poin Pelanggaran': Number(cr.total_class_points),
+            'Jumlah Siswa Terlibat': cr.students_involved
+        }));
+
+        const ws3 = XLSX.utils.json_to_sheet(rowsSheet3);
+        ws3['!cols'] = [{ wch: 6 }, { wch: 14 }, { wch: 24 }, { wch: 24 }, { wch: 22 }];
+        XLSX.utils.book_append_sheet(wb, ws3, 'Rekap Per Kelas');
+
+        const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+        const dateStr = new Date().toISOString().split('T')[0];
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename="Laporan_Pelanggaran_Siswa_SMAN2_${dateStr}.xlsx"`);
+        res.send(buffer);
+
+    } catch (error) {
+        console.error('Error in exportExcel violations:', error);
+        res.status(500).json({ success: false, message: 'Gagal mengekspor data pelanggaran: ' + error.message });
     }
 };

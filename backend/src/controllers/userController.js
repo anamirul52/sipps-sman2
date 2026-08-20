@@ -17,8 +17,8 @@ exports.getAll = async (req, res) => {
                 u.email, 
                 u.role, 
                 u.created_at,
-                c.id as assigned_class_id,
-                c.class_name as assigned_class_name
+                GROUP_CONCAT(c.id SEPARATOR ',') as assigned_class_id,
+                GROUP_CONCAT(c.class_name SEPARATOR ', ') as assigned_class_name
             FROM users u
             LEFT JOIN classes c ON c.homeroom_teacher_id = u.id
             WHERE 1=1
@@ -35,7 +35,8 @@ exports.getAll = async (req, res) => {
             params.push(role);
         }
 
-        query += ` ORDER BY 
+        query += ` GROUP BY u.id
+            ORDER BY 
             FIELD(u.role, 'admin', 'bk', 'wali_kelas', 'piket'), 
             u.name ASC`;
 

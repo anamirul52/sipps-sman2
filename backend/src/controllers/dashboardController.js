@@ -22,7 +22,7 @@ exports.getStats = async (req, res) => {
             ORDER BY sv.created_at DESC
         `);
 
-        // Rincian Semua Pelanggaran (50 Terkini)
+        // Rincian Semua Pelanggaran
         const [allViolationsList] = await pool.query(`
             SELECT 
                 sv.id, sv.student_id, sv.violation_date, sv.note,
@@ -34,7 +34,6 @@ exports.getStats = async (req, res) => {
             LEFT JOIN classes c ON s.class_id = c.id
             JOIN violation_categories vc ON sv.category_id = vc.id
             ORDER BY sv.violation_date DESC, sv.created_at DESC
-            LIMIT 50
         `);
 
         // Rincian Siswa Perlu Penanganan (>= 21 Poin)

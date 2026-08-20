@@ -4,6 +4,7 @@ const violationController = require('../controllers/violationController');
 const { verifyToken, authorizeRoles } = require('../middleware/auth');
 
 router.post('/', verifyToken, authorizeRoles('admin', 'bk', 'piket'), violationController.create);
+router.get('/export', verifyToken, authorizeRoles('admin', 'bk', 'piket', 'wali_kelas'), violationController.exportExcel);
 router.get('/', verifyToken, authorizeRoles('admin', 'bk', 'piket', 'wali_kelas'), violationController.getAll);
 router.get('/:id', verifyToken, authorizeRoles('admin', 'bk', 'piket', 'wali_kelas'), violationController.getById);
 router.put('/:id', verifyToken, authorizeRoles('admin', 'bk', 'piket'), violationController.update);

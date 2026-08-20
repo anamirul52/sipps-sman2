@@ -13,7 +13,9 @@ import {
   HiArrowRight,
   HiSearch,
   HiOutlineDocumentText,
-  HiOutlineEye
+  HiOutlineEye,
+  HiDocumentDownload,
+  HiFilter
 } from 'react-icons/hi';
 import toast from 'react-hot-toast';
 
@@ -38,6 +40,8 @@ const Dashboard = () => {
   const [selectedStudentForSanction, setSelectedStudentForSanction] = useState(null);
   const [classSearch, setClassSearch] = useState('');
   const [allViolationsSearch, setAllViolationsSearch] = useState('');
+  const [allViolationsGradeFilter, setAllViolationsGradeFilter] = useState('ALL'); // 'ALL' | 'X' | 'XI' | 'XII'
+  const [allViolationsClassFilter, setAllViolationsClassFilter] = useState('');
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -65,6 +69,28 @@ const Dashboard = () => {
 
     fetchDashboardData();
   }, []);
+
+  const handleExportViolations = async () => {
+    const toastId = toast.loading('Menyiapkan file Excel pelanggaran...');
+    try {
+      const response = await api.get('/violations/export', { responseType: 'blob' });
+      const blob = new Blob([response.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      const dateStr = new Date().toISOString().split('T')[0];
+      link.setAttribute('download', `Laporan_Pelanggaran_Siswa_SMAN2_${dateStr}.xlsx`);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      toast.success('✅ File Excel berhasil diunduh!', { id: toastId });
+    } catch (err) {
+      toast.error('Gagal mengekspor data pelanggaran', { id: toastId });
+    }
+  };
 
   // 7 Jenjang Sanksi Resmi
   const sanctionTiers = [
@@ -123,13 +149,32 @@ const Dashboard = () => {
     c.class_name.toLowerCase().includes(classSearch.toLowerCase())
   );
 
-  const filteredAllViolations = stats.allViolationsList.filter(v => 
-    (v.student_name || '').toLowerCase().includes(allViolationsSearch.toLowerCase()) ||
-    (v.nipd || '').toLowerCase().includes(allViolationsSearch.toLowerCase()) ||
-    (v.class_name || '').toLowerCase().includes(allViolationsSearch.toLowerCase()) ||
-    (v.category_name || '').toLowerCase().includes(allViolationsSearch.toLowerCase()) ||
-    (v.note || '').toLowerCase().includes(allViolationsSearch.toLowerCase())
-  );
+  // Perhitungan Kategori Kelas untuk Modal Rekapitulasi
+  const totalAllViolationsCount = stats.allViolationsList.length;
+  const gradeXCount = stats.allViolationsList.filter(v => (v.class_name || '').startsWith('X-')).length;
+  const gradeXICount = stats.allViolationsList.filter(v => (v.class_name || '').startsWith('XI-')).length;
+  const gradeXIICount = stats.allViolationsList.filter(v => (v.class_name || '').startsWith('XII-')).length;
+
+  const availableClassesForFilter = stats.classesSummary.length > 0
+    ? stats.classesSummary.filter(c => allViolationsGradeFilter === 'ALL' || c.class_name.startsWith(allViolationsGradeFilter + '-'))
+    : [];
+
+  const filteredAllViolations = stats.allViolationsList.filter(v => {
+    const text = allViolationsSearch.toLowerCase();
+    const matchesSearch = !text || (
+      (v.student_name || '').toLowerCase().includes(text) ||
+      (v.nipd || '').toLowerCase().includes(text) ||
+      (v.class_name || '').toLowerCase().includes(text) ||
+      (v.category_name || '').toLowerCase().includes(text) ||
+      (v.note || '').toLowerCase().includes(text)
+    );
+
+    const className = v.class_name || '';
+    const matchesGrade = allViolationsGradeFilter === 'ALL' || className.startsWith(allViolationsGradeFilter + '-');
+    const matchesClass = !allViolationsClassFilter || className === allViolationsClassFilter;
+
+    return matchesSearch && matchesGrade && matchesClass;
+  });
 
   if (loading) {
     return (
@@ -581,23 +626,145 @@ const Dashboard = () => {
 
             {/* Modal Content */}
             <div className="p-6 overflow-y-auto flex-1 space-y-4">
-              {/* Search input */}
-              <div className="relative">
-                <HiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
-                <input
-                  type="text"
-                  placeholder="Cari nama siswa, NIPD, kelas, atau jenis pelanggaran..."
-                  value={allViolationsSearch}
-                  onChange={(e) => setAllViolationsSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-gray-50/50 focus:bg-white transition"
-                />
+              {/* Search input & Class Dropdown */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="sm:col-span-2 relative">
+                  <HiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
+                  <input
+                    type="text"
+                    placeholder="Cari nama siswa, NIPD, kelas, atau jenis pelanggaran..."
+                    value={allViolationsSearch}
+                    onChange={(e) => setAllViolationsSearch(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-gray-50/50 focus:bg-white transition"
+                  />
+                </div>
+                <div>
+                  <select
+                    value={allViolationsClassFilter}
+                    onChange={(e) => setAllViolationsClassFilter(e.target.value)}
+                    className="w-full px-3 py-2.5 text-xs sm:text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white transition text-gray-700 font-medium"
+                  >
+                    <option value="">-- Semua Rombel Kelas --</option>
+                    {availableClassesForFilter.map((c) => (
+                      <option key={c.id || c.class_name} value={c.class_name}>
+                        Kelas {c.class_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
-              {stats.allViolationsList.length === 0 ? (
+              {/* Category Per Kelas / Angkatan Quick Tabs */}
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-1 pb-1 border-b border-gray-100">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="text-xs font-semibold text-gray-500 mr-1 flex items-center gap-1">
+                    <HiFilter className="text-xs" /> Kategori:
+                  </span>
+                  
+                  {/* Tab Semua */}
+                  <button
+                    onClick={() => {
+                      setAllViolationsGradeFilter('ALL');
+                      setAllViolationsClassFilter('');
+                    }}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                      allViolationsGradeFilter === 'ALL' && !allViolationsClassFilter
+                        ? 'bg-purple-600 text-white shadow-2xs'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    <span>Semua Kelas</span>
+                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                      allViolationsGradeFilter === 'ALL' && !allViolationsClassFilter ? 'bg-purple-800/60 text-white' : 'bg-gray-200 text-gray-700'
+                    }`}>
+                      {totalAllViolationsCount}
+                    </span>
+                  </button>
+
+                  {/* Tab Kelas X */}
+                  <button
+                    onClick={() => {
+                      setAllViolationsGradeFilter('X');
+                      setAllViolationsClassFilter('');
+                    }}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                      allViolationsGradeFilter === 'X'
+                        ? 'bg-indigo-600 text-white shadow-2xs'
+                        : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200'
+                    }`}
+                  >
+                    <span>Kelas X (10)</span>
+                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                      allViolationsGradeFilter === 'X' ? 'bg-indigo-800/60 text-white' : 'bg-indigo-100 text-indigo-800'
+                    }`}>
+                      {gradeXCount}
+                    </span>
+                  </button>
+
+                  {/* Tab Kelas XI */}
+                  <button
+                    onClick={() => {
+                      setAllViolationsGradeFilter('XI');
+                      setAllViolationsClassFilter('');
+                    }}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                      allViolationsGradeFilter === 'XI'
+                        ? 'bg-blue-600 text-white shadow-2xs'
+                        : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200'
+                    }`}
+                  >
+                    <span>Kelas XI (11)</span>
+                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                      allViolationsGradeFilter === 'XI' ? 'bg-blue-800/60 text-white' : 'bg-blue-100 text-blue-800'
+                    }`}>
+                      {gradeXICount}
+                    </span>
+                  </button>
+
+                  {/* Tab Kelas XII */}
+                  <button
+                    onClick={() => {
+                      setAllViolationsGradeFilter('XII');
+                      setAllViolationsClassFilter('');
+                    }}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                      allViolationsGradeFilter === 'XII'
+                        ? 'bg-amber-600 text-white shadow-2xs'
+                        : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200'
+                    }`}
+                  >
+                    <span>Kelas XII (12)</span>
+                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                      allViolationsGradeFilter === 'XII' ? 'bg-amber-800/60 text-white' : 'bg-amber-100 text-amber-800'
+                    }`}>
+                      {gradeXIICount}
+                    </span>
+                  </button>
+                </div>
+
+                {/* Info Hasil & Reset */}
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <span>Hasil: <strong>{filteredAllViolations.length}</strong> kasus</span>
+                  {(allViolationsSearch || allViolationsGradeFilter !== 'ALL' || allViolationsClassFilter) && (
+                    <button
+                      onClick={() => {
+                        setAllViolationsSearch('');
+                        setAllViolationsGradeFilter('ALL');
+                        setAllViolationsClassFilter('');
+                      }}
+                      className="text-xs text-purple-700 hover:text-purple-900 font-semibold underline ml-1"
+                    >
+                      Reset Filter
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {filteredAllViolations.length === 0 ? (
                 <div className="text-center py-12 space-y-2">
                   <HiShieldCheck className="text-4xl text-emerald-500 mx-auto" />
-                  <div className="font-bold text-gray-800 text-sm">Belum ada riwayat pelanggaran tercatat</div>
-                  <p className="text-xs text-gray-400">Database pelanggaran masih bersih.</p>
+                  <div className="font-bold text-gray-800 text-sm">Tidak ada pelanggaran sesuai kategori/filter</div>
+                  <p className="text-xs text-gray-400">Tidak ada kasus yang tercatat untuk filter ini.</p>
                 </div>
               ) : (
                 <div className="overflow-x-auto border border-gray-200 rounded-xl shadow-2xs">
@@ -665,17 +832,27 @@ const Dashboard = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-3.5 border-t border-gray-200 bg-gray-50 flex justify-between items-center">
-              <button
-                onClick={() => {
-                  setActiveModal(null);
-                  navigate('/violations');
-                }}
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
-              >
-                <span>Buka Menu Pelanggaran Lengkap</span>
-                <HiArrowRight className="text-sm" />
-              </button>
+            <div className="px-6 py-3.5 border-t border-gray-200 bg-gray-50 flex flex-wrap justify-between items-center gap-2">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    setActiveModal(null);
+                    navigate('/violations');
+                  }}
+                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
+                >
+                  <span>Buka Menu Pelanggaran Lengkap</span>
+                  <HiArrowRight className="text-sm" />
+                </button>
+                <button
+                  onClick={handleExportViolations}
+                  className="px-3.5 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
+                  title="Export Seluruh Pelanggaran ke Excel"
+                >
+                  <HiDocumentDownload className="text-base" />
+                  <span>Export Excel</span>
+                </button>
+              </div>
               <button
                 onClick={() => setActiveModal(null)}
                 className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition text-xs sm:text-sm font-medium"
