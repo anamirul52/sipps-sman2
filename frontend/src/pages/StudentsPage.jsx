@@ -74,13 +74,11 @@ const StudentsPage = () => {
       let url = `/students?limit=all&search=${encodeURIComponent(search)}`;
       if (selectedClass) {
         url += `&class_id=${selectedClass}`;
+      } else if (gradeFilter !== 'ALL') {
+        url += `&grade=${gradeFilter}`;
       }
       const res = await api.get(url);
-      let list = res.data.data || [];
-      if (!selectedClass && gradeFilter !== 'ALL') {
-        list = list.filter(s => (s.class_name || '').startsWith(gradeFilter + '-'));
-      }
-      setStudents(list);
+      setStudents(res.data.data || []);
     } catch (err) {
       toast.error('Gagal memuat data siswa');
     } finally {

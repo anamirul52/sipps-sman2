@@ -33,13 +33,13 @@ const ViolationForm = ({ onSuccess }) => {
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Fetch initial categories & students
+  // Fetch initial categories & sample students
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
         const [catRes, studentRes] = await Promise.all([
           api.get('/categories'),
-          api.get('/students?limit=all')
+          api.get('/students?limit=25')
         ]);
         setCategories(catRes.data.data || []);
         const loadedStudents = studentRes.data.data || [];
@@ -62,7 +62,7 @@ const ViolationForm = ({ onSuccess }) => {
     const timer = setTimeout(async () => {
       setLoadingStudents(true);
       try {
-        const res = await api.get(`/students?search=${encodeURIComponent(searchQuery)}`);
+        const res = await api.get(`/students?search=${encodeURIComponent(searchQuery)}&limit=25`);
         setStudents(res.data.data || []);
         setShowStudentDropdown(true);
       } catch (err) {
@@ -70,7 +70,7 @@ const ViolationForm = ({ onSuccess }) => {
       } finally {
         setLoadingStudents(false);
       }
-    }, 250);
+    }, 200);
 
     return () => clearTimeout(timer);
   }, [searchQuery, allStudents]);

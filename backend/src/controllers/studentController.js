@@ -6,6 +6,7 @@ exports.getAll = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const search = req.query.search || '';
         const class_id = req.query.class_id || '';
+        const grade = req.query.grade || '';
         const isAll = req.query.limit === 'all' || req.query.all === 'true' || (!req.query.page && !req.query.limit);
         const limit = isAll ? 10000 : (parseInt(req.query.limit) || 20);
         const offset = isAll ? 0 : (page - 1) * limit;
@@ -16,13 +17,18 @@ exports.getAll = async (req, res) => {
             LEFT JOIN classes c ON s.class_id = c.id 
             WHERE 1=1
         `;
-        let countQuery = 'SELECT COUNT(*) as total FROM students s WHERE 1=1';
+        let countQuery = `
+            SELECT COUNT(*) as total 
+            FROM students s 
+            LEFT JOIN classes c ON s.class_id = c.id 
+            WHERE 1=1
+        `;
         let queryParams = [];
         let countParams = [];
 
         if (search) {
-            query += ' AND (s.name LIKE ? OR s.nipd LIKE ?)';
-            countQuery += ' AND (s.name LIKE ? OR s.nipd LIKE ?)';
+            query += ' AND (s.name ILIKE ? OR s.nipd LIKE ?)';
+            countQuery += ' AND (s.name ILIKE ? OR s.nipd LIKE ?)';
             queryParams.push(`%${search}%`, `%${search}%`);
             countParams.push(`%${search}%`, `%${search}%`);
         }
@@ -32,6 +38,11 @@ exports.getAll = async (req, res) => {
             countQuery += ' AND s.class_id = ?';
             queryParams.push(class_id);
             countParams.push(class_id);
+        } else if (grade && grade !== 'ALL') {
+            query += ' AND c.class_name LIKE ?';
+            countQuery += ' AND c.class_name LIKE ?';
+            queryParams.push(`${grade}-%`);
+            countParams.push(`${grade}-%`);
         }
 
         query += ' ORDER BY s.name ASC';
@@ -40,8 +51,10 @@ exports.getAll = async (req, res) => {
             queryParams.push(limit, offset);
         }
 
-        const [students] = await pool.query(query, queryParams);
-        const [[{ total }]] = await pool.query(countQuery, countParams);
+        const [[students], [{ total }]] = await Promise.all([
+            pool.query(query, queryParams),
+            pool.query(countQuery, countParams)
+        ]);
 
         res.json({
             success: true,
