@@ -25,9 +25,10 @@ if (process.env.DATABASE_URL) {
 if (!global._pgPool) {
     global._pgPool = new Pool({
         ...pgConfig,
-        max: 10,
-        idleTimeoutMillis: 30000,
-        connectionTimeoutMillis: 5000
+        max: 1, // Sangat penting untuk Vercel Serverless agar tidak melebihi batas koneksi database
+        idleTimeoutMillis: 1000,
+        connectionTimeoutMillis: 10000,
+        allowExitOnIdle: true
     });
 }
 
