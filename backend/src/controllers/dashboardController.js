@@ -39,19 +39,7 @@ exports.getStats = async (req, res) => {
             ORDER BY sv.created_at DESC
         `, [todayWIB]);
 
-        // 3. Rincian Semua Pelanggaran
-        const [allViolationsList] = await conn.query(`
-            SELECT 
-                sv.id, sv.student_id, sv.violation_date, sv.note,
-                s.name as student_name, s.nipd, s.total_points as student_total_points,
-                c.class_name,
-                vc.name as category_name, vc.point_deduction
-            FROM student_violations sv
-            JOIN students s ON sv.student_id = s.id
-            LEFT JOIN classes c ON s.class_id = c.id
-            JOIN violation_categories vc ON sv.category_id = vc.id
-            ORDER BY sv.violation_date DESC, sv.created_at DESC
-        `);
+        // 3. (Dipindah ke getAllViolationsForModal)
 
         // 4. Rincian Siswa Perlu Penanganan (>= 21 Poin)
         const [studentsNeedAttentionList] = await conn.query(`
@@ -99,7 +87,6 @@ exports.getStats = async (req, res) => {
                 totalViolations: parseInt(statsRow.total_violations, 10) || 0,
                 studentsNeedAttention: parseInt(statsRow.students_need_attention, 10) || 0,
                 todayViolationsList,
-                allViolationsList,
                 studentsNeedAttentionList,
                 classesSummary,
                 recentViolations
@@ -113,3 +100,31 @@ exports.getStats = async (req, res) => {
     }
 };
 
+exports.getAllViolationsForModal = async (req, res) => {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const [allViolationsList] = await conn.query(`
+            SELECT 
+                sv.id, sv.student_id, sv.violation_date, sv.note,
+                s.name as student_name, s.nipd, s.total_points as student_total_points,
+                c.class_name,
+                vc.name as category_name, vc.point_deduction
+            FROM student_violations sv
+            JOIN students s ON sv.student_id = s.id
+            LEFT JOIN classes c ON s.class_id = c.id
+            JOIN violation_categories vc ON sv.category_id = vc.id
+            ORDER BY sv.violation_date DESC, sv.created_at DESC
+        `);
+
+        res.json({
+            success: true,
+            data: allViolationsList
+        });
+    } catch (error) {
+        console.error('Error in getAllViolationsForModal:', error);
+        res.status(500).json({ success: false, message: 'Gagal mengambil rincian data pelanggaran' });
+    } finally {
+        if (conn) conn.release();
+    }
+};

@@ -28,13 +28,16 @@ const Dashboard = () => {
     totalViolations: 0,
     studentsNeedAttention: 0,
     todayViolationsList: [],
-    allViolationsList: [],
     studentsNeedAttentionList: [],
     classesSummary: [],
     recentViolations: []
   });
   const [recentViolations, setRecentViolations] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Lazy Load State
+  const [allViolationsData, setAllViolationsData] = useState([]);
+  const [loadingAllViolations, setLoadingAllViolations] = useState(false);
 
   // Modal States
   const [activeModal, setActiveModal] = useState(null); // 'students' | 'today' | 'allViolations' | 'attention' | null
@@ -56,7 +59,6 @@ const Dashboard = () => {
           totalViolations: data.totalViolations || 0,
           studentsNeedAttention: data.studentsNeedAttention || 0,
           todayViolationsList: data.todayViolationsList || [],
-          allViolationsList: data.allViolationsList || [],
           studentsNeedAttentionList: data.studentsNeedAttentionList || [],
           classesSummary: data.classesSummary || [],
           recentViolations: data.recentViolations || []
@@ -71,6 +73,21 @@ const Dashboard = () => {
 
     fetchDashboardData();
   }, []);
+
+  const handleOpenAllViolations = async () => {
+    setActiveModal('allViolations');
+    if (allViolationsData.length === 0) {
+      setLoadingAllViolations(true);
+      try {
+        const response = await api.get('/dashboard/all-violations');
+        setAllViolationsData(response.data.data || []);
+      } catch (err) {
+        toast.error('Gagal memuat rincian data seluruh pelanggaran');
+      } finally {
+        setLoadingAllViolations(false);
+      }
+    }
+  };
 
   const handleExportViolations = async () => {
     const toastId = toast.loading('Menyiapkan file Excel pelanggaran...');
@@ -153,7 +170,7 @@ const Dashboard = () => {
 
   // Grouping data pelanggaran berdasarkan siswa
   const groupedStudentsMap = new Map();
-  stats.allViolationsList.forEach(v => {
+  allViolationsData.forEach(v => {
     const studentId = v.student_id;
     if (!groupedStudentsMap.has(studentId)) {
       groupedStudentsMap.set(studentId, {
@@ -171,7 +188,7 @@ const Dashboard = () => {
   const groupedStudentsList = Array.from(groupedStudentsMap.values());
 
   // Perhitungan Kategori Kelas untuk Modal Rekapitulasi
-  const totalAllViolationsCount = stats.allViolationsList.length;
+  const totalAllViolationsCount = allViolationsData.length;
   const totalViolatorsCount = groupedStudentsList.length;
   const gradeXCount = groupedStudentsList.filter(s => (s.class_name || '').startsWith('X-')).length;
   const gradeXICount = groupedStudentsList.filter(s => (s.class_name || '').startsWith('XI-')).length;
@@ -267,7 +284,7 @@ const Dashboard = () => {
 
         {/* Card 3: Semua Pelanggaran */}
         <div 
-          onClick={() => setActiveModal('allViolations')}
+          onClick={handleOpenAllViolations}
           className="bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl shadow-md p-5 text-white transition-all transform hover:-translate-y-1 hover:shadow-xl cursor-pointer group select-none relative overflow-hidden flex flex-col justify-between"
         >
           <div className="flex items-center justify-between">
@@ -631,12 +648,12 @@ const Dashboard = () => {
                       <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
                         <tr>
                           <th className="px-2 py-3 text-center w-10">No</th>
-                          <th className="px-3 py-3 w-[26%]">Nama Siswa</th>
+                          <th className="px-3 py-3 w-[25%]">Nama Siswa</th>
                           <th className="px-2 py-3 text-center w-16">Kelas</th>
-                          <th className="px-3 py-3 w-[28%]">Bentuk Pelanggaran</th>
-                          <th className="px-2 py-3 text-center w-16">Poin</th>
-                          <th className="px-2 py-3 text-center w-[16%]">Akumulasi</th>
-                          <th className="px-2 py-3 text-center w-16">Aksi</th>
+                          <th className="px-3 py-3 w-[26%]">Bentuk Pelanggaran</th>
+                          <th className="px-2 py-3 text-center w-14">Poin</th>
+                          <th className="px-2 py-3 text-center w-[20%]">Akumulasi</th>
+                          <th className="px-2 py-3 text-center w-20">Aksi</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200 bg-white">
@@ -661,15 +678,16 @@ const Dashboard = () => {
                               </span>
                             </td>
                             <td className="px-2 py-3 text-center">
-                              <PointBadge points={v.student_total_points} />
+                              <PointBadge points={v.student_total_points} stacked={true} />
                             </td>
-                            <td className="px-2 py-3 text-center">
+                            <td className="px-2 py-3 text-center whitespace-nowrap">
                               <button
                                 onClick={() => setSelectedStudentForSanction(v.student_id)}
-                                className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2 py-1 rounded-md text-[11px] font-semibold transition inline-flex items-center gap-1 shadow-2xs cursor-pointer"
+                                className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1 shadow-2xs cursor-pointer whitespace-nowrap"
                                 title="Lihat Surat Sanksi"
                               >
-                                <HiOutlineEye className="text-xs" /> Surat
+                                <HiOutlineDocumentText className="text-sm" />
+                                <span>Surat</span>
                               </button>
                             </td>
                           </tr>
@@ -824,6 +842,12 @@ const Dashboard = () => {
                     </tbody>
                   </table>
                 </div>
+              </div>
+            ) : loadingAllViolations ? (
+              <div className="flex flex-col items-center justify-center p-12 space-y-4">
+                <div className="w-10 h-10 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+                <div className="text-sm font-semibold text-gray-600">Memuat rincian data seluruh pelanggaran...</div>
+                <div className="text-xs text-gray-400">Harap tunggu sebentar, sedang menarik riwayat lengkap dari server.</div>
               </div>
             ) : (
               /* VIEW 1: TABEL REKAPITULASI GROUPED BY STUDENT */

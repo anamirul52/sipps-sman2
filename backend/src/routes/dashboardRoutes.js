@@ -4,5 +4,6 @@ const dashboardController = require('../controllers/dashboardController');
 const { verifyToken, authorizeRoles } = require('../middleware/auth');
 
 router.get('/stats', verifyToken, authorizeRoles('admin', 'bk', 'piket', 'wali_kelas'), dashboardController.getStats);
+router.get('/all-violations', verifyToken, authorizeRoles('admin', 'bk', 'piket', 'wali_kelas'), dashboardController.getAllViolationsForModal);
 
 module.exports = router;
