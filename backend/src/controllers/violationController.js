@@ -151,15 +151,15 @@ exports.getAll = async (req, res) => {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
         const offset = (page - 1) * limit;
-        const { search = '', class_id = '', start_date = '', end_date = '' } = req.query;
+        const { search = '', class_id = '', date = '', start_date = '', end_date = '' } = req.query;
 
         let whereClause = ' WHERE 1=1 ';
         const params = [];
         const countParams = [];
 
-        if (search) {
-            whereClause += ' AND (s.name LIKE ? OR s.nipd LIKE ? OR vc.name LIKE ? OR c.class_name LIKE ? OR sv.note LIKE ?)';
-            const searchParam = `%${search}%`;
+        if (search && search.trim()) {
+            whereClause += ' AND (s.name ILIKE ? OR s.nipd ILIKE ? OR vc.name ILIKE ? OR c.class_name ILIKE ? OR sv.note ILIKE ?)';
+            const searchParam = `%${search.trim()}%`;
             params.push(searchParam, searchParam, searchParam, searchParam, searchParam);
             countParams.push(searchParam, searchParam, searchParam, searchParam, searchParam);
         }
@@ -170,16 +170,23 @@ exports.getAll = async (req, res) => {
             countParams.push(class_id);
         }
 
-        if (start_date) {
-            whereClause += ' AND sv.violation_date >= ?';
-            params.push(start_date);
-            countParams.push(start_date);
-        }
-
-        if (end_date) {
-            whereClause += ' AND sv.violation_date <= ?';
-            params.push(end_date);
-            countParams.push(end_date);
+        // Pencarian berdasarkan 1 tanggal tunggal atau rentang tanggal
+        const targetDate = date || (start_date && start_date === end_date ? start_date : '');
+        if (targetDate) {
+            whereClause += ' AND sv.violation_date = ?';
+            params.push(targetDate);
+            countParams.push(targetDate);
+        } else {
+            if (start_date) {
+                whereClause += ' AND sv.violation_date >= ?';
+                params.push(start_date);
+                countParams.push(start_date);
+            }
+            if (end_date) {
+                whereClause += ' AND sv.violation_date <= ?';
+                params.push(end_date);
+                countParams.push(end_date);
+            }
         }
 
         const query = `
@@ -438,7 +445,7 @@ exports.getCategories = async (req, res) => {
  */
 exports.exportExcel = async (req, res) => {
     try {
-        const { search = '', class_id = '', grade = '', start_date = '', end_date = '', category_id = '' } = req.query;
+        const { search = '', class_id = '', grade = '', date = '', start_date = '', end_date = '', category_id = '' } = req.query;
 
         let query = `
             SELECT 
@@ -461,9 +468,10 @@ exports.exportExcel = async (req, res) => {
         `;
         const params = [];
 
-        if (search) {
-            query += ' AND (s.name LIKE ? OR s.nipd LIKE ? OR vc.name LIKE ? OR c.class_name LIKE ? OR sv.note LIKE ?)';
-            params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
+        if (search && search.trim()) {
+            query += ' AND (s.name ILIKE ? OR s.nipd ILIKE ? OR vc.name ILIKE ? OR c.class_name ILIKE ? OR sv.note ILIKE ?)';
+            const searchParam = `%${search.trim()}%`;
+            params.push(searchParam, searchParam, searchParam, searchParam, searchParam);
         }
 
         if (class_id) {
@@ -481,14 +489,20 @@ exports.exportExcel = async (req, res) => {
             params.push(category_id);
         }
 
-        if (start_date) {
-            query += ' AND sv.violation_date >= ?';
-            params.push(start_date);
-        }
-
-        if (end_date) {
-            query += ' AND sv.violation_date <= ?';
-            params.push(end_date);
+        // Filter 1 tanggal atau rentang tanggal
+        const targetDate = date || (start_date && start_date === end_date ? start_date : '');
+        if (targetDate) {
+            query += ' AND sv.violation_date = ?';
+            params.push(targetDate);
+        } else {
+            if (start_date) {
+                query += ' AND sv.violation_date >= ?';
+                params.push(start_date);
+            }
+            if (end_date) {
+                query += ' AND sv.violation_date <= ?';
+                params.push(end_date);
+            }
         }
 
         query += ' ORDER BY sv.violation_date DESC, sv.id DESC';
