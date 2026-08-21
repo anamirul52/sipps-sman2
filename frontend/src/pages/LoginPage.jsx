@@ -32,8 +32,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-indigo-900 to-blue-900 flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 border border-indigo-100 animate-in fade-in">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-sm w-full max-w-md p-8 border border-gray-200 animate-in fade-in">
         {/* Header Logo & Title */}
         <div className="text-center mb-6">
           <div className="inline-block bg-white p-1 rounded-2xl shadow-sm border border-gray-100 mx-auto mb-2.5">
@@ -66,7 +66,7 @@ const LoginPage = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="pl-10 w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                placeholder="Masukkan nama pengguna / email"
+                placeholder="Nama pengguna / email"
               />
             </div>
           </div>
@@ -93,7 +93,7 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg hover:shadow-indigo-500/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition disabled:opacity-50 text-sm mt-2"
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 px-4 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition disabled:opacity-50 text-sm mt-2"
           >
             {loading ? 'Memverifikasi Akun...' : 'Masuk ke Sistem'}
           </button>

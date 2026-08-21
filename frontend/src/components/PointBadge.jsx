@@ -1,4 +1,4 @@
-const PointBadge = ({ points, showLabel = true }) => {
+const PointBadge = ({ points, showLabel = true, stacked = true }) => {
   const p = Number(points) || 0;
   let bgClass = '';
   let textClass = '';
@@ -40,6 +40,26 @@ const PointBadge = ({ points, showLabel = true }) => {
     textClass = 'text-white';
     borderClass = 'border-red-900';
     label = 'Ditarik Ortu';
+  }
+
+  if (stacked) {
+    return (
+      <div className="inline-flex flex-col items-center justify-center text-center leading-tight">
+        <span 
+          className={`inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] border ${bgClass} ${textClass} ${borderClass} whitespace-nowrap shadow-2xs`}
+        >
+          {p} Poin
+        </span>
+        {showLabel && (
+          <span 
+            className="text-[10px] text-gray-500 font-medium mt-0.5 leading-tight block whitespace-nowrap"
+            title={label}
+          >
+            ({label})
+          </span>
+        )}
+      </div>
+    );
   }
 
   return (

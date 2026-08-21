@@ -23,8 +23,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
   // Filter & Search State
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedClass, setSelectedClass] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
   const [classes, setClasses] = useState([]);
   const [exporting, setExporting] = useState(false);
 
@@ -50,8 +49,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
       params.append('limit', 10);
       if (searchQuery.trim()) params.append('search', searchQuery.trim());
       if (selectedClass) params.append('class_id', selectedClass);
-      if (startDate) params.append('start_date', startDate);
-      if (endDate) params.append('end_date', endDate);
+      if (selectedDate) params.append('date', selectedDate);
 
       const res = await api.get(`/violations?${params.toString()}`);
       setViolations(res.data.data || []);
@@ -67,7 +65,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
 
   useEffect(() => {
     fetchViolations();
-  }, [page, refreshKey, selectedClass, startDate, endDate]);
+  }, [page, refreshKey, selectedClass, selectedDate]);
 
   // Debounced search
   useEffect(() => {
@@ -81,8 +79,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
   const handleResetFilter = () => {
     setSearchQuery('');
     setSelectedClass('');
-    setStartDate('');
-    setEndDate('');
+    setSelectedDate('');
     setPage(1);
   };
 
@@ -94,8 +91,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
       const params = new URLSearchParams();
       if (searchQuery.trim()) params.append('search', searchQuery.trim());
       if (selectedClass) params.append('class_id', selectedClass);
-      if (startDate) params.append('start_date', startDate);
-      if (endDate) params.append('end_date', endDate);
+      if (selectedDate) params.append('date', selectedDate);
 
       const response = await api.get(`/violations/export?${params.toString()}`, {
         responseType: 'blob'
@@ -126,17 +122,17 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
   return (
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-200">
       {/* Header & Export Toolbar */}
-      <div className="p-4 sm:p-5 border-b border-gray-200 bg-gray-50/70 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="p-4 sm:p-5 border-b border-gray-200 bg-white flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <h2 className="text-base sm:text-lg font-bold text-gray-800">
+            <h2 className="text-base sm:text-lg font-semibold text-slate-900">
               Daftar Riwayat Pelanggaran Siswa
             </h2>
-            <span className="text-xs font-bold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200">
+            <span className="text-xs font-semibold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200">
               Total {totalRecords} Kasus
             </span>
           </div>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Rekap riwayat catatan pelanggaran tata tertib siswa SMAN 2 Salatiga
           </p>
         </div>
@@ -146,7 +142,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
           <button
             onClick={handleExportExcel}
             disabled={exporting}
-            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl shadow-sm transition disabled:opacity-50"
+            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-medium px-4 py-2.5 rounded-xl shadow-sm transition disabled:opacity-50"
             title="Download Laporan Lengkap (.xlsx)"
           >
             <HiDocumentDownload className="text-lg" />
@@ -155,9 +151,9 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
         </div>
       </div>
 
-      {/* Filter & Search Bar */}
-      <div className="p-4 border-b border-gray-100 bg-white grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {/* Search */}
+      {/* Filter & Search Bar: 3 Kolom Responsif */}
+      <div className="p-4 border-b border-gray-100 bg-white grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {/* 1. Search Box */}
         <div className="relative">
           <HiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
           <input
@@ -165,11 +161,21 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
             placeholder="Cari siswa, NIPD, atau pelanggaran..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-gray-50/50 focus:bg-white transition"
+            className="w-full pl-9 pr-8 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-gray-50/50 focus:bg-white transition"
           />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-0.5 text-xs"
+              title="Hapus pencarian"
+            >
+              ✕
+            </button>
+          )}
         </div>
 
-        {/* Filter Kelas */}
+        {/* 2. Filter Kelas */}
         <div>
           <select
             value={selectedClass}
@@ -177,7 +183,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
               setSelectedClass(e.target.value);
               setPage(1);
             }}
-            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white transition"
+            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white transition text-gray-700 font-medium"
           >
             <option value="">-- Semua Kelas ({classes.length} Rombel) --</option>
             {classes.map((c) => (
@@ -188,40 +194,26 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
           </select>
         </div>
 
-        {/* Tanggal Mulai */}
-        <div>
-          <input
-            type="date"
-            value={startDate}
-            onChange={(e) => {
-              setStartDate(e.target.value);
-              setPage(1);
-            }}
-            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white transition text-gray-700"
-            title="Filter Tanggal Mulai"
-          />
-        </div>
-
-        {/* Tanggal Akhir & Reset */}
+        {/* 3. Filter Tanggal Tunggal & Reset */}
         <div className="flex gap-2">
           <input
             type="date"
-            value={endDate}
+            value={selectedDate}
             onChange={(e) => {
-              setEndDate(e.target.value);
+              setSelectedDate(e.target.value);
               setPage(1);
             }}
             className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white transition text-gray-700"
-            title="Filter Tanggal Selesai"
+            title="Pilih Tanggal Pelanggaran"
           />
-          {(searchQuery || selectedClass || startDate || endDate) && (
+          {(searchQuery || selectedClass || selectedDate) && (
             <button
               onClick={handleResetFilter}
-              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold flex items-center gap-1 transition flex-shrink-0"
+              className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold flex items-center gap-1 transition flex-shrink-0 cursor-pointer"
               title="Reset Semua Filter"
             >
               <HiRefresh className="text-sm" />
-              <span className="hidden sm:inline">Reset</span>
+              <span>Reset</span>
             </button>
           )}
         </div>
@@ -311,7 +303,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
       {/* Desktop View: Table (Tampil di Tablet / PC) */}
       <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
-          <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
+          <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-semibold text-slate-500 tracking-wider">
             <tr>
               <th className="px-3 py-3 text-center w-12 whitespace-nowrap">No</th>
               <th className="px-4 py-3 min-w-[160px] whitespace-nowrap">Nama Siswa</th>

@@ -403,8 +403,8 @@ const StudentsPage = () => {
               <HiUserAdd className="text-lg" />
             </div>
             <div>
-              <h4 className="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-indigo-600 transition">Tambah Siswa Manual</h4>
-              <p className="text-[11px] text-gray-500 leading-relaxed mt-0.5">
+              <h4 className="font-semibold text-xs sm:text-sm text-slate-900 group-hover:text-indigo-600 transition">Tambah Siswa Manual</h4>
+              <p className="text-[11px] text-slate-500 leading-relaxed mt-0.5">
                 Input data individu siswa baru beserta NIPD, kelas, dan kontak orang tua.
               </p>
             </div>
@@ -413,14 +413,14 @@ const StudentsPage = () => {
           {/* Card 2: Import Excel */}
           <div 
             onClick={() => { setShowImportModal(true); setImportResult(null); }}
-            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-emerald-300 hover:shadow-md transition cursor-pointer group flex items-start gap-3"
+            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-emerald-300 transition cursor-pointer group flex items-start gap-3 shadow-sm hover:shadow-md"
           >
             <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
               <HiUpload className="text-lg" />
             </div>
             <div>
-              <h4 className="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-emerald-600 transition">Import Excel Massal</h4>
-              <p className="text-[11px] text-gray-500 leading-relaxed mt-0.5">
+              <h4 className="font-semibold text-xs sm:text-sm text-slate-900 group-hover:text-emerald-600 transition">Import Excel Massal</h4>
+              <p className="text-[11px] text-slate-500 leading-relaxed mt-0.5">
                 Upload 1 angkatan ratusan siswa secara instan menggunakan spreadsheet.
               </p>
             </div>
@@ -429,14 +429,14 @@ const StudentsPage = () => {
           {/* Card 3: Export Excel */}
           <div 
             onClick={handleExportExcel}
-            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-blue-300 hover:shadow-md transition cursor-pointer group flex items-start gap-3"
+            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-blue-300 transition cursor-pointer group flex items-start gap-3 shadow-sm hover:shadow-md"
           >
             <div className="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
               <HiDocumentReport className="text-lg" />
             </div>
             <div>
-              <h4 className="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-blue-600 transition">Export Rekap Excel</h4>
-              <p className="text-[11px] text-gray-500 leading-relaxed mt-0.5">
+              <h4 className="font-semibold text-xs sm:text-sm text-slate-900 group-hover:text-blue-600 transition">Export Rekap Excel</h4>
+              <p className="text-[11px] text-slate-500 leading-relaxed mt-0.5">
                 Unduh rekapitulasi data seluruh siswa aktif ke format file spreadsheet (.xlsx).
               </p>
             </div>
@@ -445,7 +445,7 @@ const StudentsPage = () => {
           {/* Card 4: Template Excel */}
           <div 
             onClick={() => setShowTemplateModal(true)}
-            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-purple-300 hover:shadow-md transition cursor-pointer group flex items-start gap-3"
+            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-purple-300 transition cursor-pointer group flex items-start gap-3 shadow-sm hover:shadow-md"
           >
             <div className="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
               <HiDownload className="text-lg" />
@@ -563,7 +563,7 @@ const StudentsPage = () => {
         </div>
 
         {/* Table / Cards of Students */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
           {/* Mobile View: Cards (Tampil di Layar HP) */}
           <div className="md:hidden p-3 space-y-3">
             {loading ? (
@@ -642,21 +642,21 @@ const StudentsPage = () => {
             )}
           </div>
 
-          {/* Desktop View: Table (Tampil di Tablet / PC) */}
-          <div className="hidden md:block overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+          {/* Desktop View: Table (Tampil di Tablet / PC - Proporsional & Rapi) */}
+          <div className="hidden md:block overflow-hidden border border-gray-200">
+            <table className="w-full text-left border-collapse text-xs table-fixed">
+              <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-semibold text-slate-500 tracking-wider">
                 <tr>
-                  <th className="px-4 py-3.5 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-12 whitespace-nowrap">No</th>
-                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[180px] whitespace-nowrap">Nama Siswa</th>
-                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[120px] whitespace-nowrap">NIPD</th>
-                  <th className="px-4 py-3.5 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[100px] whitespace-nowrap">Kelas</th>
-                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[150px] whitespace-nowrap">No. Telp Ortu</th>
-                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[180px] whitespace-nowrap">Akumulasi Poin</th>
-                  <th className="px-4 py-3.5 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-36 min-w-[130px] whitespace-nowrap">Aksi</th>
+                  <th className="px-2 py-3 text-center w-10">No</th>
+                  <th className="px-3 py-3 w-[32%]">Nama Siswa</th>
+                  <th className="px-2 py-3 text-center w-[13%]">NIPD</th>
+                  <th className="px-2 py-3 text-center w-16">Kelas</th>
+                  <th className="px-2 py-3 text-center w-[13%]">No. Telp Ortu</th>
+                  <th className="px-2 py-3 text-center w-[16%]">Akumulasi Poin</th>
+                  <th className="px-2 py-3 text-center w-32">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200 bg-white">
                 {loading ? (
                   <tr>
                     <td colSpan="7" className="px-6 py-12 text-center text-gray-400">
@@ -701,45 +701,53 @@ const StudentsPage = () => {
                 ) : (
                   students.map((student, index) => (
                     <tr key={student.id} className="hover:bg-indigo-50/30 transition">
-                      <td className="px-4 py-3.5 text-xs sm:text-sm text-center text-gray-500 font-medium whitespace-nowrap">{index + 1}</td>
-                      <td className="px-4 py-3.5 whitespace-nowrap">
-                        <div className="text-xs sm:text-sm font-semibold text-gray-900">{student.name}</div>
+                      <td className="px-2 py-3 text-center text-gray-500 font-semibold">{index + 1}</td>
+                      <td className="px-3 py-3">
+                        <div className="font-bold text-gray-900 text-xs sm:text-sm leading-snug truncate" title={student.name}>
+                          {student.name}
+                        </div>
                       </td>
-                      <td className="px-4 py-3.5 text-xs sm:text-sm text-gray-600 font-mono font-medium whitespace-nowrap">{student.nipd || student.nisn || '-'}</td>
-                      <td className="px-4 py-3.5 text-center whitespace-nowrap">
-                        <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-bold text-xs bg-indigo-50 text-indigo-700 border border-indigo-200 min-w-[65px] whitespace-nowrap">
+                      <td className="px-2 py-3 text-center text-xs text-gray-600 font-mono font-medium truncate">
+                        {student.nipd || student.nisn || '-'}
+                      </td>
+                      <td className="px-2 py-3 text-center whitespace-nowrap">
+                        <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 min-w-[55px]">
                           {student.class_name || '-'}
                         </span>
                       </td>
-                      <td className="px-4 py-3.5 text-xs sm:text-sm text-gray-600 whitespace-nowrap">
+                      <td className="px-2 py-3 text-center text-xs text-gray-600 truncate">
                         {student.parent_phone ? (
-                          <span className="flex items-center text-gray-600">
-                            <HiPhone className="mr-1 text-gray-400 text-sm" />
-                            {student.parent_phone}
-                          </span>
+                          <a 
+                            href={`tel:${student.parent_phone}`} 
+                            className="inline-flex items-center justify-center text-gray-700 hover:text-indigo-600 font-medium truncate"
+                            title={`Hubungi: ${student.parent_phone}`}
+                          >
+                            <HiPhone className="mr-1 text-gray-400 text-xs flex-shrink-0" />
+                            <span className="truncate">{student.parent_phone}</span>
+                          </a>
                         ) : (
                           <span className="text-gray-400 italic">-</span>
                         )}
                       </td>
-                      <td className="px-4 py-3.5 whitespace-nowrap">
-                        <PointBadge points={student.total_points || 0} />
+                      <td className="px-2 py-3 text-center">
+                        <PointBadge points={student.total_points || 0} stacked={true} />
                       </td>
-                      <td className="px-4 py-3.5 text-center whitespace-nowrap">
+                      <td className="px-2 py-3 text-center whitespace-nowrap">
                         <div className="flex items-center justify-center space-x-1.5">
                           <button
                             onClick={() => handleOpenEdit(student)}
-                            className="inline-flex items-center space-x-1 text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-1 rounded-lg text-xs font-medium transition"
+                            className="inline-flex items-center gap-1 text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-1 rounded-lg text-xs font-semibold transition shadow-2xs cursor-pointer"
                             title="Edit data siswa ini"
                           >
-                            <HiPencilAlt className="text-sm" />
+                            <HiPencilAlt className="text-xs" />
                             <span>Edit</span>
                           </button>
                           <button
                             onClick={() => setStudentToDelete(student)}
-                            className="inline-flex items-center space-x-1 text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 border border-red-200 px-2.5 py-1 rounded-lg text-xs font-medium transition"
+                            className="inline-flex items-center gap-1 text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 border border-red-200 px-2.5 py-1 rounded-lg text-xs font-semibold transition shadow-2xs cursor-pointer"
                             title="Hapus data siswa ini"
                           >
-                            <HiTrash className="text-sm" />
+                            <HiTrash className="text-xs" />
                             <span>Hapus</span>
                           </button>
                         </div>

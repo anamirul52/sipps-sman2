@@ -241,84 +241,84 @@ const Dashboard = () => {
       </div>
       
       {/* Stat Cards Section - Clickable 4-Card Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {/* Card 1: Total Siswa */}
         <div 
           onClick={() => setActiveModal('students')}
-          className="bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-2xl shadow-md p-5 text-white transition-all transform hover:-translate-y-1 hover:shadow-xl cursor-pointer group select-none relative overflow-hidden flex flex-col justify-between"
+          className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 sm:p-6 transition-all hover:shadow-md hover:border-gray-300 cursor-pointer group flex flex-col justify-between"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-start justify-between">
             <div>
-              <p className="text-indigo-100 font-semibold text-xs sm:text-sm">Total Siswa Terdaftar</p>
-              <p className="text-3xl sm:text-4xl font-extrabold mt-1 tracking-tight">{stats.totalStudents}</p>
+              <p className="text-slate-500 font-medium text-xs sm:text-sm">Total Siswa Terdaftar</p>
+              <p className="text-3xl sm:text-4xl font-semibold text-slate-900 mt-2">{stats.totalStudents}</p>
             </div>
-            <div className="bg-white/15 p-3 rounded-xl border border-white/20 group-hover:scale-110 transition">
-              <HiUsers className="text-2xl text-white" />
+            <div className="bg-indigo-50 p-2.5 sm:p-3 rounded-lg text-indigo-600 group-hover:scale-105 transition-transform">
+              <HiUsers className="text-xl sm:text-2xl" />
             </div>
           </div>
-          <div className="mt-3 pt-3 border-t border-white/15 flex items-center justify-between text-[11px] text-indigo-100 font-medium">
+          <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Lihat data & rombel</span>
-            <HiArrowRight className="group-hover:translate-x-1 transition text-xs" />
+            <HiArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-indigo-600 transition-all" />
           </div>
         </div>
 
         {/* Card 2: Pelanggaran Hari Ini */}
         <div 
           onClick={() => setActiveModal('today')}
-          className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl shadow-md p-5 text-white transition-all transform hover:-translate-y-1 hover:shadow-xl cursor-pointer group select-none relative overflow-hidden flex flex-col justify-between"
+          className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 sm:p-6 transition-all hover:shadow-md hover:border-gray-300 cursor-pointer group flex flex-col justify-between"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-start justify-between">
             <div>
-              <p className="text-amber-100 font-semibold text-xs sm:text-sm">Pelanggaran Hari Ini</p>
-              <p className="text-3xl sm:text-4xl font-extrabold mt-1 tracking-tight">{stats.todayViolations}</p>
+              <p className="text-slate-500 font-medium text-xs sm:text-sm">Pelanggaran Hari Ini</p>
+              <p className="text-3xl sm:text-4xl font-semibold text-slate-900 mt-2">{stats.todayViolations}</p>
             </div>
-            <div className="bg-white/15 p-3 rounded-xl border border-white/20 group-hover:scale-110 transition">
-              <HiExclamationCircle className="text-2xl text-white" />
+            <div className="bg-amber-50 p-2.5 sm:p-3 rounded-lg text-amber-600 group-hover:scale-105 transition-transform">
+              <HiExclamationCircle className="text-xl sm:text-2xl" />
             </div>
           </div>
-          <div className="mt-3 pt-3 border-t border-white/15 flex items-center justify-between text-[11px] text-amber-100 font-medium">
+          <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Rincian hari ini</span>
-            <HiArrowRight className="group-hover:translate-x-1 transition text-xs" />
+            <HiArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-amber-600 transition-all" />
           </div>
         </div>
 
         {/* Card 3: Semua Pelanggaran */}
         <div 
           onClick={handleOpenAllViolations}
-          className="bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl shadow-md p-5 text-white transition-all transform hover:-translate-y-1 hover:shadow-xl cursor-pointer group select-none relative overflow-hidden flex flex-col justify-between"
+          className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 sm:p-6 transition-all hover:shadow-md hover:border-gray-300 cursor-pointer group flex flex-col justify-between"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-start justify-between">
             <div>
-              <p className="text-purple-100 font-semibold text-xs sm:text-sm">Semua Pelanggaran</p>
-              <p className="text-3xl sm:text-4xl font-extrabold mt-1 tracking-tight">{stats.totalViolations}</p>
+              <p className="text-slate-500 font-medium text-xs sm:text-sm">Semua Pelanggaran</p>
+              <p className="text-3xl sm:text-4xl font-semibold text-slate-900 mt-2">{stats.totalViolations}</p>
             </div>
-            <div className="bg-white/15 p-3 rounded-xl border border-white/20 group-hover:scale-110 transition">
-              <HiClipboardList className="text-2xl text-white" />
+            <div className="bg-purple-50 p-2.5 sm:p-3 rounded-lg text-purple-600 group-hover:scale-105 transition-transform">
+              <HiClipboardList className="text-xl sm:text-2xl" />
             </div>
           </div>
-          <div className="mt-3 pt-3 border-t border-white/15 flex items-center justify-between text-[11px] text-purple-100 font-medium">
+          <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Lihat seluruh riwayat</span>
-            <HiArrowRight className="group-hover:translate-x-1 transition text-xs" />
+            <HiArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-purple-600 transition-all" />
           </div>
         </div>
 
         {/* Card 4: Perlu Penanganan (>= 21 Poin) */}
         <div 
           onClick={() => setActiveModal('attention')}
-          className="bg-gradient-to-br from-rose-600 to-rose-700 rounded-2xl shadow-md p-5 text-white transition-all transform hover:-translate-y-1 hover:shadow-xl cursor-pointer group select-none relative overflow-hidden flex flex-col justify-between"
+          className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 sm:p-6 transition-all hover:shadow-md hover:border-gray-300 cursor-pointer group flex flex-col justify-between"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-start justify-between">
             <div>
-              <p className="text-rose-100 font-semibold text-xs sm:text-sm">Perlu Penanganan (≥21 Poin)</p>
-              <p className="text-3xl sm:text-4xl font-extrabold mt-1 tracking-tight">{stats.studentsNeedAttention}</p>
+              <p className="text-slate-500 font-medium text-xs sm:text-sm">Perlu Penanganan</p>
+              <p className="text-3xl sm:text-4xl font-semibold text-rose-600 mt-2">{stats.studentsNeedAttention}</p>
             </div>
-            <div className="bg-white/15 p-3 rounded-xl border border-white/20 group-hover:scale-110 transition">
-              <HiExclamation className="text-2xl text-white" />
+            <div className="bg-rose-50 p-2.5 sm:p-3 rounded-lg text-rose-600 group-hover:scale-105 transition-transform">
+              <HiExclamation className="text-xl sm:text-2xl" />
             </div>
           </div>
-          <div className="mt-3 pt-3 border-t border-white/15 flex items-center justify-between text-[11px] text-rose-100 font-medium">
+          <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Daftar & cetak sanksi</span>
-            <HiArrowRight className="group-hover:translate-x-1 transition text-xs" />
+            <HiArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-rose-600 transition-all" />
           </div>
         </div>
       </div>
@@ -327,40 +327,40 @@ const Dashboard = () => {
 
       {/* Tabel Pelanggaran Terbaru */}
       <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
-        <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center bg-gray-50/70">
-          <h2 className="text-sm sm:text-base font-bold text-gray-800 flex items-center gap-2">
+        <div className="px-4 py-4 border-b border-gray-200 flex justify-between items-center bg-white">
+          <h2 className="text-sm sm:text-base font-semibold text-slate-900 flex items-center gap-2">
             <HiClipboardList className="text-indigo-600 text-base sm:text-lg" />
             Pelanggaran Terbaru Masuk
           </h2>
-          <span className="text-[11px] text-gray-500 font-semibold bg-gray-200/70 px-2.5 py-0.5 rounded-full">
+          <span className="text-[11px] text-slate-500 font-medium bg-slate-100 px-2.5 py-0.5 rounded-full">
             10 Catatan Terkini
           </span>
         </div>
         
         {/* Mobile View: Cards (Tampil di Layar HP) */}
-        <div className="sm:hidden p-3 space-y-2.5">
+        <div className="sm:hidden p-4 space-y-3">
           {recentViolations.map((v, index) => (
-            <div key={v.id} className="bg-white p-3 rounded-xl border border-gray-200 shadow-2xs space-y-2">
+            <div key={v.id} className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm space-y-2">
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <div className="font-bold text-gray-900 text-xs">{v.student_name}</div>
-                  <div className="text-[11px] text-gray-500 mt-0.5">
-                    Kelas: <span className="font-semibold text-indigo-700">{v.class_name || '-'}</span>
+                  <div className="font-semibold text-slate-900 text-xs">{v.student_name}</div>
+                  <div className="text-[11px] text-slate-500 mt-0.5">
+                    Kelas: <span className="font-medium text-slate-700">{v.class_name || '-'}</span>
                   </div>
                 </div>
                 <PointBadge points={v.student_total_points} />
               </div>
-              <div className="text-xs text-gray-800 bg-gray-50 p-2 rounded-lg border border-gray-100 flex items-center justify-between gap-2">
+              <div className="text-xs text-slate-700 bg-slate-50 p-2.5 rounded-lg border border-gray-100 flex items-center justify-between gap-2">
                 <span className="font-medium text-[11px]">{v.category_name}</span>
-                <span className="font-bold text-red-600 text-[11px] whitespace-nowrap">+{v.point_deduction} Poin</span>
+                <span className="font-semibold text-red-600 text-[11px] whitespace-nowrap">+{v.point_deduction} Poin</span>
               </div>
-              <div className="text-[10px] text-gray-400 text-right">
+              <div className="text-[10px] text-slate-400 text-right">
                 {new Date(v.violation_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
               </div>
             </div>
           ))}
           {recentViolations.length === 0 && (
-            <div className="py-8 text-center text-xs text-gray-500">
+            <div className="py-8 text-center text-xs text-slate-500">
               Belum ada data pelanggaran hari ini.
             </div>
           )}
@@ -369,41 +369,41 @@ const Dashboard = () => {
         {/* Desktop View: Table (Tampil di Tablet/PC) */}
         <div className="hidden sm:block overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-full">
-            <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
+            <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-semibold text-slate-500 tracking-wider">
               <tr>
-                <th className="px-3 py-2.5 text-center w-10 whitespace-nowrap">No</th>
-                <th className="px-3.5 py-2.5 min-w-[150px] whitespace-nowrap">Nama Siswa</th>
-                <th className="px-3 py-2.5 text-center min-w-[80px] whitespace-nowrap">Kelas</th>
-                <th className="px-3.5 py-2.5 min-w-[180px]">Kategori Pelanggaran</th>
-                <th className="px-3 py-2.5 text-center min-w-[75px] whitespace-nowrap">Poin</th>
-                <th className="px-3.5 py-2.5 text-center min-w-[140px] whitespace-nowrap">Akumulasi Poin</th>
-                <th className="px-3 py-2.5 text-center min-w-[95px] whitespace-nowrap">Tanggal</th>
+                <th className="px-4 py-3 text-center w-10 whitespace-nowrap">No</th>
+                <th className="px-4 py-3 min-w-[150px] whitespace-nowrap">Nama Siswa</th>
+                <th className="px-4 py-3 text-center min-w-[80px] whitespace-nowrap">Kelas</th>
+                <th className="px-4 py-3 min-w-[180px]">Kategori Pelanggaran</th>
+                <th className="px-4 py-3 text-center min-w-[75px] whitespace-nowrap">Poin</th>
+                <th className="px-4 py-3 text-center min-w-[140px] whitespace-nowrap">Akumulasi Poin</th>
+                <th className="px-4 py-3 text-center min-w-[95px] whitespace-nowrap">Tanggal</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white text-xs">
               {recentViolations.map((v, index) => (
-                <tr key={v.id} className="hover:bg-indigo-50/40 transition">
-                  <td className="px-3 py-2.5 text-center text-gray-500 font-semibold text-xs whitespace-nowrap">{index + 1}</td>
-                  <td className="px-3.5 py-2.5 whitespace-nowrap">
-                    <div className="font-bold text-gray-900 text-xs sm:text-sm leading-snug">{v.student_name}</div>
+                <tr key={v.id} className="hover:bg-slate-50/50 transition">
+                  <td className="px-4 py-3 text-center text-slate-500 font-medium text-xs whitespace-nowrap">{index + 1}</td>
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    <div className="font-semibold text-slate-900 text-xs sm:text-sm leading-snug">{v.student_name}</div>
                   </td>
-                  <td className="px-3 py-2.5 text-center whitespace-nowrap">
-                    <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap min-w-[55px]">
+                  <td className="px-4 py-3 text-center whitespace-nowrap">
+                    <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-medium text-[11px] bg-slate-100 text-slate-700 border border-slate-200 whitespace-nowrap min-w-[55px]">
                       {v.class_name || '-'}
                     </span>
                   </td>
-                  <td className="px-3.5 py-2.5 text-xs text-gray-800 font-medium leading-relaxed">
+                  <td className="px-4 py-3 text-xs text-slate-700 font-medium leading-relaxed">
                     {v.category_name}
                   </td>
-                  <td className="px-3 py-2.5 text-center whitespace-nowrap">
-                    <span className="inline-flex items-center justify-center px-2 py-0.5 rounded font-bold text-[11px] bg-red-50 text-red-700 border border-red-200 whitespace-nowrap">
+                  <td className="px-4 py-3 text-center whitespace-nowrap">
+                    <span className="inline-flex items-center justify-center px-2 py-0.5 rounded font-medium text-[11px] bg-red-50 text-red-700 border border-red-100 whitespace-nowrap">
                       +{v.point_deduction} Poin
                     </span>
                   </td>
-                  <td className="px-3.5 py-2.5 text-center whitespace-nowrap">
+                  <td className="px-4 py-3 text-center whitespace-nowrap">
                     <PointBadge points={v.student_total_points} />
                   </td>
-                  <td className="px-3 py-2.5 text-center text-xs text-gray-600 whitespace-nowrap font-medium">
+                  <td className="px-4 py-3 text-center text-xs text-slate-500 whitespace-nowrap font-medium">
                     {new Date(v.violation_date).toLocaleDateString('id-ID', {
                       day: 'numeric',
                       month: 'short',
@@ -414,7 +414,7 @@ const Dashboard = () => {
               ))}
               {recentViolations.length === 0 && (
                 <tr>
-                  <td colSpan="7" className="px-4 py-8 text-center text-xs text-gray-500">
+                  <td colSpan="7" className="px-4 py-8 text-center text-xs text-slate-500">
                     Belum ada data pelanggaran hari ini.
                   </td>
                 </tr>
@@ -426,8 +426,8 @@ const Dashboard = () => {
 
       {/* Pedoman Sanksi Berdasarkan Total Poin */}
       <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
-        <div className="px-4 py-3 border-b border-gray-200 bg-gray-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <h2 className="text-sm sm:text-base font-bold text-gray-800 flex items-center gap-2">
+        <div className="px-4 py-4 border-b border-gray-200 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <h2 className="text-sm sm:text-base font-semibold text-slate-900 flex items-center gap-2">
             <HiShieldCheck className="text-indigo-600 text-base sm:text-lg" />
             Pedoman Daftar Sanksi Berdasarkan Total Poin
           </h2>
