@@ -484,13 +484,13 @@ const Dashboard = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-zinc-200 flex justify-between items-center bg-zinc-100/80">
+            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-zinc-200 flex justify-between items-center bg-white">
               <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                <div className="p-2 bg-zinc-900 text-white rounded-xl flex-shrink-0">
+                <div className="p-2 text-zinc-700 flex-shrink-0">
                   <Users className="text-lg sm:text-xl" />
                 </div>
                 <div className="truncate">
-                  <h3 className="text-sm sm:text-lg font-bold text-zinc-900 truncate">Rincian Data Siswa & Rombel</h3>
+                  <h3 className="text-sm sm:text-lg font-semibold tracking-tight text-zinc-900 truncate">Rincian Data Siswa & Rombel</h3>
                   <p className="text-[11px] sm:text-xs text-zinc-500 truncate">Total {stats.totalStudents} siswa terdaftar di {stats.classesSummary.length} rombel kelas</p>
                 </div>
               </div>
@@ -552,7 +552,7 @@ const Dashboard = () => {
                   setActiveModal(null);
                   navigate('/students');
                 }}
-                className="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
+                className="px-4 py-2 bg-white border border-zinc-200 text-zinc-800 rounded-lg hover:bg-zinc-50 transition text-xs sm:text-sm font-medium flex items-center gap-1.5 shadow-sm"
               >
                 <span>Buka Menu Data Siswa Lengkap</span>
                 <ArrowRight className="text-sm" />
@@ -573,9 +573,9 @@ const Dashboard = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-4 animate-in fade-in">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-zinc-200 flex justify-between items-center bg-zinc-100/80">
+            <div className="px-6 py-4 border-b border-zinc-200 flex justify-between items-center bg-white">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-amber-500 text-white rounded-xl">
+                <div className="p-2 text-zinc-700">
                   <AlertCircle className="text-xl" />
                 </div>
                 <div>
@@ -598,7 +598,7 @@ const Dashboard = () => {
               {stats.todayViolationsList.length === 0 ? (
                 <div className="text-center py-12 space-y-2">
                   <ShieldCheck className="text-4xl text-emerald-500 mx-auto" />
-                  <div className="font-bold text-zinc-800 text-sm">Tidak ada pelanggaran tercatat hari ini</div>
+                  <div className="font-medium text-zinc-600 text-sm">Tidak ada pelanggaran tercatat hari ini</div>
                   <p className="text-xs text-zinc-400">Seluruh siswa tertib mematuhi tata tertib sekolah hari ini.</p>
                 </div>
               ) : (
@@ -697,7 +697,7 @@ const Dashboard = () => {
                   setActiveModal(null);
                   navigate('/violations');
                 }}
-                className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
+                className="px-4 py-2 bg-white border border-zinc-200 text-zinc-800 rounded-lg hover:bg-zinc-50 transition text-xs sm:text-sm font-medium flex items-center gap-1.5 shadow-sm"
               >
                 <span>Buka Menu Pelanggaran Lengkap</span>
                 <ArrowRight className="text-sm" />
@@ -718,7 +718,7 @@ const Dashboard = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-5xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-zinc-200 flex justify-between items-center bg-zinc-100/80">
+            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-zinc-200 flex justify-between items-center bg-white">
               {selectedStudentForDetail ? (
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                   <button
@@ -730,7 +730,7 @@ const Dashboard = () => {
                     <span className="hidden sm:inline">Kembali</span>
                   </button>
                   <div className="truncate">
-                    <h3 className="text-sm sm:text-lg font-bold text-zinc-900 truncate">
+                    <h3 className="text-sm sm:text-lg font-semibold tracking-tight text-zinc-900 truncate">
                       Rincian: {selectedStudentForDetail.student_name}
                     </h3>
                     <p className="text-[11px] sm:text-xs text-zinc-500 truncate">
@@ -740,11 +740,11 @@ const Dashboard = () => {
                 </div>
               ) : (
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                  <div className="p-2 bg-zinc-900 text-white rounded-xl flex-shrink-0">
+                  <div className="p-2 text-zinc-700 flex-shrink-0">
                     <ClipboardList className="text-lg sm:text-xl" />
                   </div>
                   <div className="truncate">
-                    <h3 className="text-sm sm:text-lg font-bold text-zinc-900 truncate">Rekapitulasi Seluruh Pelanggaran Tercatat</h3>
+                    <h3 className="text-sm sm:text-lg font-semibold tracking-tight text-zinc-900 truncate">Rekapitulasi Seluruh Pelanggaran Tercatat</h3>
                     <p className="text-[11px] sm:text-xs text-zinc-500 truncate">
                       Total {stats.totalViolations} kasus &bull; Rekap akumulasi poin siswa
                     </p>
@@ -907,7 +907,7 @@ const Dashboard = () => {
                       className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
                         allViolationsGradeFilter === 'X'
                           ? 'bg-zinc-900 text-white shadow-sm'
-                          : 'bg-zinc-100 text-indigo-700 hover:bg-indigo-100 border border-indigo-200'
+                          : 'bg-white text-zinc-600 hover:bg-zinc-50 border border-zinc-200'
                       }`}
                     >
                       <span>Kelas X (10)</span>
@@ -947,7 +947,7 @@ const Dashboard = () => {
                       className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
                         allViolationsGradeFilter === 'XII'
                           ? 'bg-amber-600 text-white shadow-sm'
-                          : 'bg-zinc-100 text-amber-700 hover:bg-amber-100 border border-amber-200'
+                          : 'bg-white text-zinc-600 hover:bg-zinc-50 border border-zinc-200'
                       }`}
                     >
                       <span>Kelas XII (12)</span>
@@ -980,7 +980,7 @@ const Dashboard = () => {
                 {filteredGroupedStudents.length === 0 ? (
                   <div className="text-center py-12 space-y-2">
                     <ShieldCheck className="text-4xl text-emerald-500 mx-auto" />
-                    <div className="font-bold text-zinc-800 text-sm">Tidak ada siswa sesuai filter</div>
+                    <div className="font-medium text-zinc-600 text-sm">Tidak ada siswa sesuai filter</div>
                     <p className="text-xs text-zinc-400">Tidak ada riwayat pelanggaran untuk kriteria pencarian ini.</p>
                   </div>
                 ) : (
@@ -1116,7 +1116,7 @@ const Dashboard = () => {
                 <div className="flex flex-wrap items-center gap-2 w-full justify-between">
                   <button
                     onClick={() => setSelectedStudentForDetail(null)}
-                    className="px-3.5 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    className="px-3.5 py-2 bg-white border border-zinc-200 text-zinc-800 rounded-lg hover:bg-zinc-50 transition text-xs sm:text-sm font-medium flex items-center gap-1.5 shadow-sm cursor-pointer"
                   >
                     <ArrowLeft className="text-sm" />
                     <span>Kembali</span>
@@ -1128,7 +1128,7 @@ const Dashboard = () => {
                         setSelectedStudentForDetail(null);
                         setSelectedStudentForSanction(sid);
                       }}
-                      className="px-3.5 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
+                      className="px-3.5 py-2 bg-white border border-zinc-200 text-zinc-800 rounded-lg hover:bg-zinc-50 transition text-xs sm:text-sm font-medium flex items-center gap-1.5 shadow-sm cursor-pointer"
                     >
                       <FileText className="text-base" />
                       <span>Surat Sanksi</span>
@@ -1152,7 +1152,7 @@ const Dashboard = () => {
                         setActiveModal(null);
                         navigate('/violations');
                       }}
-                      className="px-3.5 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
+                      className="px-3.5 py-2 bg-white border border-zinc-200 text-zinc-800 rounded-lg hover:bg-zinc-50 transition text-xs sm:text-sm font-medium flex items-center gap-1.5 shadow-sm cursor-pointer"
                     >
                       <span>Buka Menu Pelanggaran</span>
                       <ArrowRight className="text-sm" />
@@ -1187,13 +1187,13 @@ const Dashboard = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-zinc-200 flex justify-between items-center bg-rose-50/80">
+            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-zinc-200 flex justify-between items-center bg-white">
               <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                <div className="p-2 bg-rose-600 text-white rounded-xl flex-shrink-0">
+                <div className="p-2 text-zinc-700 flex-shrink-0">
                   <AlertTriangle className="text-lg sm:text-xl" />
                 </div>
                 <div className="truncate">
-                  <h3 className="text-sm sm:text-lg font-bold text-zinc-900 truncate">Siswa Perlu Penanganan Khusus</h3>
+                  <h3 className="text-sm sm:text-lg font-semibold tracking-tight text-zinc-900 truncate">Siswa Perlu Penanganan Khusus</h3>
                   <p className="text-[11px] sm:text-xs text-zinc-500 truncate">Siswa dengan akumulasi &ge; 21 Poin</p>
                 </div>
               </div>
@@ -1210,7 +1210,7 @@ const Dashboard = () => {
               {stats.studentsNeedAttentionList.length === 0 ? (
                 <div className="text-center py-12 space-y-2">
                   <ShieldCheck className="text-4xl text-emerald-500 mx-auto" />
-                  <div className="font-bold text-zinc-800 text-sm">Tidak ada siswa yang mencapai &ge;21 Poin</div>
+                  <div className="font-medium text-zinc-600 text-sm">Tidak ada siswa yang mencapai &ge;21 Poin</div>
                   <p className="text-xs text-zinc-400">Seluruh siswa berada dalam batas aman tata tertib sekolah.</p>
                 </div>
               ) : (
@@ -1294,7 +1294,7 @@ const Dashboard = () => {
                   setActiveModal(null);
                   navigate('/violations');
                 }}
-                className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
+                className="px-4 py-2 bg-white border border-zinc-200 text-zinc-800 rounded-lg hover:bg-zinc-50 transition text-xs sm:text-sm font-medium flex items-center gap-1.5 shadow-sm"
               >
                 <span>Buka Menu Pelanggaran Lengkap</span>
                 <ArrowRight className="text-sm" />
