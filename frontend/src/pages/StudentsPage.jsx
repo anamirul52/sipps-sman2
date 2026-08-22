@@ -627,8 +627,8 @@ const StudentsPage = () => {
           </div>
 
           {/* Desktop View: Table (Tampil di Tablet / PC - Proporsional & Rapi) */}
-          <div className="hidden md:block overflow-x-auto border border-zinc-200 rounded-xl bg-white shadow-sm">
-            <table className="w-full text-left border-collapse text-xs min-w-[1000px]">
+          <div className="hidden md:block overflow-hidden border border-zinc-200">
+            <table className="w-full text-left border-collapse text-xs table-fixed">
               <thead className="bg-zinc-50 border-b border-zinc-200 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider">
                 <tr>
                   <th className="px-2 py-3 text-center w-10">No</th>
