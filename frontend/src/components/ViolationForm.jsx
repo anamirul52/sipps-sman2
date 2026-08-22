@@ -151,12 +151,19 @@ const ViolationForm = ({ onSuccess }) => {
       });
 
       const { data } = response.data;
-      let message = `✅ Berhasil mencatat ${selectedCategoryIds.length} pelanggaran (+${totalSelectedPoints} poin)!`;
-      if (data.sanctions_created && data.sanctions_created.length > 0) {
-        const sanctionNames = data.sanctions_created.map(s => s.status).join(', ');
-        message += ` ⚠️ Sanksi Terpicu: ${sanctionNames}`;
-      }
-      toast.success(message, { duration: 6000 });
+        const MessageContent = (
+          <div className="flex flex-col gap-0.5">
+            <span className="font-medium text-zinc-900 leading-tight">
+              Berhasil mencatat {selectedCategoryIds.length} pelanggaran (+{totalSelectedPoints} poin)
+            </span>
+            {data.sanctions_created && data.sanctions_created.length > 0 && (
+              <span className="text-[11px] text-zinc-500 mt-1 leading-snug">
+                ⚠️ <span className="font-medium">Sanksi Terpicu:</span> {data.sanctions_created.map(s => s.status).join(', ')}
+              </span>
+            )}
+          </div>
+        );
+        toast.success(MessageContent, { duration: 6000 });
 
       // Reset form
       handleClearSelectedStudent();
