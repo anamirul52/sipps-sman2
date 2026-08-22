@@ -634,8 +634,8 @@ const Dashboard = () => {
                   </div>
 
                   {/* Desktop View: Table */}
-                  <div className="hidden sm:block overflow-hidden border border-zinc-200 rounded-xl shadow-sm">
-                    <table className="w-full text-left border-collapse text-xs table-fixed">
+                  <div className="hidden sm:block overflow-x-auto border border-zinc-200 rounded-xl shadow-sm bg-white">
+                    <table className="w-full text-left border-collapse text-xs min-w-[950px]">
                       <thead className="bg-zinc-50 border-b border-zinc-200 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider tracking-wider">
                         <tr>
                           <th className="px-2 py-3 text-center w-10">No</th>
@@ -797,8 +797,8 @@ const Dashboard = () => {
                 </div>
 
                 {/* Desktop View: Table */}
-                <div className="hidden sm:block overflow-hidden border border-zinc-200 rounded-xl shadow-sm">
-                  <table className="w-full text-left border-collapse text-xs table-fixed">
+                <div className="hidden sm:block overflow-x-auto border border-zinc-200 rounded-xl shadow-sm bg-white">
+                  <table className="w-full text-left border-collapse text-xs min-w-[950px]">
                     <thead className="bg-zinc-50 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider border-b border-zinc-200">
                       <tr>
                         <th className="px-2 py-3 text-center w-10">No</th>
@@ -1242,8 +1242,8 @@ const Dashboard = () => {
                   </div>
 
                   {/* Desktop View: Table */}
-                  <div className="hidden sm:block overflow-hidden border border-zinc-200 rounded-xl shadow-sm">
-                    <table className="w-full text-left border-collapse text-xs table-fixed">
+                  <div className="hidden sm:block overflow-x-auto border border-zinc-200 rounded-xl shadow-sm bg-white">
+                    <table className="w-full text-left border-collapse text-xs min-w-[950px]">
                       <thead className="bg-zinc-50 border-b border-zinc-200 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider">
                         <tr>
                           <th className="px-2 py-3 text-center w-10">No</th>
