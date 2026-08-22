@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../api/axios';
-import { HiX, HiDownload, HiOutlineDocumentText, HiShieldExclamation } from 'react-icons/hi';
+import { X, Download, FileText, ShieldAlert } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const SanctionLetterModal = ({ studentId, onClose }) => {
@@ -60,7 +60,7 @@ const SanctionLetterModal = ({ studentId, onClose }) => {
         {/* Header */}
         <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-gray-200 flex justify-between items-center bg-indigo-50/70">
           <div className="flex items-center min-w-0 mr-2">
-            <HiOutlineDocumentText className="mr-2 text-indigo-600 text-xl sm:text-2xl flex-shrink-0" /> 
+            <FileText className="mr-2 text-indigo-600 text-xl sm:text-2xl flex-shrink-0" /> 
             <h3 className="text-sm sm:text-lg font-bold text-indigo-950 truncate">
               Riwayat Surat & Tindakan Sanksi Siswa
             </h3>
@@ -69,7 +69,7 @@ const SanctionLetterModal = ({ studentId, onClose }) => {
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
           >
-            <HiX className="text-xl" />
+            <X className="text-xl" />
           </button>
         </div>
 
@@ -82,7 +82,7 @@ const SanctionLetterModal = ({ studentId, onClose }) => {
             </div>
           ) : sanctions.length === 0 ? (
             <div className="text-center py-12 text-gray-500 space-y-2">
-              <HiShieldExclamation className="text-4xl text-emerald-500 mx-auto" />
+              <ShieldAlert className="text-4xl text-emerald-500 mx-auto" />
               <div className="font-semibold text-gray-700 text-sm">Belum ada surat sanksi yang diterbitkan.</div>
               <p className="text-xs text-gray-400 max-w-sm mx-auto">
                 Surat tindakan diterbitkan secara otomatis saat poin pelanggaran siswa mencapai ambang batas resmi.
@@ -122,7 +122,7 @@ const SanctionLetterModal = ({ studentId, onClose }) => {
                     onClick={() => handleDownload(sanction.id, sanction.student_name)}
                     className="w-full sm:w-auto flex items-center justify-center space-x-1.5 bg-indigo-600 text-white hover:bg-indigo-700 px-3.5 py-2 rounded-lg transition font-semibold text-xs shadow-xs"
                   >
-                    <HiDownload className="text-sm" />
+                    <Download className="text-sm" />
                     <span>Download PDF</span>
                   </button>
                 </div>

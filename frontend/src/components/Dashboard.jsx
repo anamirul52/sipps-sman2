@@ -3,21 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import PointBadge from './PointBadge';
 import SanctionLetterModal from './SanctionLetterModal';
-import { 
-  HiUsers, 
-  HiExclamationCircle, 
-  HiExclamation,
-  HiShieldCheck,
-  HiClipboardList,
-  HiX,
-  HiArrowRight,
-  HiArrowLeft,
-  HiSearch,
-  HiOutlineDocumentText,
-  HiOutlineEye,
-  HiDocumentDownload,
-  HiFilter
-} from 'react-icons/hi';
+import { Users, AlertCircle, AlertTriangle, ShieldCheck, ClipboardList, X, ArrowRight, ArrowLeft, Search, FileText, Eye, FileDown, Filter } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const Dashboard = () => {
@@ -253,12 +239,12 @@ const Dashboard = () => {
               <p className="text-3xl sm:text-4xl font-semibold text-slate-900 mt-2">{stats.totalStudents}</p>
             </div>
             <div className="bg-indigo-50 p-2.5 sm:p-3 rounded-lg text-indigo-600 group-hover:scale-105 transition-transform">
-              <HiUsers className="text-xl sm:text-2xl" />
+              <Users className="text-xl sm:text-2xl" />
             </div>
           </div>
           <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Lihat data & rombel</span>
-            <HiArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-indigo-600 transition-all" />
+            <ArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-indigo-600 transition-all" />
           </div>
         </div>
 
@@ -273,12 +259,12 @@ const Dashboard = () => {
               <p className="text-3xl sm:text-4xl font-semibold text-slate-900 mt-2">{stats.todayViolations}</p>
             </div>
             <div className="bg-amber-50 p-2.5 sm:p-3 rounded-lg text-amber-600 group-hover:scale-105 transition-transform">
-              <HiExclamationCircle className="text-xl sm:text-2xl" />
+              <AlertCircle className="text-xl sm:text-2xl" />
             </div>
           </div>
           <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Rincian hari ini</span>
-            <HiArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-amber-600 transition-all" />
+            <ArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-amber-600 transition-all" />
           </div>
         </div>
 
@@ -293,12 +279,12 @@ const Dashboard = () => {
               <p className="text-3xl sm:text-4xl font-semibold text-slate-900 mt-2">{stats.totalViolations}</p>
             </div>
             <div className="bg-purple-50 p-2.5 sm:p-3 rounded-lg text-purple-600 group-hover:scale-105 transition-transform">
-              <HiClipboardList className="text-xl sm:text-2xl" />
+              <ClipboardList className="text-xl sm:text-2xl" />
             </div>
           </div>
           <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Lihat seluruh riwayat</span>
-            <HiArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-purple-600 transition-all" />
+            <ArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-purple-600 transition-all" />
           </div>
         </div>
 
@@ -313,12 +299,12 @@ const Dashboard = () => {
               <p className="text-3xl sm:text-4xl font-semibold text-rose-600 mt-2">{stats.studentsNeedAttention}</p>
             </div>
             <div className="bg-rose-50 p-2.5 sm:p-3 rounded-lg text-rose-600 group-hover:scale-105 transition-transform">
-              <HiExclamation className="text-xl sm:text-2xl" />
+              <AlertTriangle className="text-xl sm:text-2xl" />
             </div>
           </div>
           <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-slate-500 font-medium">
             <span>Daftar & cetak sanksi</span>
-            <HiArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-rose-600 transition-all" />
+            <ArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-rose-600 transition-all" />
           </div>
         </div>
       </div>
@@ -329,7 +315,7 @@ const Dashboard = () => {
       <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
         <div className="px-4 py-4 border-b border-gray-200 flex justify-between items-center bg-white">
           <h2 className="text-sm sm:text-base font-semibold text-slate-900 flex items-center gap-2">
-            <HiClipboardList className="text-indigo-600 text-base sm:text-lg" />
+            <ClipboardList className="text-indigo-600 text-base sm:text-lg" />
             Pelanggaran Terbaru Masuk
           </h2>
           <span className="text-[11px] text-slate-500 font-medium bg-slate-100 px-2.5 py-0.5 rounded-full">
@@ -428,7 +414,7 @@ const Dashboard = () => {
       <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
         <div className="px-4 py-4 border-b border-gray-200 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <h2 className="text-sm sm:text-base font-semibold text-slate-900 flex items-center gap-2">
-            <HiShieldCheck className="text-indigo-600 text-base sm:text-lg" />
+            <ShieldCheck className="text-indigo-600 text-base sm:text-lg" />
             Pedoman Daftar Sanksi Berdasarkan Total Poin
           </h2>
           <span className="text-[11px] font-semibold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200 w-fit">
@@ -501,7 +487,7 @@ const Dashboard = () => {
             <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-gray-200 flex justify-between items-center bg-indigo-50/80">
               <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                 <div className="p-2 bg-indigo-600 text-white rounded-xl flex-shrink-0">
-                  <HiUsers className="text-lg sm:text-xl" />
+                  <Users className="text-lg sm:text-xl" />
                 </div>
                 <div className="truncate">
                   <h3 className="text-sm sm:text-lg font-bold text-gray-900 truncate">Rincian Data Siswa & Rombel</h3>
@@ -512,7 +498,7 @@ const Dashboard = () => {
                 onClick={() => setActiveModal(null)}
                 className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
               >
-                <HiX className="text-xl" />
+                <X className="text-xl" />
               </button>
             </div>
 
@@ -520,7 +506,7 @@ const Dashboard = () => {
             <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
               {/* Search input */}
               <div className="relative">
-                <HiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
                 <input
                   type="text"
                   placeholder="Cari nama kelas (misal: X-A, XI-I, XII-MIPA)..."
@@ -564,7 +550,7 @@ const Dashboard = () => {
                 className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
               >
                 <span>Buka Menu Data Siswa Lengkap</span>
-                <HiArrowRight className="text-sm" />
+                <ArrowRight className="text-sm" />
               </button>
               <button
                 onClick={() => setActiveModal(null)}
@@ -585,7 +571,7 @@ const Dashboard = () => {
             <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-amber-50/80">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-amber-500 text-white rounded-xl">
-                  <HiExclamationCircle className="text-xl" />
+                  <AlertCircle className="text-xl" />
                 </div>
                 <div>
                   <h3 className="text-base sm:text-lg font-bold text-gray-900">Rincian Pelanggaran Masuk Hari Ini</h3>
@@ -598,7 +584,7 @@ const Dashboard = () => {
                 onClick={() => setActiveModal(null)}
                 className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white"
               >
-                <HiX className="text-xl" />
+                <X className="text-xl" />
               </button>
             </div>
 
@@ -606,7 +592,7 @@ const Dashboard = () => {
             <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
               {stats.todayViolationsList.length === 0 ? (
                 <div className="text-center py-12 space-y-2">
-                  <HiShieldCheck className="text-4xl text-emerald-500 mx-auto" />
+                  <ShieldCheck className="text-4xl text-emerald-500 mx-auto" />
                   <div className="font-bold text-gray-800 text-sm">Tidak ada pelanggaran tercatat hari ini</div>
                   <p className="text-xs text-gray-400">Seluruh siswa tertib mematuhi tata tertib sekolah hari ini.</p>
                 </div>
@@ -634,7 +620,7 @@ const Dashboard = () => {
                             onClick={() => setSelectedStudentForSanction(v.student_id)}
                             className="w-full py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
                           >
-                            <HiOutlineDocumentText className="text-sm" />
+                            <FileText className="text-sm" />
                             <span>Lihat Surat Sanksi</span>
                           </button>
                         </div>
@@ -686,7 +672,7 @@ const Dashboard = () => {
                                 className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1 shadow-2xs cursor-pointer whitespace-nowrap"
                                 title="Lihat Surat Sanksi"
                               >
-                                <HiOutlineDocumentText className="text-sm" />
+                                <FileText className="text-sm" />
                                 <span>Surat</span>
                               </button>
                             </td>
@@ -709,7 +695,7 @@ const Dashboard = () => {
                 className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
               >
                 <span>Buka Menu Pelanggaran Lengkap</span>
-                <HiArrowRight className="text-sm" />
+                <ArrowRight className="text-sm" />
               </button>
               <button
                 onClick={() => setActiveModal(null)}
@@ -735,7 +721,7 @@ const Dashboard = () => {
                     className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl transition flex items-center gap-1.5 shadow-sm text-xs font-semibold cursor-pointer flex-shrink-0"
                     title="Kembali ke Rekapitulasi Siswa"
                   >
-                    <HiArrowLeft className="text-base" />
+                    <ArrowLeft className="text-base" />
                     <span className="hidden sm:inline">Kembali</span>
                   </button>
                   <div className="truncate">
@@ -750,7 +736,7 @@ const Dashboard = () => {
               ) : (
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                   <div className="p-2 bg-purple-600 text-white rounded-xl flex-shrink-0">
-                    <HiClipboardList className="text-lg sm:text-xl" />
+                    <ClipboardList className="text-lg sm:text-xl" />
                   </div>
                   <div className="truncate">
                     <h3 className="text-sm sm:text-lg font-bold text-gray-900 truncate">Rekapitulasi Seluruh Pelanggaran Tercatat</h3>
@@ -767,7 +753,7 @@ const Dashboard = () => {
                 }}
                 className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
               >
-                <HiX className="text-xl" />
+                <X className="text-xl" />
               </button>
             </div>
 
@@ -855,7 +841,7 @@ const Dashboard = () => {
                 {/* Search input & Class Dropdown */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
                   <div className="sm:col-span-2 relative">
-                    <HiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
+                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
                     <input
                       type="text"
                       placeholder="Cari nama siswa, NIPD, kelas, atau jenis pelanggaran..."
@@ -884,7 +870,7 @@ const Dashboard = () => {
                 <div className="flex flex-wrap items-center justify-between gap-2 pt-1 pb-1 border-b border-gray-100">
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <span className="text-xs font-semibold text-gray-500 mr-1 flex items-center gap-1">
-                      <HiFilter className="text-xs" /> Kategori:
+                      <Filter className="text-xs" /> Kategori:
                     </span>
                     
                     {/* Tab Semua */}
@@ -988,7 +974,7 @@ const Dashboard = () => {
 
                 {filteredGroupedStudents.length === 0 ? (
                   <div className="text-center py-12 space-y-2">
-                    <HiShieldCheck className="text-4xl text-emerald-500 mx-auto" />
+                    <ShieldCheck className="text-4xl text-emerald-500 mx-auto" />
                     <div className="font-bold text-gray-800 text-sm">Tidak ada siswa sesuai filter</div>
                     <p className="text-xs text-gray-400">Tidak ada riwayat pelanggaran untuk kriteria pencarian ini.</p>
                   </div>
@@ -1027,14 +1013,14 @@ const Dashboard = () => {
                                 onClick={() => setSelectedStudentForDetail(s)}
                                 className="w-full py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
                               >
-                                <HiOutlineEye className="text-sm" />
+                                <Eye className="text-sm" />
                                 <span>Rincian ({s.violations.length})</span>
                               </button>
                               <button
                                 onClick={() => setSelectedStudentForSanction(s.student_id)}
                                 className="w-full py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
                               >
-                                <HiOutlineDocumentText className="text-sm" />
+                                <FileText className="text-sm" />
                                 <span>Surat Sanksi</span>
                               </button>
                             </div>
@@ -1093,7 +1079,7 @@ const Dashboard = () => {
                                       className="text-purple-700 hover:text-purple-900 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-1 rounded-md text-[11px] font-semibold transition inline-flex items-center gap-1 cursor-pointer whitespace-nowrap"
                                       title="Lihat Daftar Bentuk Pelanggaran Siswa"
                                     >
-                                      <HiOutlineEye className="text-xs" />
+                                      <Eye className="text-xs" />
                                       <span>Rincian ({s.violations.length})</span>
                                     </button>
                                     <button
@@ -1101,7 +1087,7 @@ const Dashboard = () => {
                                       className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2 py-1 rounded-md text-[11px] font-semibold transition inline-flex items-center gap-1 cursor-pointer whitespace-nowrap"
                                       title="Lihat Surat Sanksi Siswa"
                                     >
-                                      <HiOutlineDocumentText className="text-xs" />
+                                      <FileText className="text-xs" />
                                       <span>Surat</span>
                                     </button>
                                   </div>
@@ -1125,7 +1111,7 @@ const Dashboard = () => {
                     onClick={() => setSelectedStudentForDetail(null)}
                     className="px-3.5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
                   >
-                    <HiArrowLeft className="text-sm" />
+                    <ArrowLeft className="text-sm" />
                     <span>Kembali</span>
                   </button>
                   <div className="flex items-center gap-2">
@@ -1137,7 +1123,7 @@ const Dashboard = () => {
                       }}
                       className="px-3.5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
                     >
-                      <HiOutlineDocumentText className="text-base" />
+                      <FileText className="text-base" />
                       <span>Surat Sanksi</span>
                     </button>
                     <button
@@ -1162,14 +1148,14 @@ const Dashboard = () => {
                       className="px-3.5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
                     >
                       <span>Buka Menu Pelanggaran</span>
-                      <HiArrowRight className="text-sm" />
+                      <ArrowRight className="text-sm" />
                     </button>
                     <button
                       onClick={handleExportViolations}
                       className="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
                       title="Export Seluruh Pelanggaran ke Excel"
                     >
-                      <HiDocumentDownload className="text-base" />
+                      <FileDown className="text-base" />
                       <span>Excel</span>
                     </button>
                   </div>
@@ -1197,7 +1183,7 @@ const Dashboard = () => {
             <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-gray-200 flex justify-between items-center bg-rose-50/80">
               <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                 <div className="p-2 bg-rose-600 text-white rounded-xl flex-shrink-0">
-                  <HiExclamation className="text-lg sm:text-xl" />
+                  <AlertTriangle className="text-lg sm:text-xl" />
                 </div>
                 <div className="truncate">
                   <h3 className="text-sm sm:text-lg font-bold text-gray-900 truncate">Siswa Perlu Penanganan Khusus</h3>
@@ -1208,7 +1194,7 @@ const Dashboard = () => {
                 onClick={() => setActiveModal(null)}
                 className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
               >
-                <HiX className="text-xl" />
+                <X className="text-xl" />
               </button>
             </div>
 
@@ -1216,7 +1202,7 @@ const Dashboard = () => {
             <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
               {stats.studentsNeedAttentionList.length === 0 ? (
                 <div className="text-center py-12 space-y-2">
-                  <HiShieldCheck className="text-4xl text-emerald-500 mx-auto" />
+                  <ShieldCheck className="text-4xl text-emerald-500 mx-auto" />
                   <div className="font-bold text-gray-800 text-sm">Tidak ada siswa yang mencapai &ge;21 Poin</div>
                   <p className="text-xs text-gray-400">Seluruh siswa berada dalam batas aman tata tertib sekolah.</p>
                 </div>
@@ -1240,7 +1226,7 @@ const Dashboard = () => {
                             onClick={() => setSelectedStudentForSanction(s.id)}
                             className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow-xs cursor-pointer"
                           >
-                            <HiOutlineDocumentText className="text-sm" />
+                            <FileText className="text-sm" />
                             <span>Lihat & Cetak Surat Sanksi</span>
                           </button>
                         </div>
@@ -1282,7 +1268,7 @@ const Dashboard = () => {
                                 className="px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-[11px] transition inline-flex items-center gap-1 shadow-2xs cursor-pointer"
                                 title="Lihat & Cetak Surat Sanksi"
                               >
-                                <HiOutlineDocumentText className="text-xs" /> Surat Sanksi
+                                <FileText className="text-xs" /> Surat Sanksi
                               </button>
                             </td>
                           </tr>
@@ -1304,7 +1290,7 @@ const Dashboard = () => {
                 className="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
               >
                 <span>Buka Menu Pelanggaran Lengkap</span>
-                <HiArrowRight className="text-sm" />
+                <ArrowRight className="text-sm" />
               </button>
               <button
                 onClick={() => setActiveModal(null)}

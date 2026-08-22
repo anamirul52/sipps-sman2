@@ -3,25 +3,7 @@ import Layout from '../components/Layout';
 import PointBadge from '../components/PointBadge';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
-import { 
-  HiPlus, 
-  HiSearch, 
-  HiUserAdd, 
-  HiX, 
-  HiPhone, 
-  HiDownload, 
-  HiUpload, 
-  HiDocumentText, 
-  HiCheckCircle, 
-  HiExclamation,
-  HiTrash,
-  HiPencilAlt,
-  HiExclamationCircle,
-  HiAcademicCap,
-  HiUsers,
-  HiDocumentReport,
-  HiSparkles
-} from 'react-icons/hi';
+import { HiPlus, Search, HiUserAdd, X, HiPhone, Download, HiUpload, HiDocumentText, CheckCircle, AlertTriangle, Trash2, Edit, AlertCircle, HiAcademicCap, Users, HiDocumentReport, HiSparkles } from 'lucide-react';
 
 const StudentsPage = () => {
   const [students, setStudents] = useState([]);
@@ -304,7 +286,7 @@ const StudentsPage = () => {
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
               <div className="p-2 bg-indigo-600 text-white rounded-xl shadow-sm">
-                <HiAcademicCap className="text-2xl" />
+                <GraduationCap className="text-2xl" />
               </div>
               <span>Data Siswa</span>
             </h1>
@@ -320,7 +302,7 @@ const StudentsPage = () => {
               title="Unduh format file Excel resmi untuk pengisian data siswa"
             >
               <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition flex-shrink-0">
-                <HiDownload className="text-sm sm:text-base" />
+                <Download className="text-sm sm:text-base" />
               </div>
               <div className="text-left truncate">
                 <div className="leading-tight truncate">Template Excel</div>
@@ -336,7 +318,7 @@ const StudentsPage = () => {
               title="Ekspor seluruh data siswa saat ini ke dalam format Excel (.xlsx)"
             >
               <div className="p-1.5 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition flex-shrink-0">
-                <HiDocumentReport className="text-sm sm:text-base" />
+                <FileSpreadsheet className="text-sm sm:text-base" />
               </div>
               <div className="text-left truncate">
                 <div className="leading-tight truncate">{exporting ? 'Mengekspor...' : 'Export Excel'}</div>
@@ -351,7 +333,7 @@ const StudentsPage = () => {
               title="Unggah file Excel untuk memasukkan data siswa massal / 1 angkatan sekaligus"
             >
               <div className="p-1.5 bg-white/20 text-white rounded-lg group-hover:bg-white group-hover:text-emerald-700 transition flex-shrink-0">
-                <HiUpload className="text-sm sm:text-base" />
+                <Upload className="text-sm sm:text-base" />
               </div>
               <div className="text-left truncate">
                 <div className="leading-tight truncate">Import Excel</div>
@@ -374,7 +356,7 @@ const StudentsPage = () => {
               title="Tambah data satu siswa baru secara manual"
             >
               <div className="p-1.5 bg-white/20 text-white rounded-lg group-hover:bg-white group-hover:text-indigo-700 transition flex-shrink-0">
-                <HiPlus className="text-sm sm:text-base" />
+                <Plus className="text-sm sm:text-base" />
               </div>
               <div className="text-left truncate">
                 <div className="leading-tight truncate">Tambah Siswa</div>
@@ -400,7 +382,7 @@ const StudentsPage = () => {
             className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-indigo-300 hover:shadow-md transition cursor-pointer group flex items-start gap-3"
           >
             <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
-              <HiUserAdd className="text-lg" />
+              <UserPlus className="text-lg" />
             </div>
             <div>
               <h4 className="font-semibold text-xs sm:text-sm text-slate-900 group-hover:text-indigo-600 transition">Tambah Siswa Manual</h4>
@@ -416,7 +398,7 @@ const StudentsPage = () => {
             className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-emerald-300 transition cursor-pointer group flex items-start gap-3 shadow-sm hover:shadow-md"
           >
             <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
-              <HiUpload className="text-lg" />
+              <Upload className="text-lg" />
             </div>
             <div>
               <h4 className="font-semibold text-xs sm:text-sm text-slate-900 group-hover:text-emerald-600 transition">Import Excel Massal</h4>
@@ -432,7 +414,7 @@ const StudentsPage = () => {
             className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-blue-300 transition cursor-pointer group flex items-start gap-3 shadow-sm hover:shadow-md"
           >
             <div className="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
-              <HiDocumentReport className="text-lg" />
+              <FileSpreadsheet className="text-lg" />
             </div>
             <div>
               <h4 className="font-semibold text-xs sm:text-sm text-slate-900 group-hover:text-blue-600 transition">Export Rekap Excel</h4>
@@ -448,7 +430,7 @@ const StudentsPage = () => {
             className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-purple-300 transition cursor-pointer group flex items-start gap-3 shadow-sm hover:shadow-md"
           >
             <div className="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
-              <HiDownload className="text-lg" />
+              <Download className="text-lg" />
             </div>
             <div>
               <h4 className="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-purple-600 transition">Template Resmi Excel</h4>
@@ -508,7 +490,7 @@ const StudentsPage = () => {
 
             {/* Quick Summary Pill */}
             <div className="flex items-center space-x-1.5 text-xs bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-lg font-semibold border border-indigo-100 whitespace-nowrap">
-              <HiUsers className="text-sm" />
+              <Users className="text-sm" />
               <span>{students.length} Siswa</span>
             </div>
           </div>
@@ -516,7 +498,7 @@ const StudentsPage = () => {
           {/* Search & Specific Class Select */}
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="relative flex-1 w-full">
-              <HiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
               <input
                 type="text"
                 value={search}
@@ -577,7 +559,7 @@ const StudentsPage = () => {
               <div className="p-8 text-center text-gray-500">
                 <div className="flex flex-col items-center justify-center space-y-2">
                   <div className="bg-gray-100 p-3 rounded-full text-gray-400">
-                    <HiUsers className="text-2xl" />
+                    <Users className="text-2xl" />
                   </div>
                   <div className="font-medium text-xs text-gray-700">
                     {selectedClassObj 
@@ -610,7 +592,7 @@ const StudentsPage = () => {
                         href={`tel:${student.parent_phone}`} 
                         className="font-semibold text-indigo-600 flex items-center gap-1 hover:underline text-xs"
                       >
-                        <HiPhone className="text-xs" />
+                        <Phone className="text-xs" />
                         <span>{student.parent_phone}</span>
                       </a>
                     ) : (
@@ -625,7 +607,7 @@ const StudentsPage = () => {
                       className="w-full py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition"
                       title="Edit data siswa ini"
                     >
-                      <HiPencilAlt className="text-sm" />
+                      <Edit className="text-sm" />
                       <span>Edit</span>
                     </button>
                     <button
@@ -633,7 +615,7 @@ const StudentsPage = () => {
                       className="w-full py-1.5 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition"
                       title="Hapus data siswa ini"
                     >
-                      <HiTrash className="text-sm" />
+                      <Trash2 className="text-sm" />
                       <span>Hapus</span>
                     </button>
                   </div>
@@ -671,7 +653,7 @@ const StudentsPage = () => {
                     <td colSpan="7" className="px-6 py-12 text-center text-gray-500">
                       <div className="flex flex-col items-center justify-center space-y-3">
                         <div className="bg-gray-100 p-3 rounded-full text-gray-400">
-                          <HiUsers className="text-3xl" />
+                          <Users className="text-3xl" />
                         </div>
                         <div className="font-medium text-gray-700">
                           {selectedClassObj 
@@ -686,13 +668,13 @@ const StudentsPage = () => {
                             onClick={() => setShowTemplateModal(true)}
                             className="text-xs bg-indigo-50 text-indigo-700 border border-indigo-200 px-3 py-1.5 rounded-lg hover:bg-indigo-100 transition font-semibold flex items-center"
                           >
-                            <HiDownload className="mr-1" /> Unduh Template Angkatan
+                            <Download className="mr-1" /> Unduh Template Angkatan
                           </button>
                           <button
                             onClick={() => setShowImportModal(true)}
                             className="text-xs bg-emerald-600 text-white px-3 py-1.5 rounded-lg hover:bg-emerald-700 transition font-medium flex items-center"
                           >
-                            <HiUpload className="mr-1" /> Import Excel Sekarang
+                            <Upload className="mr-1" /> Import Excel Sekarang
                           </button>
                         </div>
                       </div>
@@ -722,7 +704,7 @@ const StudentsPage = () => {
                             className="inline-flex items-center justify-center text-gray-700 hover:text-indigo-600 font-medium truncate"
                             title={`Hubungi: ${student.parent_phone}`}
                           >
-                            <HiPhone className="mr-1 text-gray-400 text-xs flex-shrink-0" />
+                            <Phone className="mr-1 text-gray-400 text-xs flex-shrink-0" />
                             <span className="truncate">{student.parent_phone}</span>
                           </a>
                         ) : (
@@ -739,7 +721,7 @@ const StudentsPage = () => {
                             className="inline-flex items-center gap-1 text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-1 rounded-lg text-xs font-semibold transition shadow-2xs cursor-pointer"
                             title="Edit data siswa ini"
                           >
-                            <HiPencilAlt className="text-xs" />
+                            <Edit className="text-xs" />
                             <span>Edit</span>
                           </button>
                           <button
@@ -747,7 +729,7 @@ const StudentsPage = () => {
                             className="inline-flex items-center gap-1 text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 border border-red-200 px-2.5 py-1 rounded-lg text-xs font-semibold transition shadow-2xs cursor-pointer"
                             title="Hapus data siswa ini"
                           >
-                            <HiTrash className="text-xs" />
+                            <Trash2 className="text-xs" />
                             <span>Hapus</span>
                           </button>
                         </div>
@@ -766,14 +748,14 @@ const StudentsPage = () => {
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
               <div className="px-6 py-4 bg-indigo-50 border-b border-indigo-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-indigo-900 flex items-center">
-                  <HiDownload className="mr-2 text-indigo-600 text-xl" />
+                  <Download className="mr-2 text-indigo-600 text-xl" />
                   Pusat Template Excel Siswa
                 </h3>
                 <button
                   onClick={() => setShowTemplateModal(false)}
                   className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white"
                 >
-                  <HiX className="text-xl" />
+                  <X className="text-xl" />
                 </button>
               </div>
 
@@ -787,7 +769,7 @@ const StudentsPage = () => {
                   <div className="p-4 rounded-xl border-2 border-indigo-100 bg-indigo-50/40 hover:border-indigo-400 transition flex items-center justify-between gap-3">
                     <div>
                       <div className="font-bold text-indigo-950 flex items-center text-sm">
-                        <HiSparkles className="text-indigo-600 mr-1.5" />
+                        <Sparkles className="text-indigo-600 mr-1.5" />
                         Template Master Seluruh Angkatan (33 Sheet Kelas)
                       </div>
                       <p className="text-xs text-gray-500 mt-0.5">
@@ -798,7 +780,7 @@ const StudentsPage = () => {
                       onClick={() => { handleDownloadTemplate('all'); setShowTemplateModal(false); }}
                       className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold shadow-sm flex items-center whitespace-nowrap"
                     >
-                      <HiDownload className="mr-1 text-sm" /> Unduh
+                      <Download className="mr-1 text-sm" /> Unduh
                     </button>
                   </div>
 
@@ -816,7 +798,7 @@ const StudentsPage = () => {
                       onClick={() => { handleDownloadTemplate('angkatan', 'X'); setShowTemplateModal(false); }}
                       className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm flex items-center whitespace-nowrap"
                     >
-                      <HiDownload className="mr-1" /> Unduh
+                      <Download className="mr-1" /> Unduh
                     </button>
                   </div>
 
@@ -834,7 +816,7 @@ const StudentsPage = () => {
                       onClick={() => { handleDownloadTemplate('angkatan', 'XI'); setShowTemplateModal(false); }}
                       className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm flex items-center whitespace-nowrap"
                     >
-                      <HiDownload className="mr-1" /> Unduh
+                      <Download className="mr-1" /> Unduh
                     </button>
                   </div>
 
@@ -852,7 +834,7 @@ const StudentsPage = () => {
                       onClick={() => { handleDownloadTemplate('angkatan', 'XII'); setShowTemplateModal(false); }}
                       className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm flex items-center whitespace-nowrap"
                     >
-                      <HiDownload className="mr-1" /> Unduh
+                      <Download className="mr-1" /> Unduh
                     </button>
                   </div>
 
@@ -870,7 +852,7 @@ const StudentsPage = () => {
                       onClick={() => { handleDownloadTemplate('standard'); setShowTemplateModal(false); }}
                       className="px-2.5 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 rounded-lg text-xs font-medium flex items-center whitespace-nowrap"
                     >
-                      <HiDownload className="mr-1" /> Unduh
+                      <Download className="mr-1" /> Unduh
                     </button>
                   </div>
                 </div>
@@ -895,14 +877,14 @@ const StudentsPage = () => {
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all animate-in fade-in">
               <div className="px-6 py-4 bg-red-50 border-b border-red-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-red-900 flex items-center">
-                  <HiExclamationCircle className="mr-2 text-red-600 text-2xl" />
+                  <AlertCircle className="mr-2 text-red-600 text-2xl" />
                   Konfirmasi Hapus Siswa
                 </h3>
                 <button
                   onClick={() => setStudentToDelete(null)}
                   className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white"
                 >
-                  <HiX className="text-xl" />
+                  <X className="text-xl" />
                 </button>
               </div>
 
@@ -919,7 +901,7 @@ const StudentsPage = () => {
                 </div>
 
                 <div className="p-3 bg-amber-50 rounded-lg border border-amber-200 text-xs text-amber-800 flex items-start space-x-2">
-                  <HiExclamation className="text-lg text-amber-600 flex-shrink-0 mt-0.5" />
+                  <AlertTriangle className="text-lg text-amber-600 flex-shrink-0 mt-0.5" />
                   <span>
                     <strong>Peringatan:</strong> Menghapus data siswa ini juga akan menghapus seluruh riwayat catatan pelanggaran dan surat sanksi yang terkait.
                   </span>
@@ -944,7 +926,7 @@ const StudentsPage = () => {
                       <span>Menghapus...</span>
                     ) : (
                       <>
-                        <HiTrash />
+                        <Trash2 />
                         <span>Ya, Hapus Siswa</span>
                       </>
                     )}
@@ -961,14 +943,14 @@ const StudentsPage = () => {
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all">
               <div className="px-6 py-4 bg-emerald-50 border-b border-emerald-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-emerald-900 flex items-center">
-                  <HiUpload className="mr-2 text-emerald-600 text-xl" />
+                  <Upload className="mr-2 text-emerald-600 text-xl" />
                   Import Data Siswa (1 Angkatan Sekaligus)
                 </h3>
                 <button
                   onClick={handleCloseImportModal}
                   className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white"
                 >
-                  <HiX className="text-xl" />
+                  <X className="text-xl" />
                 </button>
               </div>
 
@@ -976,7 +958,7 @@ const StudentsPage = () => {
                 {/* Petunjuk Format & Download Template Angkatan */}
                 <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-xs text-blue-800 space-y-2">
                   <div className="font-semibold text-blue-900 flex items-center">
-                    <HiDocumentText className="mr-1 text-base" /> Dukungan Import 1 Angkatan:
+                    <FileText className="mr-1 text-base" /> Dukungan Import 1 Angkatan:
                   </div>
                   <p>&bull; Anda dapat mengunggah file Excel berisi 11 sheet (Kelas A s/d K) atau 1 sheet master.</p>
                   <p>&bull; Sistem otomatis mendeteksi nama sheet atau kolom <code className="bg-white px-1 py-0.5 rounded border border-blue-200">Kelas</code> dan mengimpor seluruh siswa sekaligus.</p>
@@ -987,7 +969,7 @@ const StudentsPage = () => {
                       onClick={() => setShowTemplateModal(true)}
                       className="text-indigo-700 bg-white border border-indigo-200 hover:bg-indigo-50 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center shadow-sm"
                     >
-                      <HiDownload className="mr-1 text-sm" /> Buka Pusat Unduh Template Angkatan
+                      <Download className="mr-1 text-sm" /> Buka Pusat Unduh Template Angkatan
                     </button>
                   </div>
                 </div>
@@ -1023,7 +1005,7 @@ const StudentsPage = () => {
                   {importResult && (
                     <div className="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
                       <div className="flex items-center text-sm font-semibold text-gray-800">
-                        <HiCheckCircle className="mr-1 text-emerald-600 text-lg" />
+                        <CheckCircle className="mr-1 text-emerald-600 text-lg" />
                         Hasil Pemrosesan:
                       </div>
                       <div className="grid grid-cols-3 gap-2 text-center text-xs">
@@ -1059,7 +1041,7 @@ const StudentsPage = () => {
                       {importResult.errors && importResult.errors.length > 0 && (
                         <div className="mt-2 max-h-32 overflow-y-auto bg-red-50 p-2.5 rounded-lg border border-red-100 text-[11px] text-red-700 space-y-1">
                           <div className="font-semibold flex items-center">
-                            <HiExclamation className="mr-1" /> Catatan Kesalahan:
+                            <AlertTriangle className="mr-1" /> Catatan Kesalahan:
                           </div>
                           {importResult.errors.map((err, idx) => (
                             <div key={idx}>&bull; {err}</div>
@@ -1101,14 +1083,14 @@ const StudentsPage = () => {
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all">
               <div className="px-6 py-4 bg-indigo-50 border-b border-indigo-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-indigo-900 flex items-center">
-                  <HiUserAdd className="mr-2 text-indigo-600 text-xl" />
+                  <UserPlus className="mr-2 text-indigo-600 text-xl" />
                   Tambah Siswa Baru Manual
                 </h3>
                 <button
                   onClick={() => setShowModal(false)}
                   className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white"
                 >
-                  <HiX className="text-xl" />
+                  <X className="text-xl" />
                 </button>
               </div>
 
@@ -1198,14 +1180,14 @@ const StudentsPage = () => {
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all">
               <div className="px-6 py-4 bg-amber-50 border-b border-amber-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-amber-950 flex items-center">
-                  <HiPencilAlt className="mr-2 text-amber-600 text-xl" />
+                  <Edit className="mr-2 text-amber-600 text-xl" />
                   Edit Data Siswa
                 </h3>
                 <button
                   onClick={() => setStudentToEdit(null)}
                   className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white transition"
                 >
-                  <HiX className="text-xl" />
+                  <X className="text-xl" />
                 </button>
               </div>
 

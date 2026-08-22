@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
-import { HiX, HiTrash, HiExclamationCircle, HiExclamation } from 'react-icons/hi';
+import { X, Trash2, AlertCircle, AlertTriangle } from 'lucide-react';
 
 const DeleteViolationModal = ({ violation, onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
@@ -27,14 +27,14 @@ const DeleteViolationModal = ({ violation, onClose, onSuccess }) => {
         {/* Header */}
         <div className="px-6 py-4 bg-red-50 border-b border-red-100 flex justify-between items-center">
           <h3 className="text-lg font-bold text-red-900 flex items-center">
-            <HiExclamationCircle className="mr-2 text-red-600 text-2xl" />
+            <AlertCircle className="mr-2 text-red-600 text-2xl" />
             Hapus Catatan Pelanggaran
           </h3>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white transition"
           >
-            <HiX className="text-xl" />
+            <X className="text-xl" />
           </button>
         </div>
 
@@ -64,7 +64,7 @@ const DeleteViolationModal = ({ violation, onClose, onSuccess }) => {
           </div>
 
           <div className="p-3 bg-amber-50 rounded-lg border border-amber-200 text-xs text-amber-800 flex items-start space-x-2">
-            <HiExclamation className="text-lg text-amber-600 flex-shrink-0 mt-0.5" />
+            <AlertTriangle className="text-lg text-amber-600 flex-shrink-0 mt-0.5" />
             <span>
               <strong>Efek Pengurangan:</strong> Menghapus pelanggaran ini akan <strong>mengurangi total poin siswa sebanyak {violation?.point_deduction} poin</strong> secara otomatis.
             </span>
@@ -90,7 +90,7 @@ const DeleteViolationModal = ({ violation, onClose, onSuccess }) => {
                 <span>Menghapus...</span>
               ) : (
                 <>
-                  <HiTrash />
+                  <Trash2 />
                   <span>Ya, Hapus Pelanggaran</span>
                 </>
               )}

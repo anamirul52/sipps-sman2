@@ -3,20 +3,7 @@ import Layout from '../components/Layout';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
-import { 
-  HiUserAdd, 
-  HiSearch, 
-  HiUserGroup, 
-  HiPencilAlt, 
-  HiTrash, 
-  HiX, 
-  HiShieldCheck, 
-  HiOutlineKey,
-  HiOutlineMail,
-  HiAcademicCap,
-  HiCheckCircle,
-  HiExclamation
-} from 'react-icons/hi';
+import { UserPlus, Search, Users, Edit, Trash2, X, HiShieldCheck, Key, Mail, GraduationCap, CheckCircle, AlertTriangle } from 'lucide-react';
 
 const UsersPage = () => {
   const { user: currentUser } = useAuth();
@@ -224,7 +211,7 @@ const UsersPage = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <HiUserGroup className="text-indigo-600 text-2xl sm:text-3xl" />
+              <Users className="text-indigo-600 text-2xl sm:text-3xl" />
               Manajemen Akun Guru & Petugas
             </h1>
             <p className="text-xs sm:text-sm text-gray-500">
@@ -245,7 +232,7 @@ const UsersPage = () => {
             }}
             className="flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2.5 rounded-xl shadow-md transition text-sm w-full sm:w-auto"
           >
-            <HiUserAdd className="text-lg" />
+            <UserPlus className="text-lg" />
             <span>Tambah Akun Baru</span>
           </button>
         </div>
@@ -305,7 +292,7 @@ const UsersPage = () => {
 
           {/* Search Box */}
           <div className="relative w-full">
-            <HiSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
             <input
               type="text"
               value={search}
@@ -371,7 +358,7 @@ const UsersPage = () => {
                           className="px-3 py-1.5 text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg flex items-center gap-1 transition"
                           title="Edit Akun"
                         >
-                          <HiPencilAlt className="text-sm" />
+                          <Edit className="text-sm" />
                           <span>Edit</span>
                         </button>
                         <button
@@ -380,7 +367,7 @@ const UsersPage = () => {
                           className="px-3 py-1.5 text-xs font-semibold text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg flex items-center gap-1 transition disabled:opacity-40 disabled:cursor-not-allowed"
                           title="Hapus Akun"
                         >
-                          <HiTrash className="text-sm" />
+                          <Trash2 className="text-sm" />
                           <span>Hapus</span>
                         </button>
                       </div>
@@ -470,7 +457,7 @@ const UsersPage = () => {
                               className="p-1.5 text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg transition"
                               title="Edit Akun & Password"
                             >
-                              <HiPencilAlt className="text-base" />
+                              <Edit className="text-base" />
                             </button>
                             
                             <button
@@ -479,7 +466,7 @@ const UsersPage = () => {
                               className="p-1.5 text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed"
                               title={isSelf ? "Tidak dapat menghapus akun sendiri" : "Hapus Akun"}
                             >
-                              <HiTrash className="text-base" />
+                              <Trash2 className="text-base" />
                             </button>
                           </div>
                         </td>
@@ -498,14 +485,14 @@ const UsersPage = () => {
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
               <div className="px-6 py-4 bg-indigo-50/80 border-b border-indigo-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-indigo-950 flex items-center">
-                  <HiUserAdd className="mr-2 text-indigo-600 text-2xl" />
+                  <UserPlus className="mr-2 text-indigo-600 text-2xl" />
                   Tambah Akun Guru / Petugas Baru
                 </h3>
                 <button
                   onClick={() => setShowAddModal(false)}
                   className="text-gray-400 hover:text-gray-600 p-1.5 rounded-full hover:bg-white transition"
                 >
-                  <HiX className="text-xl" />
+                  <X className="text-xl" />
                 </button>
               </div>
 
@@ -531,7 +518,7 @@ const UsersPage = () => {
                     Nama Pengguna / Username (Untuk Login) <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
-                    <HiOutlineMail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
                     <input
                       type="text"
                       required
@@ -549,7 +536,7 @@ const UsersPage = () => {
                     Kata Sandi (Password) <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
-                    <HiOutlineKey className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+                    <Key className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
                     <input
                       type="password"
                       required
@@ -638,14 +625,14 @@ const UsersPage = () => {
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
               <div className="px-6 py-4 bg-amber-50/80 border-b border-amber-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-amber-950 flex items-center">
-                  <HiPencilAlt className="mr-2 text-amber-600 text-2xl" />
+                  <Edit className="mr-2 text-amber-600 text-2xl" />
                   Edit Akun Pengguna
                 </h3>
                 <button
                   onClick={() => setUserToEdit(null)}
                   className="text-gray-400 hover:text-gray-600 p-1.5 rounded-full hover:bg-white transition"
                 >
-                  <HiX className="text-xl" />
+                  <X className="text-xl" />
                 </button>
               </div>
 
@@ -764,14 +751,14 @@ const UsersPage = () => {
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
               <div className="px-6 py-4 bg-red-50/80 border-b border-red-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-red-950 flex items-center">
-                  <HiExclamation className="mr-2 text-red-600 text-2xl" />
+                  <AlertTriangle className="mr-2 text-red-600 text-2xl" />
                   Hapus Akun Pengguna
                 </h3>
                 <button
                   onClick={() => setUserToDelete(null)}
                   className="text-gray-400 hover:text-gray-600 p-1.5 rounded-full hover:bg-white transition"
                 >
-                  <HiX className="text-xl" />
+                  <X className="text-xl" />
                 </button>
               </div>
 

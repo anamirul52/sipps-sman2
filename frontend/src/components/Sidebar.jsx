@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { HiHome, HiExclamationCircle, HiUsers, HiUserGroup, HiX } from 'react-icons/hi';
+import { Home, AlertCircle, Users, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Sidebar = ({ isOpen, onClose }) => {
@@ -49,7 +49,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             className="md:hidden text-indigo-300 hover:text-white p-1 rounded-lg hover:bg-indigo-800 transition"
             aria-label="Tutup Menu"
           >
-            <HiX className="text-2xl" />
+            <X className="text-2xl" />
           </button>
         </div>
         
@@ -66,7 +66,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               }`
             }
           >
-            <HiHome className="text-xl flex-shrink-0" />
+            <Home className="text-xl flex-shrink-0" />
             <span className="text-sm">Dashboard</span>
           </NavLink>
 
@@ -81,7 +81,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               }`
             }
           >
-            <HiExclamationCircle className="text-xl flex-shrink-0" />
+            <AlertCircle className="text-xl flex-shrink-0" />
             <span className="text-sm">Input & Riwayat Pelanggaran</span>
           </NavLink>
           
@@ -96,7 +96,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               }`
             }
           >
-            <HiUsers className="text-xl flex-shrink-0" />
+            <Users className="text-xl flex-shrink-0" />
             <span className="text-sm">Data Siswa</span>
           </NavLink>
 
@@ -113,7 +113,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 }`
               }
             >
-              <HiUserGroup className="text-xl flex-shrink-0 text-amber-300" />
+              <Users className="text-xl flex-shrink-0 text-amber-300" />
               <div className="flex items-center justify-between flex-1">
                 <span className="text-sm">Akun Guru & Petugas</span>
                 <span className="text-[9px] bg-amber-400 text-indigo-950 px-1.5 py-0.5 rounded font-black uppercase">

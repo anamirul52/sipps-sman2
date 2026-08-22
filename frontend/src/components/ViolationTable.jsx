@@ -1,16 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../api/axios';
-import { 
-  HiOutlineEye, 
-  HiOutlinePencilAlt, 
-  HiOutlineTrash, 
-  HiChevronLeft, 
-  HiChevronRight,
-  HiSearch,
-  HiDocumentDownload,
-  HiFilter,
-  HiRefresh
-} from 'react-icons/hi';
+import { Eye, HiOutlinePencilAlt, HiOutlineTrash, ChevronLeft, ChevronRight, Search, FileDown, Filter, HiRefresh } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteViolation }) => {
@@ -145,7 +135,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
             className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-medium px-4 py-2.5 rounded-xl shadow-sm transition disabled:opacity-50"
             title="Download Laporan Lengkap (.xlsx)"
           >
-            <HiDocumentDownload className="text-lg" />
+            <FileDown className="text-lg" />
             <span>{exporting ? 'Mengekspor...' : 'Export Excel (.xlsx)'}</span>
           </button>
         </div>
@@ -155,7 +145,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
       <div className="p-4 border-b border-gray-100 bg-white grid grid-cols-1 sm:grid-cols-3 gap-3">
         {/* 1. Search Box */}
         <div className="relative">
-          <HiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
           <input
             type="text"
             placeholder="Cari siswa, NIPD, atau pelanggaran..."
@@ -212,7 +202,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
               className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold flex items-center gap-1 transition flex-shrink-0 cursor-pointer"
               title="Reset Semua Filter"
             >
-              <HiRefresh className="text-sm" />
+              <RefreshCw className="text-sm" />
               <span>Reset</span>
             </button>
           )}
@@ -275,7 +265,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
                   className="w-full py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition"
                   title="Lihat Surat Sanksi"
                 >
-                  <HiOutlineEye className="text-sm" />
+                  <Eye className="text-sm" />
                   <span>Surat</span>
                 </button>
                 <button 
@@ -283,7 +273,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
                   className="w-full py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition"
                   title="Edit Data Pelanggaran"
                 >
-                  <HiOutlinePencilAlt className="text-sm" />
+                  <Edit className="text-sm" />
                   <span>Edit</span>
                 </button>
                 <button 
@@ -291,7 +281,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
                   className="w-full py-1.5 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition"
                   title="Hapus Pelanggaran Ini"
                 >
-                  <HiOutlineTrash className="text-sm" />
+                  <Trash2 className="text-sm" />
                   <span>Hapus</span>
                 </button>
               </div>
@@ -400,7 +390,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
                         className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition flex items-center shadow-2xs"
                         title="Lihat Surat Sanksi"
                       >
-                        <HiOutlineEye className="mr-0.5 text-xs" /> Surat
+                        <Eye className="mr-0.5 text-xs" /> Surat
                       </button>
 
                       {/* Tombol Edit */}
@@ -409,7 +399,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
                         className="text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition flex items-center shadow-2xs"
                         title="Edit Data Pelanggaran"
                       >
-                        <HiOutlinePencilAlt className="mr-0.5 text-xs" /> Edit
+                        <Edit className="mr-0.5 text-xs" /> Edit
                       </button>
 
                       {/* Tombol Hapus */}
@@ -418,7 +408,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
                         className="text-red-700 hover:text-red-900 bg-red-50 hover:bg-red-100 border border-red-200 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition flex items-center shadow-2xs"
                         title="Hapus Pelanggaran Ini"
                       >
-                        <HiOutlineTrash className="mr-0.5 text-xs" /> Hapus
+                        <Trash2 className="mr-0.5 text-xs" /> Hapus
                       </button>
                     </div>
                   </td>
@@ -441,7 +431,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
             className="px-3 py-1.5 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 transition text-gray-700 font-medium flex items-center shadow-2xs"
             title="Halaman Sebelumnya"
           >
-            <HiChevronLeft className="text-sm mr-0.5" /> Prev
+            <ChevronLeft className="text-sm mr-0.5" /> Prev
           </button>
           <button
             onClick={() => setPage(p => Math.min(totalPages, p + 1))}
@@ -449,7 +439,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
             className="px-3 py-1.5 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-40 transition text-gray-700 font-medium flex items-center shadow-2xs"
             title="Halaman Berikutnya"
           >
-            Next <HiChevronRight className="text-sm ml-0.5" />
+            Next <ChevronRight className="text-sm ml-0.5" />
           </button>
         </div>
       </div>

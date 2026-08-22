@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
-import { HiOutlineUser, HiOutlineLockClosed } from 'react-icons/hi';
+import { User, Lock } from 'lucide-react';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -58,7 +58,7 @@ const LoginPage = () => {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                <HiOutlineUser className="text-gray-400 text-lg" />
+                <User className="text-gray-400 text-lg" />
               </div>
               <input
                 type="text"
@@ -77,7 +77,7 @@ const LoginPage = () => {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                <HiOutlineLockClosed className="text-gray-400 text-lg" />
+                <Lock className="text-gray-400 text-lg" />
               </div>
               <input
                 type="password"

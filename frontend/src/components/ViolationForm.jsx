@@ -1,15 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
-import { 
-  HiSearch, 
-  HiCheck, 
-  HiX, 
-  HiChevronDown, 
-  HiExclamationCircle, 
-  HiSparkles,
-  HiTrash
-} from 'react-icons/hi';
+import { Search, Check, X, ChevronDown, HiExclamationCircle, Sparkles, Trash2 } from 'lucide-react';
 
 const ViolationForm = ({ onSuccess }) => {
   // Siswa State
@@ -230,10 +222,10 @@ const ViolationForm = ({ onSuccess }) => {
                     className="text-gray-400 hover:text-red-500 p-1"
                     title="Hapus pilihan"
                   >
-                    <HiX className="text-lg" />
+                    <X className="text-lg" />
                   </button>
                 ) : (
-                  <HiSearch className="text-gray-400 text-lg" />
+                  <Search className="text-gray-400 text-lg" />
                 )}
               </div>
             </div>
@@ -241,7 +233,7 @@ const ViolationForm = ({ onSuccess }) => {
             {/* Selected student badge indicator */}
             {selectedStudent && (
               <div className="mt-1.5 flex items-center text-xs text-green-700 font-medium bg-green-50 px-2.5 py-1.5 rounded-lg border border-green-200">
-                <HiCheck className="mr-1 text-green-600 text-sm flex-shrink-0" />
+                <Check className="mr-1 text-green-600 text-sm flex-shrink-0" />
                 <span className="truncate">
                   <strong>{selectedStudent.name}</strong> (NIPD: {selectedStudent.nipd || selectedStudent.nisn || '-'}) &bull; Kelas: {selectedStudent.class_name || '-'} &bull; Akumulasi Saat Ini: <strong>{selectedStudent.total_points || 0} Poin</strong>
                 </span>
@@ -299,7 +291,7 @@ const ViolationForm = ({ onSuccess }) => {
                   onClick={() => setSelectedCategoryIds([])}
                   className="text-[11px] text-red-600 hover:text-red-800 font-medium flex items-center gap-0.5"
                 >
-                  <HiTrash className="text-xs" /> Reset Pilihan
+                  <Trash2 className="text-xs" /> Reset Pilihan
                 </button>
               )}
             </div>
@@ -329,7 +321,7 @@ const ViolationForm = ({ onSuccess }) => {
                   </>
                 )}
               </div>
-              <HiChevronDown className={`text-gray-400 text-lg transition transform flex-shrink-0 ${showCategoryDropdown ? 'rotate-180 text-indigo-600' : ''}`} />
+              <ChevronDown className={`text-gray-400 text-lg transition transform flex-shrink-0 ${showCategoryDropdown ? 'rotate-180 text-indigo-600' : ''}`} />
             </div>
 
             {/* Category Multi-Select Dropdown Content */}
@@ -338,7 +330,7 @@ const ViolationForm = ({ onSuccess }) => {
                 {/* Search Bar inside dropdown */}
                 <div className="p-2.5 bg-gray-50 border-b border-gray-200 sticky top-0 z-10 flex items-center gap-2">
                   <div className="relative flex-1">
-                    <HiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
                     <input
                       type="text"
                       placeholder="Cari nama pelanggaran / poin..."
@@ -442,7 +434,7 @@ const ViolationForm = ({ onSuccess }) => {
                         className="text-gray-400 hover:text-red-600 ml-0.5 p-0.5 rounded-full hover:bg-gray-100"
                         title="Hapus pilihan ini"
                       >
-                        <HiX className="text-xs" />
+                        <X className="text-xs" />
                       </button>
                     </span>
                   ))}
@@ -484,7 +476,7 @@ const ViolationForm = ({ onSuccess }) => {
           <div className="text-xs text-gray-500 text-center sm:text-left">
             {selectedCategoryIds.length > 0 ? (
               <span className="text-indigo-900 font-semibold flex items-center gap-1">
-                <HiSparkles className="text-indigo-600 text-sm" />
+                <Sparkles className="text-indigo-600 text-sm" />
                 {selectedCategoryIds.length} bentuk pelanggaran akan dicatat sekaligus untuk {selectedStudent ? selectedStudent.name : 'siswa terpilih'}.
               </span>
             ) : (

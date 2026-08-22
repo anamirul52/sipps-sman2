@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
-import { HiX, HiPencilAlt, HiOutlineExclamationCircle } from 'react-icons/hi';
+import { X, Edit, Info } from 'lucide-react';
 
 const EditViolationModal = ({ violation, onClose, onSuccess }) => {
   const [categories, setCategories] = useState([]);
@@ -60,14 +60,14 @@ const EditViolationModal = ({ violation, onClose, onSuccess }) => {
         {/* Header */}
         <div className="px-6 py-4 bg-amber-50 border-b border-amber-100 flex justify-between items-center">
           <h3 className="text-lg font-bold text-amber-900 flex items-center">
-            <HiPencilAlt className="mr-2 text-amber-600 text-xl" />
+            <Edit className="mr-2 text-amber-600 text-xl" />
             Edit Catatan Pelanggaran
           </h3>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white transition"
           >
-            <HiX className="text-xl" />
+            <X className="text-xl" />
           </button>
         </div>
 

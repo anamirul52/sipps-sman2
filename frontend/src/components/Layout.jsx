@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Sidebar from './Sidebar';
 import { useAuth } from '../context/AuthContext';
-import { HiOutlineLogout, HiMenuAlt2 } from 'react-icons/hi';
+import { LogOut, Menu } from 'lucide-react';
 
 const Layout = ({ children }) => {
   const { user, logout } = useAuth();
@@ -57,7 +57,7 @@ const Layout = ({ children }) => {
               className="md:hidden p-1.5 rounded-lg text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 focus:outline-none transition flex-shrink-0"
               aria-label="Buka Menu"
             >
-              <HiMenuAlt2 className="text-2xl" />
+              <Menu className="text-2xl" />
             </button>
 
             {/* School Identity (Sama di Mobile & Desktop: SMA NEGERI 2 SALATIGA) */}
@@ -102,7 +102,7 @@ const Layout = ({ children }) => {
               className="p-1.5 sm:p-2 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition border border-transparent flex-shrink-0"
               title="Keluar / Logout"
             >
-              <HiOutlineLogout className="text-lg sm:text-xl" />
+              <LogOut className="text-lg sm:text-xl" />
             </button>
           </div>
         </header>
