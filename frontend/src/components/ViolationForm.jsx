@@ -257,18 +257,18 @@ const ViolationForm = ({ onSuccess }) => {
                     <div
                       key={student.id}
                       onClick={() => handleSelectStudent(student)}
-                      className={`px-4 py-2.5 hover:bg-zinc-100 cursor-pointer transition flex items-center justify-between ${
+                      className={`px-4 py-2.5 hover:bg-zinc-100 cursor-pointer transition flex items-center justify-between gap-3 ${
                         selectedStudent?.id === student.id ? 'bg-zinc-100/80 font-semibold' : ''
                       }`}
                     >
-                      <div>
-                        <div className="text-sm font-medium text-zinc-900">{student.name}</div>
-                        <div className="text-xs text-zinc-500">
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-zinc-900 truncate" title={student.name}>{student.name}</div>
+                        <div className="text-xs text-zinc-500 truncate">
                           NIPD: {student.nipd || student.nisn || '-'} &bull; Kelas: <span className="text-zinc-600 font-medium">{student.class_name || '-'}</span>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-700 font-mono">
+                      <div className="text-right flex-shrink-0">
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-zinc-200 text-zinc-800 font-mono font-medium whitespace-nowrap">
                           {student.total_points || 0} Poin
                         </span>
                       </div>
