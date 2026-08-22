@@ -1036,18 +1036,19 @@ const Dashboard = () => {
 
                     {/* Desktop View: Table (Tampil di Layar Lebar tanpa Scroll Samping) */}
                     <div className="hidden md:block overflow-hidden border border-gray-200 rounded-xl shadow-2xs">
-                      <table className="w-full text-left border-collapse text-xs table-fixed">
-                        <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
-                          <tr>
-                            <th className="px-2 py-3 text-center w-10">No</th>
-                            <th className="px-3 py-3 w-[26%]">Nama Siswa</th>
-                            <th className="px-2 py-3 text-center w-16">Kelas</th>
-                            <th className="px-2 py-3 text-center w-[18%]">Total Kasus</th>
-                            <th className="px-2 py-3 text-center w-[16%]">Akumulasi Poin</th>
-                            <th className="px-2 py-3 text-center w-[12%]">Tanggal</th>
-                            <th className="px-2 py-3 text-center w-[16%]">Aksi</th>
-                          </tr>
-                        </thead>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse text-xs table-fixed min-w-[900px]">
+                          <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
+                            <tr>
+                              <th className="px-2 py-3 text-center w-10">No</th>
+                              <th className="px-3 py-3 w-[25%]">Nama Siswa</th>
+                              <th className="px-2 py-3 text-center w-16">Kelas</th>
+                              <th className="px-2 py-3 text-center w-[15%]">Total Kasus</th>
+                              <th className="px-2 py-3 text-center w-[15%]">Akumulasi Poin</th>
+                              <th className="px-2 py-3 text-center w-[15%]">Tanggal</th>
+                              <th className="px-2 py-3 text-center w-[180px]">Aksi</th>
+                            </tr>
+                          </thead>
                         <tbody className="divide-y divide-gray-200 bg-white">
                           {filteredGroupedStudents.map((s, i) => {
                             const latestViolation = s.violations[0];
@@ -1102,6 +1103,7 @@ const Dashboard = () => {
                           })}
                         </tbody>
                       </table>
+                      </div>
                     </div>
                   </>
                 )}
