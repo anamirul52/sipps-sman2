@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import Layout from '../components/Layout';
 import PointBadge from '../components/PointBadge';
 import api from '../api/axios';
@@ -10,8 +11,9 @@ const StudentsPage = () => {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [selectedClass, setSelectedClass] = useState('');
-  const [gradeFilter, setGradeFilter] = useState('ALL'); // 'ALL', 'X', 'XI', 'XII'
+  const location = useLocation();
+  const [selectedClass, setSelectedClass] = useState(location.state?.selectedClass || '');
+  const [gradeFilter, setGradeFilter] = useState(location.state?.gradeFilter || 'ALL'); // 'ALL', 'X', 'XI', 'XII'
   
   // Modal Tambah Siswa Manual
   const [showModal, setShowModal] = useState(false);

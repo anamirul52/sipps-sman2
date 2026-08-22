@@ -521,7 +521,12 @@ const Dashboard = () => {
                 {filteredClasses.map((c) => (
                   <div 
                     key={c.id}
-                    className="p-3 rounded-xl border border-gray-200 bg-gray-50/60 hover:bg-indigo-50/50 hover:border-indigo-200 transition flex flex-col justify-between"
+                    onClick={() => {
+                      setActiveModal(null);
+                      const grade = c.class_name.split('-')[0];
+                      navigate('/students', { state: { gradeFilter: grade, selectedClass: c.id } });
+                    }}
+                    className="p-3 rounded-xl border border-gray-200 bg-gray-50/60 hover:bg-indigo-50/50 hover:border-indigo-300 transition flex flex-col justify-between cursor-pointer"
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-xs sm:text-sm text-gray-900">{c.class_name}</span>
