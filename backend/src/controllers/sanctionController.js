@@ -98,7 +98,7 @@ exports.generatePdf = async (req, res) => {
         // ================= JUDUL & NOMOR SURAT =================
         doc.y = 112;
         const currentYear = new Date().getFullYear();
-        const fullDateStr = new Date(sanction.generated_at || Date.now()).toLocaleDateString('id-ID', {
+        const fullDateStr = new Date().toLocaleDateString('id-ID', { timeZone: 'Asia/Jakarta',
             day: 'numeric',
             month: 'long',
             year: 'numeric'

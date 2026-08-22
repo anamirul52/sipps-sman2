@@ -25,22 +25,44 @@ const SanctionLetterModal = ({ studentId, onClose }) => {
   }, [studentId]);
 
   const handleDownload = async (sanctionId, studentName) => {
+    // Pada mobile (terutama iOS), operasi async bisa memblokir window.open
+    // Jadi kita buka window kosong dulu secara sinkron
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    let newWindow = null;
+    
+    if (isMobile) {
+      newWindow = window.open('', '_blank');
+      if (newWindow) {
+        newWindow.document.write('Memuat dokumen PDF...');
+      }
+    }
+
     try {
       const response = await api.get(`/sanctions/${sanctionId}/pdf`, {
         responseType: 'blob'
       });
       
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `Surat_Peringatan_${studentName.replace(/ /g, '_')}_${sanctionId}.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
-      toast.success('Surat sanksi berhasil diunduh (PDF)');
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      
+      if (isMobile && newWindow) {
+        newWindow.location.href = url;
+        toast.success('Surat sanksi dibuka di tab baru');
+      } else {
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `Surat_Peringatan_${studentName.replace(/ /g, '_')}_${sanctionId}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        
+        // Membersihkan memory
+        setTimeout(() => window.URL.revokeObjectURL(url), 100);
+        toast.success('Surat sanksi berhasil diunduh');
+      }
     } catch (err) {
-      toast.error('Gagal mengunduh file surat');
+      if (newWindow) newWindow.close();
+      toast.error('Gagal memuat file surat');
     }
   };
 
@@ -123,7 +145,7 @@ const SanctionLetterModal = ({ studentId, onClose }) => {
                     className="w-full sm:w-auto flex items-center justify-center space-x-1.5 bg-indigo-600 text-white hover:bg-indigo-700 px-3.5 py-2 rounded-lg transition font-semibold text-xs shadow-xs"
                   >
                     <Download className="text-sm" />
-                    <span>Download PDF</span>
+                    <span>Buka / Unduh PDF</span>
                   </button>
                 </div>
               </div>
