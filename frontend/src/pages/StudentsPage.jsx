@@ -263,6 +263,38 @@ const StudentsPage = () => {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedIds(students.map(s => s.id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleSelectOne = (id) => {
+    setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+
+  const handleBatchDelete = async () => {
+    if (selectedIds.length === 0) return;
+    const confirmDelete = window.confirm(`Apakah Anda yakin ingin menghapus ${selectedIds.length} data siswa beserta seluruh riwayat pelanggaran dan sanksinya? Aksi ini tidak dapat dibatalkan.`);
+    if (!confirmDelete) return;
+
+    setIsDeletingBatch(true);
+    const toastId = toast.loading('Menghapus data siswa massal...');
+    try {
+      await api.post('/students/batch-delete', { ids: selectedIds });
+      toast.success(`${selectedIds.length} data siswa berhasil dihapus`, { id: toastId });
+      setSelectedIds([]);
+      fetchStudents();
+    } catch (err) {
+      console.error('Batch delete error:', err);
+      toast.error(err.response?.data?.message || 'Gagal menghapus data massal', { id: toastId });
+    } finally {
+      setIsDeletingBatch(false);
+    }
+  };
+
   // Handle Delete Student
   const handleConfirmDelete = async () => {
     if (!studentToDelete) return;
@@ -564,17 +596,17 @@ const StudentsPage = () => {
         <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-zinc-200">
           {/* Mobile View: Cards (Tampil di Layar HP) */}
           <div className="md:hidden p-3 space-y-3">
-            {currentStudents.length > 0 && !loading && (
+            {students.length > 0 && !loading && (
               <div className="flex items-center gap-2 px-1 mb-1">
                 <input
                   type="checkbox"
                   id="selectAllMobile"
                   className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                  checked={selectedIds.length === currentStudents.length}
+                  checked={selectedIds.length === students.length}
                   onChange={handleSelectAll}
                 />
                 <label htmlFor="selectAllMobile" className="text-xs font-semibold text-zinc-700 cursor-pointer">
-                  Pilih Semua ({currentStudents.length})
+                  Pilih Semua ({students.length})
                 </label>
               </div>
             )}
@@ -670,7 +702,7 @@ const StudentsPage = () => {
                     <input
                       type="checkbox"
                       className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                      checked={currentStudents.length > 0 && selectedIds.length === currentStudents.length}
+                      checked={students.length > 0 && selectedIds.length === students.length}
                       onChange={handleSelectAll}
                       title="Pilih Semua"
                     />
