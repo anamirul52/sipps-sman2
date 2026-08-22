@@ -620,15 +620,6 @@ const Dashboard = () => {
                           <span className="font-medium text-[11px] leading-snug">{v.category_name}</span>
                           <span className="font-bold text-red-600 text-[11px] whitespace-nowrap">+{v.point_deduction} Poin</span>
                         </div>
-                        <div className="pt-1">
-                          <button
-                            onClick={() => setSelectedStudentForSanction(v.student_id)}
-                            className="w-full py-2 bg-zinc-100 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
-                          >
-                            <FileText className="text-sm" />
-                            <span>Lihat Surat Sanksi</span>
-                          </button>
-                        </div>
                       </div>
                     ))}
                   </div>
@@ -644,7 +635,6 @@ const Dashboard = () => {
                           <th className="px-3 py-3 w-[26%]">Bentuk Pelanggaran</th>
                           <th className="px-2 py-3 text-center w-14">Poin</th>
                           <th className="px-2 py-3 text-center w-[20%]">Akumulasi</th>
-                          <th className="px-2 py-3 text-center w-20">Aksi</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-zinc-200 bg-white">
@@ -670,16 +660,6 @@ const Dashboard = () => {
                             </td>
                             <td className="px-2 py-3 text-center">
                               <PointBadge points={v.student_total_points} stacked={true} />
-                            </td>
-                            <td className="px-2 py-3 text-center whitespace-nowrap">
-                              <button
-                                onClick={() => setSelectedStudentForSanction(v.student_id)}
-                                className="text-indigo-700 hover:text-zinc-900 bg-zinc-100 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1 shadow-sm cursor-pointer whitespace-nowrap"
-                                title="Lihat Surat Sanksi"
-                              >
-                                <FileText className="text-sm" />
-                                <span>Surat</span>
-                              </button>
                             </td>
                           </tr>
                         ))}
