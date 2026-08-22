@@ -51,9 +51,12 @@ const StudentsPage = () => {
   // Modal Hapus Siswa State
   const [studentToDelete, setStudentToDelete] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [isDeletingBatch, setIsDeletingBatch] = useState(false);
 
   const fetchStudents = async () => {
     setLoading(true);
+    setSelectedIds([]);
     try {
       let url = `/students?limit=all&search=${encodeURIComponent(search)}`;
       if (selectedClass) {
@@ -313,8 +316,19 @@ const StudentsPage = () => {
             </button>
 
             {/* 2. Export Excel Button */}
-            <button
-              onClick={handleExportExcel}
+            {selectedIds.length > 0 && (
+                <button
+                  onClick={handleBatchDelete}
+                  disabled={isDeletingBatch}
+                  className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-medium px-4 py-2 sm:py-2.5 rounded-xl shadow-sm transition disabled:opacity-50 whitespace-nowrap"
+                >
+                  <Trash2 className="text-lg" />
+                  <span className="hidden sm:inline">{isDeletingBatch ? 'Menghapus...' : `Hapus (${selectedIds.length}) Data`}</span>
+                  <span className="sm:hidden">{selectedIds.length}</span>
+                </button>
+              )}
+              <button
+                onClick={handleExportExcel}
               disabled={exporting || students.length === 0}
               className="flex items-center gap-2 bg-white border border-blue-200 hover:border-blue-300 hover:bg-blue-50/50 text-blue-700 font-semibold px-2.5 sm:px-3.5 py-2 rounded-xl shadow-xs text-xs sm:text-sm transition group disabled:opacity-50"
               title="Ekspor seluruh data siswa saat ini ke dalam format Excel (.xlsx)"
@@ -643,7 +657,7 @@ const StudentsPage = () => {
               <tbody className="divide-y divide-zinc-200 bg-white">
                 {loading ? (
                   <tr>
-                    <td colSpan="7" className="px-6 py-12 text-center text-zinc-400">
+                    <td colSpan="8" className="px-6 py-12 text-center text-zinc-400">
                       <div className="flex flex-col items-center justify-center space-y-2">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-900"></div>
                         <span className="text-sm">Memuat seluruh data siswa...</span>
@@ -652,7 +666,7 @@ const StudentsPage = () => {
                   </tr>
                 ) : students.length === 0 ? (
                   <tr>
-                    <td colSpan="7" className="px-6 py-12 text-center text-zinc-500">
+                    <td colSpan="8" className="px-6 py-12 text-center text-zinc-500">
                       <div className="flex flex-col items-center justify-center space-y-3">
                         <div className="bg-zinc-100 p-3 rounded-full text-zinc-400">
                           <Users className="text-3xl" />

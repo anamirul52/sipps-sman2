@@ -14,6 +14,7 @@ router.post('/', verifyToken, authorizeRoles('admin', 'bk', 'piket'), studentCon
 router.put('/:id', verifyToken, authorizeRoles('admin', 'bk', 'piket'), studentController.updateStudent);
 router.get('/', verifyToken, authorizeRoles('admin', 'bk', 'piket', 'wali_kelas'), studentController.getAll);
 router.get('/:id', verifyToken, authorizeRoles('admin', 'bk', 'piket', 'wali_kelas'), studentController.getById);
+router.post('/batch-delete', verifyToken, authorizeRoles('admin', 'bk'), studentController.batchDelete);
 router.delete('/:id', verifyToken, authorizeRoles('admin', 'bk'), studentController.deleteStudent);
 
 module.exports = router;
