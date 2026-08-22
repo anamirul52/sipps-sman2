@@ -16,6 +16,8 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
   const [selectedDate, setSelectedDate] = useState('');
   const [classes, setClasses] = useState([]);
   const [exporting, setExporting] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [isDeletingBatch, setIsDeletingBatch] = useState(false);
 
   // Fetch classes for filter dropdown
   useEffect(() => {
@@ -33,6 +35,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
   // Fetch Violations with active filters
   const fetchViolations = async () => {
     setLoading(true);
+    setSelectedIds([]);
     try {
       const params = new URLSearchParams();
       params.append('page', page);
@@ -71,6 +74,38 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
     setSelectedClass('');
     setSelectedDate('');
     setPage(1);
+  };
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      setSelectedIds(violations.map(v => v.id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const handleSelectOne = (id) => {
+    setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+
+  const handleBatchDelete = async () => {
+    if (selectedIds.length === 0) return;
+    const confirmDelete = window.confirm(`Apakah Anda yakin ingin menghapus ${selectedIds.length} data pelanggaran terpilih?\n\nPoin dan sanksi siswa akan dievaluasi ulang secara otomatis. Aksi ini tidak dapat dibatalkan.`);
+    if (!confirmDelete) return;
+
+    setIsDeletingBatch(true);
+    const toastId = toast.loading('Menghapus data massal...');
+    try {
+      await api.post('/violations/batch-delete', { ids: selectedIds });
+      toast.success(`${selectedIds.length} data berhasil dihapus`, { id: toastId });
+      setSelectedIds([]);
+      fetchViolations();
+    } catch (err) {
+      console.error('Batch delete error:', err);
+      toast.error(err.response?.data?.message || 'Gagal menghapus data massal', { id: toastId });
+    } finally {
+      setIsDeletingBatch(false);
+    }
   };
 
   // EXPORT EXCEL HANDLER
@@ -127,8 +162,19 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
           </p>
         </div>
 
-        {/* Tombol Export Excel */}
-        <div className="flex items-center gap-2">
+        {/* Tombol Aksi Kanan */}
+        <div className="flex items-center gap-2 flex-wrap justify-end">
+          {selectedIds.length > 0 && (
+            <button
+              onClick={handleBatchDelete}
+              disabled={isDeletingBatch}
+              className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-medium px-4 py-2.5 rounded-xl shadow-sm transition disabled:opacity-50"
+              title="Hapus data terpilih"
+            >
+              <Trash2 className="text-lg" />
+              <span>{isDeletingBatch ? 'Menghapus...' : `Hapus (${selectedIds.length}) Data`}</span>
+            </button>
+          )}
           <button
             onClick={handleExportExcel}
             disabled={exporting}
@@ -211,6 +257,20 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
       
       {/* Mobile View: Cards (Tampil di Layar HP) */}
       <div className="sm:hidden p-3 space-y-3">
+        {violations.length > 0 && !loading && (
+          <div className="flex items-center gap-2 px-1 mb-1">
+            <input
+              type="checkbox"
+              id="selectAllMobile"
+              className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+              checked={selectedIds.length === violations.length}
+              onChange={handleSelectAll}
+            />
+            <label htmlFor="selectAllMobile" className="text-xs font-semibold text-zinc-700 cursor-pointer">
+              Pilih Semua ({violations.length})
+            </label>
+          </div>
+        )}
         {loading ? (
           <div className="p-8 text-center text-zinc-400">
             <div className="flex items-center justify-center space-x-2">
@@ -227,15 +287,23 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
           </div>
         ) : (
           violations.map((v, i) => (
-            <div key={v.id} className="bg-white p-3.5 rounded-xl border border-zinc-200 shadow-sm space-y-2.5">
+            <div key={v.id} className={`p-3.5 rounded-xl border shadow-sm space-y-2.5 transition ${selectedIds.includes(v.id) ? 'bg-indigo-50/40 border-indigo-200' : 'bg-white border-zinc-200'}`}>
               {/* Header: Nama Siswa, Kelas & Poin */}
               <div className="flex items-start justify-between gap-2">
-                <div className="min-w-0">
-                  <div className="font-bold text-zinc-900 text-xs sm:text-sm leading-tight truncate">
-                    {v.student_name}
-                  </div>
-                  <div className="text-[11px] text-zinc-500 mt-0.5">
-                    NIPD: {v.nipd || v.nisn || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{v.class_name || '-'}</span>
+                <div className="flex items-start gap-2.5 min-w-0">
+                  <input
+                    type="checkbox"
+                    className="mt-0.5 rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer flex-shrink-0"
+                    checked={selectedIds.includes(v.id)}
+                    onChange={() => handleSelectOne(v.id)}
+                  />
+                  <div className="min-w-0">
+                    <div className="font-bold text-zinc-900 text-xs sm:text-sm leading-tight truncate">
+                      {v.student_name}
+                    </div>
+                    <div className="text-[11px] text-zinc-500 mt-0.5">
+                      NIPD: {v.nipd || v.nisn || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{v.class_name || '-'}</span>
+                    </div>
                   </div>
                 </div>
                 <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-red-50 text-red-700 border border-red-200 whitespace-nowrap">
@@ -295,6 +363,15 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
         <table className="w-full text-left border-collapse">
           <thead className="bg-zinc-50 border-b border-zinc-200 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider">
             <tr>
+              <th className="px-3 py-3 w-10 text-center">
+                <input
+                  type="checkbox"
+                  className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                  checked={violations.length > 0 && selectedIds.length === violations.length}
+                  onChange={handleSelectAll}
+                  title="Pilih Semua"
+                />
+              </th>
               <th className="px-3 py-3 text-center w-12 whitespace-nowrap">No</th>
               <th className="px-4 py-3 min-w-[160px] whitespace-nowrap">Nama Siswa</th>
               <th className="px-3 py-3 text-center w-20 whitespace-nowrap">Kelas</th>
@@ -308,7 +385,7 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
           <tbody className="divide-y divide-zinc-200 bg-white text-xs">
             {loading ? (
               <tr>
-                <td colSpan="8" className="px-4 py-12 text-center text-zinc-400">
+                <td colSpan="9" className="px-4 py-12 text-center text-zinc-400">
                   <div className="flex items-center justify-center space-x-2">
                     <svg className="animate-spin h-5 w-5 text-zinc-600" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
@@ -326,7 +403,15 @@ const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteV
               </tr>
             ) : (
               violations.map((v, i) => (
-                <tr key={v.id} className="hover:bg-zinc-100/40 transition">
+                <tr key={v.id} className={`transition ${selectedIds.includes(v.id) ? 'bg-indigo-50/40' : 'hover:bg-zinc-100/40'}`}>
+                  <td className="px-3 py-3 text-center">
+                    <input
+                      type="checkbox"
+                      className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                      checked={selectedIds.includes(v.id)}
+                      onChange={() => handleSelectOne(v.id)}
+                    />
+                  </td>
                   {/* No */}
                   <td className="px-3 py-3 text-center text-zinc-500 font-semibold text-xs">
                     {(page - 1) * 10 + i + 1}
