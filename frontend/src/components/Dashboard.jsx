@@ -255,7 +255,7 @@ const Dashboard = () => {
         >
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-slate-500 font-medium text-xs sm:text-sm">Pelanggaran Hari Ini</p>
+              <p className="text-slate-500 font-medium text-xs sm:text-sm">Siswa yang melanggar hari ini</p>
               <p className="text-3xl sm:text-4xl font-semibold text-slate-900 mt-2">{stats.todayViolations}</p>
             </div>
             <div className="bg-amber-50 p-2.5 sm:p-3 rounded-lg text-amber-600 group-hover:scale-105 transition-transform">
@@ -275,7 +275,7 @@ const Dashboard = () => {
         >
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-slate-500 font-medium text-xs sm:text-sm">Semua Pelanggaran</p>
+              <p className="text-slate-500 font-medium text-xs sm:text-sm">Total siswa yang melanggar</p>
               <p className="text-3xl sm:text-4xl font-semibold text-slate-900 mt-2">{stats.totalViolations}</p>
             </div>
             <div className="bg-purple-50 p-2.5 sm:p-3 rounded-lg text-purple-600 group-hover:scale-105 transition-transform">
