@@ -760,7 +760,15 @@ const StudentsPage = () => {
                   </tr>
                 ) : (
                   students.map((student, index) => (
-                    <tr key={student.id} className="hover:bg-zinc-100/30 transition">
+                    <tr key={student.id} className={`transition ${selectedIds.includes(student.id) ? 'bg-indigo-50/40' : 'hover:bg-zinc-100/30'}`}>
+                      <td className="px-2 py-3 text-center">
+                        <input
+                          type="checkbox"
+                          className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                          checked={selectedIds.includes(student.id)}
+                          onChange={() => handleSelectOne(student.id)}
+                        />
+                      </td>
                       <td className="px-2 py-3 text-center text-zinc-500 font-semibold">{index + 1}</td>
                       <td className="px-3 py-3">
                         <div className="font-bold text-zinc-900 text-xs sm:text-sm leading-snug truncate" title={student.name}>
