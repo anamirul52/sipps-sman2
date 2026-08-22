@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
-import { Search, Check, X, ChevronDown, HiExclamationCircle, Sparkles, Trash2 } from 'lucide-react';
+import { Search, Check, X, ChevronDown, AlertCircle, Sparkles, Trash2 } from 'lucide-react';
 
 const ViolationForm = ({ onSuccess }) => {
   // Siswa State

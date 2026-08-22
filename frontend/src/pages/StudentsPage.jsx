@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 import PointBadge from '../components/PointBadge';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
-import { HiPlus, Search, HiUserAdd, X, HiPhone, Download, HiUpload, HiDocumentText, CheckCircle, AlertTriangle, Trash2, Edit, AlertCircle, HiAcademicCap, Users, HiDocumentReport, HiSparkles } from 'lucide-react';
+import { Plus, Search, UserPlus, X, Phone, Download, Upload, FileText, CheckCircle, AlertTriangle, Trash2, Edit, AlertCircle, GraduationCap, Users, FileSpreadsheet, Sparkles } from 'lucide-react';
 
 const StudentsPage = () => {
   const [students, setStudents] = useState([]);

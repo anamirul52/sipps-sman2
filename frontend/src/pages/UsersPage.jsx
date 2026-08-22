@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
-import { UserPlus, Search, Users, Edit, Trash2, X, HiShieldCheck, Key, Mail, GraduationCap, CheckCircle, AlertTriangle } from 'lucide-react';
+import { UserPlus, Search, Users, Edit, Trash2, X, ShieldCheck, Key, Mail, GraduationCap, CheckCircle, AlertTriangle } from 'lucide-react';
 
 const UsersPage = () => {
   const { user: currentUser } = useAuth();

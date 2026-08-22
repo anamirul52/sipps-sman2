@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../api/axios';
-import { Eye, HiOutlinePencilAlt, HiOutlineTrash, ChevronLeft, ChevronRight, Search, FileDown, Filter, HiRefresh } from 'lucide-react';
+import { Eye, Edit, Trash2, ChevronLeft, ChevronRight, Search, FileDown, Filter, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const ViolationTable = ({ refreshKey, onViewSanction, onEditViolation, onDeleteViolation }) => {
