@@ -219,9 +219,9 @@ const Dashboard = () => {
       {/* Title */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Dashboard Monitoring BK</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Dashboard Monitoring Pelanggaran Siswa</h1>
           <p className="text-xs sm:text-sm text-gray-500">
-            SMA Negeri 2 Salatiga &bull; Rekapitulasi Pelanggaran & Tindakan Sanksi
+            Rekapitulasi Pelanggaran & Tindakan Sanksi
           </p>
         </div>
       </div>
