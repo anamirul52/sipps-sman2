@@ -564,6 +564,20 @@ const StudentsPage = () => {
         <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-zinc-200">
           {/* Mobile View: Cards (Tampil di Layar HP) */}
           <div className="md:hidden p-3 space-y-3">
+            {currentStudents.length > 0 && !loading && (
+              <div className="flex items-center gap-2 px-1 mb-1">
+                <input
+                  type="checkbox"
+                  id="selectAllMobile"
+                  className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                  checked={selectedIds.length === currentStudents.length}
+                  onChange={handleSelectAll}
+                />
+                <label htmlFor="selectAllMobile" className="text-xs font-semibold text-zinc-700 cursor-pointer">
+                  Pilih Semua ({currentStudents.length})
+                </label>
+              </div>
+            )}
             {loading ? (
               <div className="p-8 text-center text-zinc-400">
                 <div className="flex flex-col items-center justify-center space-y-2">
@@ -586,15 +600,23 @@ const StudentsPage = () => {
               </div>
             ) : (
               students.map((student, index) => (
-                <div key={student.id} className="bg-white p-3.5 rounded-xl border border-zinc-200 shadow-sm space-y-2.5">
+                <div key={student.id} className={`p-3.5 rounded-xl border shadow-sm space-y-2.5 transition ${selectedIds.includes(student.id) ? 'bg-indigo-50/40 border-indigo-200' : 'bg-white border-zinc-200'}`}>
                   {/* Header: Nama Siswa, Kelas & Poin */}
                   <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0">
-                      <div className="font-bold text-zinc-900 text-xs sm:text-sm leading-tight truncate">
-                        {student.name}
-                      </div>
-                      <div className="text-[11px] text-zinc-500 mt-0.5">
-                        NIPD: {student.nipd || student.nisn || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{student.class_name || '-'}</span>
+                    <div className="flex items-start gap-2.5 min-w-0">
+                      <input
+                        type="checkbox"
+                        className="mt-0.5 rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer flex-shrink-0"
+                        checked={selectedIds.includes(student.id)}
+                        onChange={() => handleSelectOne(student.id)}
+                      />
+                      <div className="min-w-0">
+                        <div className="font-bold text-zinc-900 text-xs sm:text-sm leading-tight truncate">
+                          {student.name}
+                        </div>
+                        <div className="text-[11px] text-zinc-500 mt-0.5">
+                          NIPD: {student.nipd || student.nisn || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{student.class_name || '-'}</span>
+                        </div>
                       </div>
                     </div>
                     <PointBadge points={student.total_points || 0} />
@@ -639,12 +661,20 @@ const StudentsPage = () => {
               ))
             )}
           </div>
-
           {/* Desktop View: Table (Tampil di Tablet / PC - Proporsional & Rapi) */}
           <div className="hidden md:block overflow-hidden border border-zinc-200">
             <table className="w-full text-left border-collapse text-xs table-fixed">
               <thead className="bg-zinc-50 border-b border-zinc-200 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider">
                 <tr>
+                  <th className="px-2 py-3 text-center w-10">
+                    <input
+                      type="checkbox"
+                      className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                      checked={currentStudents.length > 0 && selectedIds.length === currentStudents.length}
+                      onChange={handleSelectAll}
+                      title="Pilih Semua"
+                    />
+                  </th>
                   <th className="px-2 py-3 text-center w-10">No</th>
                   <th className="px-3 py-3 w-[32%]">Nama Siswa</th>
                   <th className="px-2 py-3 text-center w-[13%]">NIPD</th>
