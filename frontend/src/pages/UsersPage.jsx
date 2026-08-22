@@ -177,19 +177,19 @@ const UsersPage = () => {
     switch (role) {
       case 'admin':
         return (
-          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200">
+          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-zinc-100 text-purple-700 border border-purple-200">
             👑 Super Admin
           </span>
         );
       case 'bk':
         return (
-          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-zinc-100 text-indigo-700 border border-indigo-200">
             🧑‍🏫 Guru BK
           </span>
         );
       case 'piket':
         return (
-          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
+          <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-zinc-100 text-amber-700 border border-amber-200">
             📋 Guru Piket
           </span>
         );
@@ -200,7 +200,7 @@ const UsersPage = () => {
           </span>
         );
       default:
-        return <span className="text-xs text-gray-500 capitalize">{role}</span>;
+        return <span className="text-xs text-zinc-500 capitalize">{role}</span>;
     }
   };
 
@@ -210,11 +210,11 @@ const UsersPage = () => {
         {/* Header Title & Add Button */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <Users className="text-indigo-600 text-2xl sm:text-3xl" />
+            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-900 flex items-center gap-2">
+              <Users className="text-zinc-600 text-2xl sm:text-3xl" />
               Manajemen Akun Guru & Petugas
             </h1>
-            <p className="text-xs sm:text-sm text-gray-500">
+            <p className="text-xs sm:text-sm text-zinc-500">
               Kelola hak akses akun Guru BK, Guru Piket, Wali Kelas, dan Super Admin
             </p>
           </div>
@@ -230,7 +230,7 @@ const UsersPage = () => {
               });
               setShowAddModal(true);
             }}
-            className="flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2.5 rounded-xl shadow-md transition text-sm w-full sm:w-auto"
+            className="flex items-center justify-center space-x-2 bg-zinc-900 hover:bg-zinc-800 text-white font-bold px-4 py-2.5 rounded-xl shadow-sm transition text-sm w-full sm:w-auto"
           >
             <UserPlus className="text-lg" />
             <span>Tambah Akun Baru</span>
@@ -239,22 +239,22 @@ const UsersPage = () => {
 
         {/* Stat Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-          <div className="bg-white rounded-2xl shadow-xs border border-gray-200 p-4">
-            <div className="text-xs font-medium text-gray-500">Total Akun</div>
-            <div className="text-2xl font-extrabold text-gray-900 mt-1">{totalCount}</div>
-            <div className="text-[10px] text-gray-400 mt-0.5">Seluruh Pengguna</div>
+          <div className="bg-white rounded-2xl shadow-xs border border-zinc-200 p-4">
+            <div className="text-xs font-medium text-zinc-500">Total Akun</div>
+            <div className="text-2xl font-extrabold text-zinc-900 mt-1">{totalCount}</div>
+            <div className="text-[10px] text-zinc-400 mt-0.5">Seluruh Pengguna</div>
           </div>
 
-          <div className="bg-indigo-50/60 rounded-2xl border border-indigo-100 p-4">
+          <div className="bg-zinc-100/60 rounded-2xl border border-indigo-100 p-4">
             <div className="text-xs font-semibold text-indigo-700">Guru BK</div>
-            <div className="text-2xl font-extrabold text-indigo-900 mt-1">{bkCount}</div>
-            <div className="text-[10px] text-indigo-600 mt-0.5">Penanganan Sanksi</div>
+            <div className="text-2xl font-extrabold text-zinc-900 mt-1">{bkCount}</div>
+            <div className="text-[10px] text-zinc-600 mt-0.5">Penanganan Sanksi</div>
           </div>
 
-          <div className="bg-amber-50/60 rounded-2xl border border-amber-100 p-4">
+          <div className="bg-zinc-100/60 rounded-2xl border border-amber-100 p-4">
             <div className="text-xs font-semibold text-amber-700">Guru Piket</div>
             <div className="text-2xl font-extrabold text-amber-900 mt-1">{piketCount}</div>
-            <div className="text-[10px] text-amber-600 mt-0.5">Pencatatan Harian</div>
+            <div className="text-[10px] text-zinc-600 mt-0.5">Pencatatan Harian</div>
           </div>
 
           <div className="bg-emerald-50/60 rounded-2xl border border-emerald-100 p-4">
@@ -265,10 +265,10 @@ const UsersPage = () => {
         </div>
 
         {/* Filters & Search */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-5 space-y-4">
+        <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-4 sm:p-5 space-y-4">
           {/* Role Filter Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-gray-100 flex-nowrap sm:flex-wrap">
-            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider mr-1 whitespace-nowrap hidden sm:inline">Filter Role:</span>
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-zinc-100 flex-nowrap sm:flex-wrap">
+            <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mr-1 whitespace-nowrap hidden sm:inline">Filter Role:</span>
             {[
               { id: 'ALL', label: 'Semua Akun' },
               { id: 'admin', label: '👑 Super Admin' },
@@ -281,8 +281,8 @@ const UsersPage = () => {
                 onClick={() => setRoleFilter(tab.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition ${
                   roleFilter === tab.id
-                    ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-zinc-900 text-white shadow-xs'
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
                 }`}
               >
                 {tab.label}
@@ -292,41 +292,41 @@ const UsersPage = () => {
 
           {/* Search Box */}
           <div className="relative w-full">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 text-lg" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Cari berdasarkan nama lengkap atau nama pengguna / username..."
-              className="w-full pl-10 pr-4 py-2.5 bg-gray-50/80 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
+              className="w-full pl-10 pr-4 py-2.5 bg-zinc-50/80 border border-zinc-300 rounded-xl text-sm focus:ring-2 focus:ring-zinc-900 focus:bg-white transition"
             />
           </div>
         </div>
 
         {/* Table of Users */}
         {/* Table / Cards of Users */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 overflow-hidden">
           {/* Mobile View: Cards (Tampil di Layar HP) */}
           <div className="md:hidden p-3 space-y-3">
             {loading ? (
-              <div className="p-8 text-center text-gray-400">
+              <div className="p-8 text-center text-zinc-400">
                 <div className="flex flex-col items-center justify-center space-y-2">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-900"></div>
                   <span className="text-xs">Memuat data pengguna...</span>
                 </div>
               </div>
             ) : users.length === 0 ? (
-              <div className="p-8 text-center text-gray-500">
+              <div className="p-8 text-center text-zinc-500">
                 <p className="text-xs">Tidak ada akun guru yang sesuai filter pencarian.</p>
               </div>
             ) : (
               users.map((u, index) => {
                 const isSelf = currentUser && currentUser.id === u.id;
                 return (
-                  <div key={u.id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs space-y-2.5">
+                  <div key={u.id} className="bg-white p-3.5 rounded-xl border border-zinc-200 shadow-sm space-y-2.5">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <div className="text-sm font-bold text-gray-900 flex items-center gap-1.5">
+                        <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
                           {u.name}
                           {isSelf && (
                             <span className="text-[10px] bg-blue-100 text-blue-700 px-1.5 py-0.2 rounded font-semibold">
@@ -334,7 +334,7 @@ const UsersPage = () => {
                             </span>
                           )}
                         </div>
-                        <div className="text-xs text-gray-500 font-mono mt-0.5">
+                        <div className="text-xs text-zinc-500 font-mono mt-0.5">
                           Login: {u.email}
                         </div>
                       </div>
@@ -343,19 +343,19 @@ const UsersPage = () => {
 
                     {u.role === 'wali_kelas' && (
                       <div className="text-xs text-emerald-800 bg-emerald-50/70 p-2 rounded-lg border border-emerald-100 flex items-center justify-between">
-                        <span className="text-[11px] text-gray-600">Kelas Binaan:</span>
+                        <span className="text-[11px] text-zinc-600">Kelas Binaan:</span>
                         <span className="font-bold">Kelas {u.assigned_class_name || 'Belum diatur'}</span>
                       </div>
                     )}
 
-                    <div className="flex items-center justify-between pt-1 border-t border-gray-100 text-xs">
-                      <span className="text-[10px] text-gray-400">
+                    <div className="flex items-center justify-between pt-1 border-t border-zinc-100 text-xs">
+                      <span className="text-[10px] text-zinc-400">
                         Terdaftar: {new Date(u.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </span>
                       <div className="flex items-center gap-1.5">
                         <button
                           onClick={() => handleOpenEdit(u)}
-                          className="px-3 py-1.5 text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg flex items-center gap-1 transition"
+                          className="px-3 py-1.5 text-xs font-semibold text-amber-700 bg-zinc-100 hover:bg-amber-100 border border-amber-200 rounded-lg flex items-center gap-1 transition"
                           title="Edit Akun"
                         >
                           <Edit className="text-sm" />
@@ -380,31 +380,31 @@ const UsersPage = () => {
 
           {/* Desktop View: Table (Tampil di Tablet / PC) */}
           <div className="hidden md:block overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-zinc-200">
+              <thead className="bg-zinc-50">
                 <tr>
-                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-10">No</th>
-                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[160px]">Nama Lengkap</th>
-                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[180px]">Nama Pengguna / Login</th>
-                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Jabatan / Role</th>
-                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Kelas Binaan</th>
-                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Terdaftar</th>
-                  <th className="px-4 py-3.5 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-32">Aksi</th>
+                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider w-10">No</th>
+                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider min-w-[160px]">Nama Lengkap</th>
+                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider min-w-[180px]">Nama Pengguna / Login</th>
+                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider whitespace-nowrap">Jabatan / Role</th>
+                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider whitespace-nowrap">Kelas Binaan</th>
+                  <th className="px-4 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-wider whitespace-nowrap">Terdaftar</th>
+                  <th className="px-4 py-3.5 text-center text-xs font-semibold text-zinc-500 uppercase tracking-wider w-32">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y divide-zinc-200">
                 {loading ? (
                   <tr>
-                    <td colSpan="7" className="px-6 py-12 text-center text-gray-400">
+                    <td colSpan="7" className="px-6 py-12 text-center text-zinc-400">
                       <div className="flex flex-col items-center justify-center space-y-2">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-900"></div>
                         <span className="text-sm">Memuat data pengguna...</span>
                       </div>
                     </td>
                   </tr>
                 ) : users.length === 0 ? (
                   <tr>
-                    <td colSpan="7" className="px-6 py-10 text-center text-gray-500">
+                    <td colSpan="7" className="px-6 py-10 text-center text-zinc-500">
                       <p className="text-sm">Tidak ada akun guru yang sesuai filter pencarian.</p>
                     </td>
                   </tr>
@@ -412,10 +412,10 @@ const UsersPage = () => {
                   users.map((u, index) => {
                     const isSelf = currentUser && currentUser.id === u.id;
                     return (
-                      <tr key={u.id} className="hover:bg-indigo-50/40 transition">
-                        <td className="px-4 py-3.5 text-xs text-gray-500">{index + 1}</td>
+                      <tr key={u.id} className="hover:bg-zinc-100/40 transition">
+                        <td className="px-4 py-3.5 text-xs text-zinc-500">{index + 1}</td>
                         <td className="px-4 py-3.5">
-                          <div className="text-sm font-bold text-gray-900 flex items-center gap-1.5">
+                          <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
                             {u.name}
                             {isSelf && (
                               <span className="text-[10px] bg-blue-100 text-blue-700 px-1.5 py-0.2 rounded font-semibold">
@@ -424,7 +424,7 @@ const UsersPage = () => {
                             )}
                           </div>
                         </td>
-                        <td className="px-4 py-3.5 text-xs text-gray-600 font-mono">
+                        <td className="px-4 py-3.5 text-xs text-zinc-600 font-mono">
                           {u.email}
                         </td>
                         <td className="px-4 py-3.5 whitespace-nowrap">
@@ -437,13 +437,13 @@ const UsersPage = () => {
                                 Kelas {u.assigned_class_name}
                               </span>
                             ) : (
-                              <span className="text-gray-400 italic">Belum dipilih</span>
+                              <span className="text-zinc-400 italic">Belum dipilih</span>
                             )
                           ) : (
-                            <span className="text-gray-400">-</span>
+                            <span className="text-zinc-400">-</span>
                           )}
                         </td>
-                        <td className="px-4 py-3.5 text-xs text-gray-500 whitespace-nowrap">
+                        <td className="px-4 py-3.5 text-xs text-zinc-500 whitespace-nowrap">
                           {new Date(u.created_at).toLocaleDateString('id-ID', {
                             day: 'numeric',
                             month: 'short',
@@ -454,7 +454,7 @@ const UsersPage = () => {
                           <div className="flex items-center justify-center space-x-1.5">
                             <button
                               onClick={() => handleOpenEdit(u)}
-                              className="p-1.5 text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg transition"
+                              className="p-1.5 text-amber-700 bg-zinc-100 hover:bg-amber-100 border border-amber-200 rounded-lg transition"
                               title="Edit Akun & Password"
                             >
                               <Edit className="text-base" />
@@ -482,15 +482,15 @@ const UsersPage = () => {
         {/* Modal Tambah Akun Guru */}
         {showAddModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-3.5 sm:p-4 animate-in fade-in">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-              <div className="px-6 py-4 bg-indigo-50/80 border-b border-indigo-100 flex justify-between items-center">
-                <h3 className="text-lg font-bold text-indigo-950 flex items-center">
-                  <UserPlus className="mr-2 text-indigo-600 text-2xl" />
+            <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+              <div className="px-6 py-4 bg-zinc-100/80 border-b border-indigo-100 flex justify-between items-center">
+                <h3 className="text-lg font-bold text-zinc-900 flex items-center">
+                  <UserPlus className="mr-2 text-zinc-600 text-2xl" />
                   Tambah Akun Guru / Petugas Baru
                 </h3>
                 <button
                   onClick={() => setShowAddModal(false)}
-                  className="text-gray-400 hover:text-gray-600 p-1.5 rounded-full hover:bg-white transition"
+                  className="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-full hover:bg-white transition"
                 >
                   <X className="text-xl" />
                 </button>
@@ -499,7 +499,7 @@ const UsersPage = () => {
               <form onSubmit={handleAddSubmit} className="p-6 space-y-4">
                 {/* Nama Lengkap */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1">
                     Nama Lengkap & Gelar <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -508,49 +508,49 @@ const UsersPage = () => {
                     value={addForm.name}
                     onChange={(e) => setAddForm({ ...addForm, name: e.target.value })}
                     placeholder="Contoh: Drs. Bambang Sudarsono, M.Pd"
-                    className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                    className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition"
                   />
                 </div>
 
                 {/* Nama Pengguna / Login */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1">
                     Nama Pengguna / Username (Untuk Login) <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 text-lg" />
                     <input
                       type="text"
                       required
                       value={addForm.email}
                       onChange={(e) => setAddForm({ ...addForm, email: e.target.value })}
                       placeholder="Contoh: bambang, guru_bk, atau email"
-                      className="pl-10 w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                      className="pl-10 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition"
                     />
                   </div>
                 </div>
 
                 {/* Kata Sandi */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1">
                     Kata Sandi (Password) <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
-                    <Key className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+                    <Key className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 text-lg" />
                     <input
                       type="password"
                       required
                       value={addForm.password}
                       onChange={(e) => setAddForm({ ...addForm, password: e.target.value })}
                       placeholder="Minimal 6 karakter..."
-                      className="pl-10 w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+                      className="pl-10 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition"
                     />
                   </div>
                 </div>
 
                 {/* Pilihan Role */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">
                     Jabatan / Hak Akses Akun <span className="text-red-500">*</span>
                   </label>
                   <div className="grid grid-cols-2 gap-2.5">
@@ -565,12 +565,12 @@ const UsersPage = () => {
                         onClick={() => setAddForm({ ...addForm, role: r.id })}
                         className={`p-3 rounded-xl border cursor-pointer transition flex flex-col justify-between ${
                           addForm.role === r.id
-                            ? 'bg-indigo-50/80 border-indigo-600 ring-2 ring-indigo-500/20'
-                            : 'bg-white border-gray-200 hover:border-gray-300'
+                            ? 'bg-zinc-100/80 border-zinc-900 ring-2 ring-zinc-900/20'
+                            : 'bg-white border-zinc-200 hover:border-zinc-300'
                         }`}
                       >
-                        <div className="font-bold text-xs text-gray-900">{r.title}</div>
-                        <div className="text-[10px] text-gray-500 mt-1">{r.desc}</div>
+                        <div className="font-bold text-xs text-zinc-900">{r.title}</div>
+                        <div className="text-[10px] text-zinc-500 mt-1">{r.desc}</div>
                       </div>
                     ))}
                   </div>
@@ -598,18 +598,18 @@ const UsersPage = () => {
                   </div>
                 )}
 
-                <div className="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+                <div className="flex justify-end space-x-3 pt-4 border-t border-zinc-100">
                   <button
                     type="button"
                     onClick={() => setShowAddModal(false)}
-                    className="px-4 py-2.5 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 transition text-sm font-semibold"
+                    className="px-4 py-2.5 border border-zinc-300 rounded-xl text-zinc-700 hover:bg-zinc-50 transition text-sm font-semibold"
                   >
                     Batal
                   </button>
                   <button
                     type="submit"
                     disabled={submittingAdd}
-                    className="px-5 py-2.5 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition text-sm font-bold shadow-md disabled:opacity-50"
+                    className="px-5 py-2.5 bg-zinc-900 text-white rounded-xl hover:bg-zinc-800 transition text-sm font-bold shadow-sm disabled:opacity-50"
                   >
                     {submittingAdd ? 'Menyimpan...' : 'Simpan Akun Guru'}
                   </button>
@@ -622,15 +622,15 @@ const UsersPage = () => {
         {/* Modal Edit Akun Guru */}
         {userToEdit && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-3.5 sm:p-4 animate-in fade-in">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-              <div className="px-6 py-4 bg-amber-50/80 border-b border-amber-100 flex justify-between items-center">
+            <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+              <div className="px-6 py-4 bg-zinc-100/80 border-b border-amber-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-amber-950 flex items-center">
-                  <Edit className="mr-2 text-amber-600 text-2xl" />
+                  <Edit className="mr-2 text-zinc-600 text-2xl" />
                   Edit Akun Pengguna
                 </h3>
                 <button
                   onClick={() => setUserToEdit(null)}
-                  className="text-gray-400 hover:text-gray-600 p-1.5 rounded-full hover:bg-white transition"
+                  className="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-full hover:bg-white transition"
                 >
                   <X className="text-xl" />
                 </button>
@@ -638,7 +638,7 @@ const UsersPage = () => {
 
               <form onSubmit={handleEditSubmit} className="p-6 space-y-4">
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1">
                     Nama Lengkap & Gelar <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -646,12 +646,12 @@ const UsersPage = () => {
                     required
                     value={editForm.name}
                     onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                    className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
+                    className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1">
                     Nama Pengguna / Username (Untuk Login) <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -660,12 +660,12 @@ const UsersPage = () => {
                     value={editForm.email}
                     onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
                     placeholder="Contoh: bambang, guru_bk, atau email"
-                    className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
+                    className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
+                  <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1">
                     Ganti Kata Sandi (Opsional)
                   </label>
                   <input
@@ -673,12 +673,12 @@ const UsersPage = () => {
                     value={editForm.password}
                     onChange={(e) => setEditForm({ ...editForm, password: e.target.value })}
                     placeholder="Kosongkan jika tidak ingin mengubah kata sandi"
-                    className="w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
+                    className="w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent transition"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
+                  <label className="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2">
                     Jabatan / Hak Akses Akun <span className="text-red-500">*</span>
                   </label>
                   <div className="grid grid-cols-2 gap-2.5">
@@ -693,8 +693,8 @@ const UsersPage = () => {
                         onClick={() => setEditForm({ ...editForm, role: r.id })}
                         className={`p-3 rounded-xl border cursor-pointer transition ${
                           editForm.role === r.id
-                            ? 'bg-amber-50 border-amber-600 ring-2 ring-amber-500/20 font-bold text-amber-950'
-                            : 'bg-white border-gray-200 hover:border-gray-300 text-gray-800'
+                            ? 'bg-zinc-100 border-amber-600 ring-2 ring-amber-500/20 font-bold text-amber-950'
+                            : 'bg-white border-zinc-200 hover:border-zinc-300 text-zinc-800'
                         }`}
                       >
                         <div className="text-xs">{r.title}</div>
@@ -724,18 +724,18 @@ const UsersPage = () => {
                   </div>
                 )}
 
-                <div className="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+                <div className="flex justify-end space-x-3 pt-4 border-t border-zinc-100">
                   <button
                     type="button"
                     onClick={() => setUserToEdit(null)}
-                    className="px-4 py-2.5 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 transition text-sm font-semibold"
+                    className="px-4 py-2.5 border border-zinc-300 rounded-xl text-zinc-700 hover:bg-zinc-50 transition text-sm font-semibold"
                   >
                     Batal
                   </button>
                   <button
                     type="submit"
                     disabled={submittingEdit}
-                    className="px-5 py-2.5 bg-amber-600 text-white rounded-xl hover:bg-amber-700 transition text-sm font-bold shadow-md disabled:opacity-50"
+                    className="px-5 py-2.5 bg-amber-600 text-white rounded-xl hover:bg-amber-700 transition text-sm font-bold shadow-sm disabled:opacity-50"
                   >
                     {submittingEdit ? 'Menyimpan...' : 'Perbarui Akun'}
                   </button>
@@ -748,7 +748,7 @@ const UsersPage = () => {
         {/* Modal Konfirmasi Hapus Akun */}
         {userToDelete && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-3.5 sm:p-4 animate-in fade-in">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="bg-white rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
               <div className="px-6 py-4 bg-red-50/80 border-b border-red-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-red-950 flex items-center">
                   <AlertTriangle className="mr-2 text-red-600 text-2xl" />
@@ -756,37 +756,37 @@ const UsersPage = () => {
                 </h3>
                 <button
                   onClick={() => setUserToDelete(null)}
-                  className="text-gray-400 hover:text-gray-600 p-1.5 rounded-full hover:bg-white transition"
+                  className="text-zinc-400 hover:text-zinc-600 p-1.5 rounded-full hover:bg-white transition"
                 >
                   <X className="text-xl" />
                 </button>
               </div>
 
               <div className="p-6 space-y-4">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-zinc-600">
                   Apakah Anda yakin ingin menghapus akun guru/petugas ini? Akun tidak akan dapat login lagi ke sistem setelah dihapus.
                 </p>
 
-                <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 text-xs space-y-1.5">
+                <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-200 text-xs space-y-1.5">
                   <div>
-                    <span className="text-gray-500 block">Nama Pengguna:</span>
-                    <strong className="text-gray-900 text-sm">{userToDelete.name}</strong>
+                    <span className="text-zinc-500 block">Nama Pengguna:</span>
+                    <strong className="text-zinc-900 text-sm">{userToDelete.name}</strong>
                   </div>
                   <div>
-                    <span className="text-gray-500 block">Email:</span>
-                    <span className="font-mono text-gray-700">{userToDelete.email}</span>
+                    <span className="text-zinc-500 block">Email:</span>
+                    <span className="font-mono text-zinc-700">{userToDelete.email}</span>
                   </div>
                   <div>
-                    <span className="text-gray-500 block">Role:</span>
+                    <span className="text-zinc-500 block">Role:</span>
                     <span className="font-semibold text-indigo-700">{renderRoleBadge(userToDelete.role)}</span>
                   </div>
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-3 border-t border-gray-100">
+                <div className="flex justify-end space-x-3 pt-3 border-t border-zinc-100">
                   <button
                     type="button"
                     onClick={() => setUserToDelete(null)}
-                    className="px-4 py-2.5 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 transition text-sm font-semibold"
+                    className="px-4 py-2.5 border border-zinc-300 rounded-xl text-zinc-700 hover:bg-zinc-50 transition text-sm font-semibold"
                   >
                     Batal
                   </button>
@@ -794,7 +794,7 @@ const UsersPage = () => {
                     type="button"
                     onClick={handleDeleteSubmit}
                     disabled={deleting}
-                    className="px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 transition text-sm font-bold shadow-md disabled:opacity-50"
+                    className="px-5 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 transition text-sm font-bold shadow-sm disabled:opacity-50"
                   >
                     {deleting ? 'Menghapus...' : 'Ya, Hapus Akun'}
                   </button>

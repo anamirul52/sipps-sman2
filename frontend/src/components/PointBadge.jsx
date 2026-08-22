@@ -16,7 +16,7 @@ const PointBadge = ({ points, showLabel = true, stacked = true }) => {
     borderClass = 'border-sky-200';
     label = 'Pemberitahuan Ortu';
   } else if (p <= 25) {
-    bgClass = 'bg-amber-50';
+    bgClass = 'bg-zinc-100';
     textClass = 'text-amber-700';
     borderClass = 'border-amber-200';
     label = 'SP 1';
@@ -46,13 +46,13 @@ const PointBadge = ({ points, showLabel = true, stacked = true }) => {
     return (
       <div className="inline-flex flex-col items-center justify-center text-center leading-tight">
         <span 
-          className={`inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] border ${bgClass} ${textClass} ${borderClass} whitespace-nowrap shadow-2xs`}
+          className={`inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] border ${bgClass} ${textClass} ${borderClass} whitespace-nowrap shadow-sm`}
         >
           {p} Poin
         </span>
         {showLabel && (
           <span 
-            className="text-[10px] text-gray-500 font-medium mt-0.5 leading-tight block whitespace-nowrap"
+            className="text-[10px] text-zinc-500 font-medium mt-0.5 leading-tight block whitespace-nowrap"
             title={label}
           >
             ({label})

@@ -78,18 +78,18 @@ const SanctionLetterModal = ({ studentId, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col transform transition-all overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col transform transition-all overflow-hidden">
         {/* Header */}
-        <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-gray-200 flex justify-between items-center bg-indigo-50/70">
+        <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-zinc-200 flex justify-between items-center bg-zinc-100/70">
           <div className="flex items-center min-w-0 mr-2">
-            <FileText className="mr-2 text-indigo-600 text-xl sm:text-2xl flex-shrink-0" /> 
-            <h3 className="text-sm sm:text-lg font-bold text-indigo-950 truncate">
+            <FileText className="mr-2 text-zinc-600 text-xl sm:text-2xl flex-shrink-0" /> 
+            <h3 className="text-sm sm:text-lg font-bold text-zinc-900 truncate">
               Riwayat Surat & Tindakan Sanksi Siswa
             </h3>
           </div>
           <button 
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
+            className="text-zinc-400 hover:text-zinc-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
           >
             <X className="text-xl" />
           </button>
@@ -98,15 +98,15 @@ const SanctionLetterModal = ({ studentId, onClose }) => {
         {/* Content */}
         <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-3 sm:space-y-4">
           {loading ? (
-            <div className="text-center py-12 text-gray-500">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-2"></div>
+            <div className="text-center py-12 text-zinc-500">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-900 mx-auto mb-2"></div>
               <span className="text-xs">Memuat data tindakan sanksi...</span>
             </div>
           ) : sanctions.length === 0 ? (
-            <div className="text-center py-12 text-gray-500 space-y-2">
+            <div className="text-center py-12 text-zinc-500 space-y-2">
               <ShieldAlert className="text-4xl text-emerald-500 mx-auto" />
-              <div className="font-semibold text-gray-700 text-sm">Belum ada surat sanksi yang diterbitkan.</div>
-              <p className="text-xs text-gray-400 max-w-sm mx-auto">
+              <div className="font-semibold text-zinc-700 text-sm">Belum ada surat sanksi yang diterbitkan.</div>
+              <p className="text-xs text-zinc-400 max-w-sm mx-auto">
                 Surat tindakan diterbitkan secara otomatis saat poin pelanggaran siswa mencapai ambang batas resmi.
               </p>
             </div>
@@ -114,14 +114,14 @@ const SanctionLetterModal = ({ studentId, onClose }) => {
             sanctions.map((sanction) => (
               <div 
                 key={sanction.id} 
-                className="border border-gray-200 bg-white rounded-xl p-3.5 sm:p-4 shadow-2xs hover:shadow-md transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4"
+                className="border border-zinc-200 bg-white rounded-xl p-3.5 sm:p-4 shadow-sm hover:bg-zinc-50 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4"
               >
                 <div className="space-y-1.5 flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-bold border ${getTierBadgeStyle(sanction.point_threshold)}`}>
                       Ambang Batas: {sanction.point_threshold} Poin
                     </span>
-                    <span className="text-[11px] text-gray-500">
+                    <span className="text-[11px] text-zinc-500">
                       {new Date(sanction.generated_at).toLocaleDateString('id-ID', {
                         day: 'numeric',
                         month: 'long',
@@ -130,11 +130,11 @@ const SanctionLetterModal = ({ studentId, onClose }) => {
                     </span>
                   </div>
 
-                  <h4 className="font-bold text-gray-900 text-xs sm:text-sm">
+                  <h4 className="font-bold text-zinc-900 text-xs sm:text-sm">
                     {sanction.status_letter}
                   </h4>
 
-                  <p className="text-xs text-gray-600 leading-relaxed bg-gray-50 p-2.5 rounded-lg border border-gray-100">
+                  <p className="text-xs text-zinc-600 leading-relaxed bg-zinc-50 p-2.5 rounded-lg border border-zinc-100">
                     {sanction.violation_summary}
                   </p>
                 </div>
@@ -142,7 +142,7 @@ const SanctionLetterModal = ({ studentId, onClose }) => {
                 <div className="flex-shrink-0 pt-1 sm:pt-0">
                   <button
                     onClick={() => handleDownload(sanction.id, sanction.student_name)}
-                    className="w-full sm:w-auto flex items-center justify-center space-x-1.5 bg-indigo-600 text-white hover:bg-indigo-700 px-3.5 py-2 rounded-lg transition font-semibold text-xs shadow-xs"
+                    className="w-full sm:w-auto flex items-center justify-center space-x-1.5 bg-zinc-900 text-white hover:bg-zinc-800 px-3.5 py-2 rounded-lg transition font-semibold text-xs shadow-xs"
                   >
                     <Download className="text-sm" />
                     <span>Buka / Unduh PDF</span>
@@ -154,10 +154,10 @@ const SanctionLetterModal = ({ studentId, onClose }) => {
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-gray-200 bg-gray-50 flex justify-end">
+        <div className="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-zinc-200 bg-zinc-50 flex justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition text-xs sm:text-sm font-medium"
+            className="px-4 py-2 bg-white border border-zinc-300 rounded-lg text-zinc-700 hover:bg-zinc-100 transition text-xs sm:text-sm font-medium"
           >
             Tutup
           </button>

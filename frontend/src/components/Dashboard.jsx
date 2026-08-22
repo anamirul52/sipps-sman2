@@ -118,7 +118,7 @@ const Dashboard = () => {
       sanction: 'Peringatan Tertulis I (SP 1)',
       officer: 'Wali Kelas dan BK',
       note: 'Pemanggilan orang tua/wali',
-      color: 'bg-amber-50 text-amber-800 border-amber-200'
+      color: 'bg-zinc-100 text-amber-800 border-amber-200'
     },
     {
       range: '26 – 50 Poin',
@@ -203,13 +203,13 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className="space-y-6 animate-pulse">
-        <div className="h-8 bg-gray-200 rounded-lg w-64" />
+        <div className="h-8 bg-zinc-200 rounded-lg w-64" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="bg-gray-200 rounded-2xl h-32" />
+            <div key={i} className="bg-zinc-200 rounded-2xl h-32" />
           ))}
         </div>
-        <div className="bg-gray-200 rounded-2xl h-64" />
+        <div className="bg-zinc-200 rounded-2xl h-64" />
       </div>
     );
   }
@@ -219,8 +219,8 @@ const Dashboard = () => {
       {/* Title */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Dashboard Monitoring Pelanggaran Siswa</h1>
-          <p className="text-xs sm:text-sm text-gray-500">
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-900">Dashboard Monitoring Pelanggaran Siswa</h1>
+          <p className="text-xs sm:text-sm text-zinc-500">
             Rekapitulasi Pelanggaran & Tindakan Sanksi
           </p>
         </div>
@@ -231,80 +231,80 @@ const Dashboard = () => {
         {/* Card 1: Total Siswa */}
         <div 
           onClick={() => setActiveModal('students')}
-          className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 sm:p-6 transition-all hover:shadow-md hover:border-gray-300 cursor-pointer group flex flex-col justify-between"
+          className="bg-white border border-zinc-200 rounded-xl shadow-sm p-5 sm:p-6 transition-all hover:bg-zinc-50 hover:border-zinc-300 cursor-pointer group flex flex-col justify-between"
         >
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-slate-500 font-medium text-xs sm:text-sm">Total Siswa Terdaftar</p>
-              <p className="text-3xl sm:text-4xl font-semibold text-slate-900 mt-2">{stats.totalStudents}</p>
+              <p className="text-zinc-500 font-medium text-xs sm:text-sm">Total Siswa Terdaftar</p>
+              <p className="text-3xl sm:text-4xl font-medium tracking-tight text-zinc-900 mt-2">{stats.totalStudents}</p>
             </div>
-            <div className="bg-indigo-50 p-2.5 sm:p-3 rounded-lg text-indigo-600 group-hover:scale-105 transition-transform">
+            <div className="bg-zinc-100 p-2.5 sm:p-3 rounded-lg text-zinc-600  transition-transform">
               <Users className="text-xl sm:text-2xl" />
             </div>
           </div>
-          <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-slate-500 font-medium">
+          <div className="mt-4 pt-4 border-t border-zinc-100 flex items-center justify-between text-xs text-zinc-500 font-medium">
             <span>Lihat data & rombel</span>
-            <ArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-indigo-600 transition-all" />
+            <ArrowRight className="text-zinc-400 group-hover:translate-x-0.5 group-hover:text-zinc-600 transition-all" />
           </div>
         </div>
 
         {/* Card 2: Pelanggaran Hari Ini */}
         <div 
           onClick={() => setActiveModal('today')}
-          className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 sm:p-6 transition-all hover:shadow-md hover:border-gray-300 cursor-pointer group flex flex-col justify-between"
+          className="bg-white border border-zinc-200 rounded-xl shadow-sm p-5 sm:p-6 transition-all hover:bg-zinc-50 hover:border-zinc-300 cursor-pointer group flex flex-col justify-between"
         >
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-slate-500 font-medium text-xs sm:text-sm">Pelanggaran Hari Ini</p>
-              <p className="text-3xl sm:text-4xl font-semibold text-slate-900 mt-2">{stats.todayViolations}</p>
+              <p className="text-zinc-500 font-medium text-xs sm:text-sm">Pelanggaran Hari Ini</p>
+              <p className="text-3xl sm:text-4xl font-medium tracking-tight text-zinc-900 mt-2">{stats.todayViolations}</p>
             </div>
-            <div className="bg-amber-50 p-2.5 sm:p-3 rounded-lg text-amber-600 group-hover:scale-105 transition-transform">
+            <div className="bg-zinc-100 p-2.5 sm:p-3 rounded-lg text-zinc-600  transition-transform">
               <AlertCircle className="text-xl sm:text-2xl" />
             </div>
           </div>
-          <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-slate-500 font-medium">
+          <div className="mt-4 pt-4 border-t border-zinc-100 flex items-center justify-between text-xs text-zinc-500 font-medium">
             <span>Rincian hari ini</span>
-            <ArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-amber-600 transition-all" />
+            <ArrowRight className="text-zinc-400 group-hover:translate-x-0.5 group-hover:text-zinc-600 transition-all" />
           </div>
         </div>
 
         {/* Card 3: Semua Pelanggaran */}
         <div 
           onClick={handleOpenAllViolations}
-          className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 sm:p-6 transition-all hover:shadow-md hover:border-gray-300 cursor-pointer group flex flex-col justify-between"
+          className="bg-white border border-zinc-200 rounded-xl shadow-sm p-5 sm:p-6 transition-all hover:bg-zinc-50 hover:border-zinc-300 cursor-pointer group flex flex-col justify-between"
         >
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-slate-500 font-medium text-xs sm:text-sm">Semua Pelanggaran</p>
-              <p className="text-3xl sm:text-4xl font-semibold text-slate-900 mt-2">{stats.totalViolations}</p>
+              <p className="text-zinc-500 font-medium text-xs sm:text-sm">Semua Pelanggaran</p>
+              <p className="text-3xl sm:text-4xl font-medium tracking-tight text-zinc-900 mt-2">{stats.totalViolations}</p>
             </div>
-            <div className="bg-purple-50 p-2.5 sm:p-3 rounded-lg text-purple-600 group-hover:scale-105 transition-transform">
+            <div className="bg-zinc-100 p-2.5 sm:p-3 rounded-lg text-zinc-600  transition-transform">
               <ClipboardList className="text-xl sm:text-2xl" />
             </div>
           </div>
-          <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-slate-500 font-medium">
+          <div className="mt-4 pt-4 border-t border-zinc-100 flex items-center justify-between text-xs text-zinc-500 font-medium">
             <span>Lihat seluruh riwayat</span>
-            <ArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-purple-600 transition-all" />
+            <ArrowRight className="text-zinc-400 group-hover:translate-x-0.5 group-hover:text-zinc-600 transition-all" />
           </div>
         </div>
 
         {/* Card 4: Perlu Penanganan (>= 21 Poin) */}
         <div 
           onClick={() => setActiveModal('attention')}
-          className="bg-white border border-gray-200 rounded-xl shadow-sm p-5 sm:p-6 transition-all hover:shadow-md hover:border-gray-300 cursor-pointer group flex flex-col justify-between"
+          className="bg-white border border-zinc-200 rounded-xl shadow-sm p-5 sm:p-6 transition-all hover:bg-zinc-50 hover:border-zinc-300 cursor-pointer group flex flex-col justify-between"
         >
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-slate-500 font-medium text-xs sm:text-sm">Perlu Penanganan</p>
-              <p className="text-3xl sm:text-4xl font-semibold text-rose-600 mt-2">{stats.studentsNeedAttention}</p>
+              <p className="text-zinc-500 font-medium text-xs sm:text-sm">Perlu Penanganan</p>
+              <p className="text-3xl sm:text-4xl font-medium tracking-tight text-rose-600 mt-2">{stats.studentsNeedAttention}</p>
             </div>
-            <div className="bg-rose-50 p-2.5 sm:p-3 rounded-lg text-rose-600 group-hover:scale-105 transition-transform">
+            <div className="bg-rose-50 p-2.5 sm:p-3 rounded-lg text-rose-600  transition-transform">
               <AlertTriangle className="text-xl sm:text-2xl" />
             </div>
           </div>
-          <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-slate-500 font-medium">
+          <div className="mt-4 pt-4 border-t border-zinc-100 flex items-center justify-between text-xs text-zinc-500 font-medium">
             <span>Daftar & cetak sanksi</span>
-            <ArrowRight className="text-slate-400 group-hover:translate-x-1 group-hover:text-rose-600 transition-all" />
+            <ArrowRight className="text-zinc-400 group-hover:translate-x-0.5 group-hover:text-rose-600 transition-all" />
           </div>
         </div>
       </div>
@@ -312,13 +312,13 @@ const Dashboard = () => {
 
 
       {/* Tabel Pelanggaran Terbaru */}
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
-        <div className="px-4 py-4 border-b border-gray-200 flex justify-between items-center bg-white">
-          <h2 className="text-sm sm:text-base font-semibold text-slate-900 flex items-center gap-2">
-            <ClipboardList className="text-indigo-600 text-base sm:text-lg" />
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-zinc-200">
+        <div className="px-4 py-4 border-b border-zinc-200 flex justify-between items-center bg-white">
+          <h2 className="text-sm sm:text-base font-semibold text-zinc-900 flex items-center gap-2">
+            <ClipboardList className="text-zinc-600 text-base sm:text-lg" />
             Pelanggaran Terbaru Masuk
           </h2>
-          <span className="text-[11px] text-slate-500 font-medium bg-slate-100 px-2.5 py-0.5 rounded-full">
+          <span className="text-[11px] text-zinc-500 font-medium bg-zinc-100 px-2.5 py-0.5 rounded-full">
             10 Catatan Terkini
           </span>
         </div>
@@ -326,27 +326,27 @@ const Dashboard = () => {
         {/* Mobile View: Cards (Tampil di Layar HP) */}
         <div className="sm:hidden p-4 space-y-3">
           {recentViolations.map((v, index) => (
-            <div key={v.id} className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm space-y-2">
+            <div key={v.id} className="bg-white p-4 rounded-xl border border-zinc-200 shadow-sm space-y-2">
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <div className="font-semibold text-slate-900 text-xs">{v.student_name}</div>
-                  <div className="text-[11px] text-slate-500 mt-0.5">
-                    Kelas: <span className="font-medium text-slate-700">{v.class_name || '-'}</span>
+                  <div className="font-semibold text-zinc-900 text-xs">{v.student_name}</div>
+                  <div className="text-[11px] text-zinc-500 mt-0.5">
+                    Kelas: <span className="font-medium text-zinc-700">{v.class_name || '-'}</span>
                   </div>
                 </div>
                 <PointBadge points={v.student_total_points} />
               </div>
-              <div className="text-xs text-slate-700 bg-slate-50 p-2.5 rounded-lg border border-gray-100 flex items-center justify-between gap-2">
+              <div className="text-xs text-zinc-700 bg-zinc-50 p-2.5 rounded-lg border border-zinc-100 flex items-center justify-between gap-2">
                 <span className="font-medium text-[11px]">{v.category_name}</span>
                 <span className="font-semibold text-red-600 text-[11px] whitespace-nowrap">+{v.point_deduction} Poin</span>
               </div>
-              <div className="text-[10px] text-slate-400 text-right">
+              <div className="text-[10px] text-zinc-400 text-right">
                 {new Date(v.violation_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
               </div>
             </div>
           ))}
           {recentViolations.length === 0 && (
-            <div className="py-8 text-center text-xs text-slate-500">
+            <div className="py-8 text-center text-xs text-zinc-500">
               Belum ada data pelanggaran hari ini.
             </div>
           )}
@@ -355,7 +355,7 @@ const Dashboard = () => {
         {/* Desktop View: Table (Tampil di Tablet/PC) */}
         <div className="hidden sm:block overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-full">
-            <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-semibold text-slate-500 tracking-wider">
+            <thead className="bg-zinc-50 border-b border-zinc-200 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider">
               <tr>
                 <th className="px-4 py-3 text-center w-10 whitespace-nowrap">No</th>
                 <th className="px-4 py-3 min-w-[150px] whitespace-nowrap">Nama Siswa</th>
@@ -366,19 +366,19 @@ const Dashboard = () => {
                 <th className="px-4 py-3 text-center min-w-[95px] whitespace-nowrap">Tanggal</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 bg-white text-xs">
+            <tbody className="divide-y divide-zinc-200 bg-white text-xs">
               {recentViolations.map((v, index) => (
-                <tr key={v.id} className="hover:bg-slate-50/50 transition">
-                  <td className="px-4 py-3 text-center text-slate-500 font-medium text-xs whitespace-nowrap">{index + 1}</td>
+                <tr key={v.id} className="hover:bg-zinc-50/50 transition">
+                  <td className="px-4 py-3 text-center text-zinc-500 font-medium text-xs whitespace-nowrap">{index + 1}</td>
                   <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="font-semibold text-slate-900 text-xs sm:text-sm leading-snug">{v.student_name}</div>
+                    <div className="font-semibold text-zinc-900 text-xs sm:text-sm leading-snug">{v.student_name}</div>
                   </td>
                   <td className="px-4 py-3 text-center whitespace-nowrap">
-                    <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-medium text-[11px] bg-slate-100 text-slate-700 border border-slate-200 whitespace-nowrap min-w-[55px]">
+                    <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-md font-medium text-[11px] bg-zinc-100 text-zinc-700 border border-zinc-200 whitespace-nowrap min-w-[55px]">
                       {v.class_name || '-'}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-xs text-slate-700 font-medium leading-relaxed">
+                  <td className="px-4 py-3 text-xs text-zinc-700 font-medium leading-relaxed">
                     {v.category_name}
                   </td>
                   <td className="px-4 py-3 text-center whitespace-nowrap">
@@ -389,7 +389,7 @@ const Dashboard = () => {
                   <td className="px-4 py-3 text-center whitespace-nowrap">
                     <PointBadge points={v.student_total_points} />
                   </td>
-                  <td className="px-4 py-3 text-center text-xs text-slate-500 whitespace-nowrap font-medium">
+                  <td className="px-4 py-3 text-center text-xs text-zinc-500 whitespace-nowrap font-medium">
                     {new Date(v.violation_date).toLocaleDateString('id-ID', {
                       day: 'numeric',
                       month: 'short',
@@ -400,7 +400,7 @@ const Dashboard = () => {
               ))}
               {recentViolations.length === 0 && (
                 <tr>
-                  <td colSpan="7" className="px-4 py-8 text-center text-xs text-slate-500">
+                  <td colSpan="7" className="px-4 py-8 text-center text-xs text-zinc-500">
                     Belum ada data pelanggaran hari ini.
                   </td>
                 </tr>
@@ -411,13 +411,13 @@ const Dashboard = () => {
       </div>
 
       {/* Pedoman Sanksi Berdasarkan Total Poin */}
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
-        <div className="px-4 py-4 border-b border-gray-200 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <h2 className="text-sm sm:text-base font-semibold text-slate-900 flex items-center gap-2">
-            <ShieldCheck className="text-indigo-600 text-base sm:text-lg" />
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-zinc-200">
+        <div className="px-4 py-4 border-b border-zinc-200 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <h2 className="text-sm sm:text-base font-semibold text-zinc-900 flex items-center gap-2">
+            <ShieldCheck className="text-zinc-600 text-base sm:text-lg" />
             Pedoman Daftar Sanksi Berdasarkan Total Poin
           </h2>
-          <span className="text-[11px] font-semibold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200 w-fit">
+          <span className="text-[11px] font-semibold text-indigo-700 bg-zinc-100 px-2.5 py-0.5 rounded-full border border-indigo-200 w-fit">
             7 Jenjang Tindakan Resmi
           </span>
         </div>
@@ -425,18 +425,18 @@ const Dashboard = () => {
         {/* Mobile View: Cards */}
         <div className="sm:hidden p-3 space-y-2.5">
           {sanctionTiers.map((tier, idx) => (
-            <div key={idx} className="bg-white p-3 rounded-xl border border-gray-200 shadow-2xs space-y-1.5">
+            <div key={idx} className="bg-white p-3 rounded-xl border border-zinc-200 shadow-sm space-y-1.5">
               <div className="flex items-center justify-between gap-2">
                 <span className={`px-2 py-0.5 rounded-md border ${tier.color} font-mono font-bold text-[11px]`}>
                   {tier.range}
                 </span>
-                <span className="text-xs font-bold text-gray-900">{tier.sanction}</span>
+                <span className="text-xs font-bold text-zinc-900">{tier.sanction}</span>
               </div>
-              <div className="text-[11px] text-gray-600">
-                <span className="font-semibold text-gray-700">Petugas:</span> {tier.officer}
+              <div className="text-[11px] text-zinc-600">
+                <span className="font-semibold text-zinc-700">Petugas:</span> {tier.officer}
               </div>
               {tier.note && (
-                <div className="text-[10px] text-gray-500 bg-gray-50 p-1.5 rounded border border-gray-100">
+                <div className="text-[10px] text-zinc-500 bg-zinc-50 p-1.5 rounded border border-zinc-100">
                   {tier.note}
                 </div>
               )}
@@ -447,7 +447,7 @@ const Dashboard = () => {
         {/* Desktop View: Table */}
         <div className="hidden sm:block overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
-            <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
+            <thead className="bg-zinc-50 border-b border-zinc-200 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider tracking-wider">
               <tr>
                 <th className="px-3 py-2.5 w-32 text-left">Rentang Poin</th>
                 <th className="px-3 py-2.5 w-56 text-left">Tindakan / Sanksi</th>
@@ -455,21 +455,21 @@ const Dashboard = () => {
                 <th className="px-3 py-2.5 min-w-[150px] text-left">Keterangan</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 bg-white">
+            <tbody className="divide-y divide-zinc-200 bg-white">
               {sanctionTiers.map((tier, idx) => (
-                <tr key={idx} className="hover:bg-gray-50/80 transition">
-                  <td className="px-3 py-2.5 font-mono font-bold text-gray-900 whitespace-nowrap">
+                <tr key={idx} className="hover:bg-zinc-50/80 transition">
+                  <td className="px-3 py-2.5 font-mono font-bold text-zinc-900 whitespace-nowrap">
                     <span className={`px-2 py-0.5 rounded-md border ${tier.color} inline-block font-semibold text-[11px]`}>
                       {tier.range}
                     </span>
                   </td>
-                  <td className="px-3 py-2.5 font-bold text-gray-900 text-xs">
+                  <td className="px-3 py-2.5 font-bold text-zinc-900 text-xs">
                     {tier.sanction}
                   </td>
-                  <td className="px-3 py-2.5 text-gray-700 font-medium text-xs leading-relaxed">
+                  <td className="px-3 py-2.5 text-zinc-700 font-medium text-xs leading-relaxed">
                     {tier.officer}
                   </td>
-                  <td className="px-3 py-2.5 text-gray-600 text-xs leading-relaxed">
+                  <td className="px-3 py-2.5 text-zinc-600 text-xs leading-relaxed">
                     {tier.note}
                   </td>
                 </tr>
@@ -482,21 +482,21 @@ const Dashboard = () => {
       {/* ================= MODAL DETAIL 1: TOTAL SISWA & ROMBEL KELAS ================= */}
       {activeModal === 'students' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-gray-200 flex justify-between items-center bg-indigo-50/80">
+            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-zinc-200 flex justify-between items-center bg-zinc-100/80">
               <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                <div className="p-2 bg-indigo-600 text-white rounded-xl flex-shrink-0">
+                <div className="p-2 bg-zinc-900 text-white rounded-xl flex-shrink-0">
                   <Users className="text-lg sm:text-xl" />
                 </div>
                 <div className="truncate">
-                  <h3 className="text-sm sm:text-lg font-bold text-gray-900 truncate">Rincian Data Siswa & Rombel</h3>
-                  <p className="text-[11px] sm:text-xs text-gray-500 truncate">Total {stats.totalStudents} siswa terdaftar di {stats.classesSummary.length} rombel kelas</p>
+                  <h3 className="text-sm sm:text-lg font-bold text-zinc-900 truncate">Rincian Data Siswa & Rombel</h3>
+                  <p className="text-[11px] sm:text-xs text-zinc-500 truncate">Total {stats.totalStudents} siswa terdaftar di {stats.classesSummary.length} rombel kelas</p>
                 </div>
               </div>
               <button 
                 onClick={() => setActiveModal(null)}
-                className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
+                className="text-zinc-400 hover:text-zinc-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
               >
                 <X className="text-xl" />
               </button>
@@ -506,13 +506,13 @@ const Dashboard = () => {
             <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
               {/* Search input */}
               <div className="relative">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 text-base" />
                 <input
                   type="text"
                   placeholder="Cari nama kelas (misal: X-A, XI-I, XII-MIPA)..."
                   value={classSearch}
                   onChange={(e) => setClassSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 text-xs sm:text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
+                  className="w-full pl-10 pr-4 py-2 text-xs sm:text-sm border border-zinc-200 rounded-xl focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none"
                 />
               </div>
 
@@ -526,17 +526,17 @@ const Dashboard = () => {
                       const grade = c.class_name.split('-')[0];
                       navigate('/students', { state: { gradeFilter: grade, selectedClass: c.id } });
                     }}
-                    className="p-3 rounded-xl border border-gray-200 bg-gray-50/60 hover:bg-indigo-50/50 hover:border-indigo-300 transition flex flex-col justify-between cursor-pointer"
+                    className="p-3 rounded-xl border border-zinc-200 bg-zinc-50/60 hover:bg-zinc-100/50 hover:border-indigo-300 transition flex flex-col justify-between cursor-pointer"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-xs sm:text-sm text-gray-900">{c.class_name}</span>
+                      <span className="font-bold text-xs sm:text-sm text-zinc-900">{c.class_name}</span>
                       <span className="text-[10px] font-semibold text-indigo-700 bg-indigo-100/80 px-2 py-0.5 rounded-full">
                         {c.student_count} Siswa
                       </span>
                     </div>
-                    <div className="mt-2 text-[10px] text-gray-500 flex items-center justify-between">
+                    <div className="mt-2 text-[10px] text-zinc-500 flex items-center justify-between">
                       <span>Pelanggar:</span>
-                      <span className={`font-bold ${c.students_with_violations > 0 ? 'text-amber-600' : 'text-emerald-600'}`}>
+                      <span className={`font-bold ${c.students_with_violations > 0 ? 'text-zinc-600' : 'text-emerald-600'}`}>
                         {c.students_with_violations} Siswa
                       </span>
                     </div>
@@ -546,20 +546,20 @@ const Dashboard = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-3.5 border-t border-gray-200 bg-gray-50 flex justify-between items-center">
+            <div className="px-6 py-3.5 border-t border-zinc-200 bg-zinc-50 flex justify-between items-center">
               <button
                 onClick={() => {
                   setActiveModal(null);
                   navigate('/students');
                 }}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
+                className="px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm"
               >
                 <span>Buka Menu Data Siswa Lengkap</span>
                 <ArrowRight className="text-sm" />
               </button>
               <button
                 onClick={() => setActiveModal(null)}
-                className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition text-xs sm:text-sm font-medium"
+                className="px-4 py-2 bg-white border border-zinc-300 rounded-lg text-zinc-700 hover:bg-zinc-100 transition text-xs sm:text-sm font-medium"
               >
                 Tutup
               </button>
@@ -571,23 +571,23 @@ const Dashboard = () => {
       {/* ================= MODAL DETAIL 2: PELANGGARAN HARI INI ================= */}
       {activeModal === 'today' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-4 animate-in fade-in">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-amber-50/80">
+            <div className="px-6 py-4 border-b border-zinc-200 flex justify-between items-center bg-zinc-100/80">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-amber-500 text-white rounded-xl">
                   <AlertCircle className="text-xl" />
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold text-gray-900">Rincian Pelanggaran Masuk Hari Ini</h3>
-                  <p className="text-xs text-gray-500">
+                  <h3 className="text-base sm:text-lg font-bold text-zinc-900">Rincian Pelanggaran Masuk Hari Ini</h3>
+                  <p className="text-xs text-zinc-500">
                     {new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} &bull; Total {stats.todayViolations} Kasus
                   </p>
                 </div>
               </div>
               <button 
                 onClick={() => setActiveModal(null)}
-                className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white"
+                className="text-zinc-400 hover:text-zinc-600 transition p-1.5 rounded-full hover:bg-white"
               >
                 <X className="text-xl" />
               </button>
@@ -598,32 +598,32 @@ const Dashboard = () => {
               {stats.todayViolationsList.length === 0 ? (
                 <div className="text-center py-12 space-y-2">
                   <ShieldCheck className="text-4xl text-emerald-500 mx-auto" />
-                  <div className="font-bold text-gray-800 text-sm">Tidak ada pelanggaran tercatat hari ini</div>
-                  <p className="text-xs text-gray-400">Seluruh siswa tertib mematuhi tata tertib sekolah hari ini.</p>
+                  <div className="font-bold text-zinc-800 text-sm">Tidak ada pelanggaran tercatat hari ini</div>
+                  <p className="text-xs text-zinc-400">Seluruh siswa tertib mematuhi tata tertib sekolah hari ini.</p>
                 </div>
               ) : (
                 <>
                   {/* Mobile View: Cards */}
                   <div className="sm:hidden space-y-3">
                     {stats.todayViolationsList.map((v, i) => (
-                      <div key={v.id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs space-y-2.5">
+                      <div key={v.id} className="bg-white p-3.5 rounded-xl border border-zinc-200 shadow-sm space-y-2.5">
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
-                            <div className="font-bold text-gray-900 text-xs sm:text-sm leading-tight truncate">{v.student_name}</div>
-                            <div className="text-[11px] text-gray-500 mt-0.5">
+                            <div className="font-bold text-zinc-900 text-xs sm:text-sm leading-tight truncate">{v.student_name}</div>
+                            <div className="text-[11px] text-zinc-500 mt-0.5">
                               NIPD: {v.nipd || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{v.class_name || '-'}</span>
                             </div>
                           </div>
                           <PointBadge points={v.student_total_points} />
                         </div>
-                        <div className="text-xs text-gray-800 bg-amber-50/60 p-2.5 rounded-lg border border-amber-100 flex items-center justify-between gap-2">
+                        <div className="text-xs text-zinc-800 bg-zinc-100/60 p-2.5 rounded-lg border border-amber-100 flex items-center justify-between gap-2">
                           <span className="font-medium text-[11px] leading-snug">{v.category_name}</span>
                           <span className="font-bold text-red-600 text-[11px] whitespace-nowrap">+{v.point_deduction} Poin</span>
                         </div>
                         <div className="pt-1">
                           <button
                             onClick={() => setSelectedStudentForSanction(v.student_id)}
-                            className="w-full py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
+                            className="w-full py-2 bg-zinc-100 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
                           >
                             <FileText className="text-sm" />
                             <span>Lihat Surat Sanksi</span>
@@ -634,9 +634,9 @@ const Dashboard = () => {
                   </div>
 
                   {/* Desktop View: Table */}
-                  <div className="hidden sm:block overflow-hidden border border-gray-200 rounded-xl shadow-2xs">
+                  <div className="hidden sm:block overflow-hidden border border-zinc-200 rounded-xl shadow-sm">
                     <table className="w-full text-left border-collapse text-xs table-fixed">
-                      <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
+                      <thead className="bg-zinc-50 border-b border-zinc-200 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider tracking-wider">
                         <tr>
                           <th className="px-2 py-3 text-center w-10">No</th>
                           <th className="px-3 py-3 w-[25%]">Nama Siswa</th>
@@ -647,20 +647,20 @@ const Dashboard = () => {
                           <th className="px-2 py-3 text-center w-20">Aksi</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200 bg-white">
+                      <tbody className="divide-y divide-zinc-200 bg-white">
                         {stats.todayViolationsList.map((v, i) => (
-                          <tr key={v.id} className="hover:bg-amber-50/30 transition">
-                            <td className="px-2 py-3 text-center text-gray-500 font-semibold">{i + 1}</td>
+                          <tr key={v.id} className="hover:bg-zinc-100/30 transition">
+                            <td className="px-2 py-3 text-center text-zinc-500 font-semibold">{i + 1}</td>
                             <td className="px-3 py-3">
-                              <div className="font-bold text-gray-900 text-xs truncate" title={v.student_name}>{v.student_name}</div>
-                              <div className="text-[10px] text-gray-500 font-mono mt-0.5">NIPD: {v.nipd || '-'}</div>
+                              <div className="font-bold text-zinc-900 text-xs truncate" title={v.student_name}>{v.student_name}</div>
+                              <div className="text-[10px] text-zinc-500 font-mono mt-0.5">NIPD: {v.nipd || '-'}</div>
                             </td>
                             <td className="px-2 py-3 text-center">
-                              <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap">
+                              <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] bg-zinc-100 text-indigo-700 border border-indigo-200 whitespace-nowrap">
                                 {v.class_name || '-'}
                               </span>
                             </td>
-                            <td className="px-3 py-3 text-gray-800 font-medium text-xs leading-snug">
+                            <td className="px-3 py-3 text-zinc-800 font-medium text-xs leading-snug">
                               {v.category_name}
                             </td>
                             <td className="px-2 py-3 text-center whitespace-nowrap">
@@ -674,7 +674,7 @@ const Dashboard = () => {
                             <td className="px-2 py-3 text-center whitespace-nowrap">
                               <button
                                 onClick={() => setSelectedStudentForSanction(v.student_id)}
-                                className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1 shadow-2xs cursor-pointer whitespace-nowrap"
+                                className="text-indigo-700 hover:text-zinc-900 bg-zinc-100 hover:bg-indigo-100 border border-indigo-200 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition inline-flex items-center gap-1 shadow-sm cursor-pointer whitespace-nowrap"
                                 title="Lihat Surat Sanksi"
                               >
                                 <FileText className="text-sm" />
@@ -691,7 +691,7 @@ const Dashboard = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-gray-200 bg-gray-50 flex justify-between items-center">
+            <div className="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-zinc-200 bg-zinc-50 flex justify-between items-center">
               <button
                 onClick={() => {
                   setActiveModal(null);
@@ -704,7 +704,7 @@ const Dashboard = () => {
               </button>
               <button
                 onClick={() => setActiveModal(null)}
-                className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition text-xs sm:text-sm font-medium"
+                className="px-4 py-2 bg-white border border-zinc-300 rounded-lg text-zinc-700 hover:bg-zinc-100 transition text-xs sm:text-sm font-medium"
               >
                 Tutup
               </button>
@@ -716,36 +716,36 @@ const Dashboard = () => {
       {/* ================= MODAL DETAIL 3: SEMUA PELANGGARAN ================= */}
       {activeModal === 'allViolations' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[85vh] flex flex-col overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-5xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-gray-200 flex justify-between items-center bg-purple-50/80">
+            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-zinc-200 flex justify-between items-center bg-zinc-100/80">
               {selectedStudentForDetail ? (
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                   <button
                     onClick={() => setSelectedStudentForDetail(null)}
-                    className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl transition flex items-center gap-1.5 shadow-sm text-xs font-semibold cursor-pointer flex-shrink-0"
+                    className="p-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl transition flex items-center gap-1.5 shadow-sm text-xs font-semibold cursor-pointer flex-shrink-0"
                     title="Kembali ke Rekapitulasi Siswa"
                   >
                     <ArrowLeft className="text-base" />
                     <span className="hidden sm:inline">Kembali</span>
                   </button>
                   <div className="truncate">
-                    <h3 className="text-sm sm:text-lg font-bold text-gray-900 truncate">
+                    <h3 className="text-sm sm:text-lg font-bold text-zinc-900 truncate">
                       Rincian: {selectedStudentForDetail.student_name}
                     </h3>
-                    <p className="text-[11px] sm:text-xs text-gray-500 truncate">
+                    <p className="text-[11px] sm:text-xs text-zinc-500 truncate">
                       Kelas: <strong>{selectedStudentForDetail.class_name}</strong> &bull; Total {selectedStudentForDetail.violations.length} Kasus Pelanggaran
                     </p>
                   </div>
                 </div>
               ) : (
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                  <div className="p-2 bg-purple-600 text-white rounded-xl flex-shrink-0">
+                  <div className="p-2 bg-zinc-900 text-white rounded-xl flex-shrink-0">
                     <ClipboardList className="text-lg sm:text-xl" />
                   </div>
                   <div className="truncate">
-                    <h3 className="text-sm sm:text-lg font-bold text-gray-900 truncate">Rekapitulasi Seluruh Pelanggaran Tercatat</h3>
-                    <p className="text-[11px] sm:text-xs text-gray-500 truncate">
+                    <h3 className="text-sm sm:text-lg font-bold text-zinc-900 truncate">Rekapitulasi Seluruh Pelanggaran Tercatat</h3>
+                    <p className="text-[11px] sm:text-xs text-zinc-500 truncate">
                       Total {stats.totalViolations} kasus &bull; Rekap akumulasi poin siswa
                     </p>
                   </div>
@@ -756,7 +756,7 @@ const Dashboard = () => {
                   setActiveModal(null);
                   setSelectedStudentForDetail(null);
                 }}
-                className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
+                className="text-zinc-400 hover:text-zinc-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
               >
                 <X className="text-xl" />
               </button>
@@ -766,14 +766,14 @@ const Dashboard = () => {
             {selectedStudentForDetail ? (
               /* VIEW 2: DETAIL PELANGGARAN SISWA IN-MODAL */
               <div className="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4">
-                <div className="flex flex-wrap items-center justify-between gap-2.5 bg-purple-50/70 p-3.5 sm:p-4 rounded-xl border border-purple-100 text-xs sm:text-sm">
+                <div className="flex flex-wrap items-center justify-between gap-2.5 bg-zinc-100/70 p-3.5 sm:p-4 rounded-xl border border-purple-100 text-xs sm:text-sm">
                   <div className="min-w-0">
-                    <span className="text-gray-600">Nama Siswa: </span>
-                    <strong className="text-gray-900 font-bold">{selectedStudentForDetail.student_name}</strong>
-                    <span className="text-gray-500 ml-1.5">({selectedStudentForDetail.class_name} &bull; NIPD: {selectedStudentForDetail.nipd || '-'})</span>
+                    <span className="text-zinc-600">Nama Siswa: </span>
+                    <strong className="text-zinc-900 font-bold">{selectedStudentForDetail.student_name}</strong>
+                    <span className="text-zinc-500 ml-1.5">({selectedStudentForDetail.class_name} &bull; NIPD: {selectedStudentForDetail.nipd || '-'})</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-600 font-medium">Akumulasi Total:</span>
+                    <span className="text-zinc-600 font-medium">Akumulasi Total:</span>
                     <PointBadge points={selectedStudentForDetail.student_total_points} />
                   </div>
                 </div>
@@ -781,25 +781,25 @@ const Dashboard = () => {
                 {/* Mobile View: Cards */}
                 <div className="sm:hidden space-y-2.5">
                   {selectedStudentForDetail.violations.map((v, idx) => (
-                    <div key={v.id || idx} className="bg-white p-3 rounded-xl border border-gray-200 shadow-2xs space-y-2">
+                    <div key={v.id || idx} className="bg-white p-3 rounded-xl border border-zinc-200 shadow-sm space-y-2">
                       <div className="flex items-start justify-between gap-2">
-                        <span className="font-bold text-gray-900 text-xs leading-snug">{v.category_name}</span>
+                        <span className="font-bold text-zinc-900 text-xs leading-snug">{v.category_name}</span>
                         <span className="inline-block px-2 py-0.5 rounded font-bold text-[11px] bg-red-50 text-red-700 border border-red-200 whitespace-nowrap">
                           +{v.point_deduction} Poin
                         </span>
                       </div>
-                      <div className="text-[11px] text-gray-500 flex items-center justify-between pt-1 border-t border-gray-100">
+                      <div className="text-[11px] text-zinc-500 flex items-center justify-between pt-1 border-t border-zinc-100">
                         <span>Tanggal: {new Date(v.violation_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                        {v.note && <span className="italic text-gray-600 truncate max-w-[150px]">{v.note}</span>}
+                        {v.note && <span className="italic text-zinc-600 truncate max-w-[150px]">{v.note}</span>}
                       </div>
                     </div>
                   ))}
                 </div>
 
                 {/* Desktop View: Table */}
-                <div className="hidden sm:block overflow-hidden border border-gray-200 rounded-xl shadow-2xs">
+                <div className="hidden sm:block overflow-hidden border border-zinc-200 rounded-xl shadow-sm">
                   <table className="w-full text-left border-collapse text-xs table-fixed">
-                    <thead className="bg-gray-50 text-[11px] uppercase font-bold text-gray-500 border-b border-gray-200">
+                    <thead className="bg-zinc-50 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider border-b border-zinc-200">
                       <tr>
                         <th className="px-2 py-3 text-center w-10">No</th>
                         <th className="px-3 py-3 w-[45%]">Bentuk Pelanggaran</th>
@@ -808,24 +808,24 @@ const Dashboard = () => {
                         <th className="px-3 py-3 w-[25%]">Catatan / Kronologi</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100 bg-white">
+                    <tbody className="divide-y divide-zinc-100 bg-white">
                       {selectedStudentForDetail.violations.map((v, idx) => (
-                        <tr key={v.id || idx} className="hover:bg-purple-50/20 transition">
-                          <td className="px-2 py-3 text-center text-gray-500 font-semibold">{idx + 1}</td>
-                          <td className="px-3 py-3 font-semibold text-gray-900 leading-snug">{v.category_name}</td>
+                        <tr key={v.id || idx} className="hover:bg-zinc-100/20 transition">
+                          <td className="px-2 py-3 text-center text-zinc-500 font-semibold">{idx + 1}</td>
+                          <td className="px-3 py-3 font-semibold text-zinc-900 leading-snug">{v.category_name}</td>
                           <td className="px-2 py-3 text-center whitespace-nowrap">
                             <span className="inline-block px-2.5 py-1 rounded-md font-bold text-[11px] bg-red-50 text-red-700 border border-red-200">
                               +{v.point_deduction} Poin
                             </span>
                           </td>
-                          <td className="px-2 py-3 text-center text-gray-600 whitespace-nowrap font-medium">
+                          <td className="px-2 py-3 text-center text-zinc-600 whitespace-nowrap font-medium">
                             {new Date(v.violation_date).toLocaleDateString('id-ID', {
                               day: 'numeric',
                               month: 'short',
                               year: 'numeric'
                             })}
                           </td>
-                          <td className="px-3 py-3 text-gray-600 leading-relaxed text-xs">
+                          <td className="px-3 py-3 text-zinc-600 leading-relaxed text-xs">
                             {v.note || '-'}
                           </td>
                         </tr>
@@ -837,8 +837,8 @@ const Dashboard = () => {
             ) : loadingAllViolations ? (
               <div className="flex flex-col items-center justify-center p-12 space-y-4">
                 <div className="w-10 h-10 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
-                <div className="text-sm font-semibold text-gray-600">Memuat rincian data seluruh pelanggaran...</div>
-                <div className="text-xs text-gray-400">Harap tunggu sebentar, sedang menarik riwayat lengkap dari server.</div>
+                <div className="text-sm font-semibold text-zinc-600">Memuat rincian data seluruh pelanggaran...</div>
+                <div className="text-xs text-zinc-400">Harap tunggu sebentar, sedang menarik riwayat lengkap dari server.</div>
               </div>
             ) : (
               /* VIEW 1: TABEL REKAPITULASI GROUPED BY STUDENT */
@@ -846,20 +846,20 @@ const Dashboard = () => {
                 {/* Search input & Class Dropdown */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
                   <div className="sm:col-span-2 relative">
-                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-base" />
+                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 text-base" />
                     <input
                       type="text"
                       placeholder="Cari nama siswa, NIPD, kelas, atau jenis pelanggaran..."
                       value={allViolationsSearch}
                       onChange={(e) => setAllViolationsSearch(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-gray-50/50 focus:bg-white transition"
+                      className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm border border-zinc-200 rounded-xl focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none bg-zinc-50/50 focus:bg-white transition"
                     />
                   </div>
                   <div>
                     <select
                       value={allViolationsClassFilter}
                       onChange={(e) => setAllViolationsClassFilter(e.target.value)}
-                      className="w-full px-3 py-2.5 text-xs sm:text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none bg-white transition text-gray-700 font-medium"
+                      className="w-full px-3 py-2.5 text-xs sm:text-sm border border-zinc-200 rounded-xl focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none bg-white transition text-zinc-700 font-medium"
                     >
                       <option value="">-- Semua Rombel Kelas --</option>
                       {availableClassesForFilter.map((c) => (
@@ -872,9 +872,9 @@ const Dashboard = () => {
                 </div>
 
                 {/* Category Per Kelas / Angkatan Quick Tabs */}
-                <div className="flex flex-wrap items-center justify-between gap-2 pt-1 pb-1 border-b border-gray-100">
+                <div className="flex flex-wrap items-center justify-between gap-2 pt-1 pb-1 border-b border-zinc-100">
                   <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="text-xs font-semibold text-gray-500 mr-1 flex items-center gap-1">
+                    <span className="text-xs font-semibold text-zinc-500 mr-1 flex items-center gap-1">
                       <Filter className="text-xs" /> Kategori:
                     </span>
                     
@@ -886,13 +886,13 @@ const Dashboard = () => {
                       }}
                       className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
                         allViolationsGradeFilter === 'ALL' && !allViolationsClassFilter
-                          ? 'bg-purple-600 text-white shadow-2xs'
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          ? 'bg-zinc-900 text-white shadow-sm'
+                          : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
                       }`}
                     >
                       <span>Semua Kelas</span>
                       <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                        allViolationsGradeFilter === 'ALL' && !allViolationsClassFilter ? 'bg-purple-800/60 text-white' : 'bg-gray-200 text-gray-700'
+                        allViolationsGradeFilter === 'ALL' && !allViolationsClassFilter ? 'bg-purple-800/60 text-white' : 'bg-zinc-200 text-zinc-700'
                       }`}>
                         {totalViolatorsCount}
                       </span>
@@ -906,8 +906,8 @@ const Dashboard = () => {
                       }}
                       className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
                         allViolationsGradeFilter === 'X'
-                          ? 'bg-indigo-600 text-white shadow-2xs'
-                          : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200'
+                          ? 'bg-zinc-900 text-white shadow-sm'
+                          : 'bg-zinc-100 text-indigo-700 hover:bg-indigo-100 border border-indigo-200'
                       }`}
                     >
                       <span>Kelas X (10)</span>
@@ -926,7 +926,7 @@ const Dashboard = () => {
                       }}
                       className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
                         allViolationsGradeFilter === 'XI'
-                          ? 'bg-blue-600 text-white shadow-2xs'
+                          ? 'bg-blue-600 text-white shadow-sm'
                           : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200'
                       }`}
                     >
@@ -946,8 +946,8 @@ const Dashboard = () => {
                       }}
                       className={`px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
                         allViolationsGradeFilter === 'XII'
-                          ? 'bg-amber-600 text-white shadow-2xs'
-                          : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200'
+                          ? 'bg-amber-600 text-white shadow-sm'
+                          : 'bg-zinc-100 text-amber-700 hover:bg-amber-100 border border-amber-200'
                       }`}
                     >
                       <span>Kelas XII (12)</span>
@@ -960,7 +960,7 @@ const Dashboard = () => {
                   </div>
 
                   {/* Info Hasil & Reset */}
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="flex items-center gap-2 text-xs text-zinc-500">
                     <span>Hasil: <strong>{filteredGroupedStudents.length}</strong> siswa</span>
                     {(allViolationsSearch || allViolationsGradeFilter !== 'ALL' || allViolationsClassFilter) && (
                       <button
@@ -969,7 +969,7 @@ const Dashboard = () => {
                           setAllViolationsGradeFilter('ALL');
                           setAllViolationsClassFilter('');
                         }}
-                        className="text-xs text-purple-700 hover:text-purple-900 font-semibold underline ml-1 cursor-pointer"
+                        className="text-xs text-purple-700 hover:text-zinc-900 font-semibold underline ml-1 cursor-pointer"
                       >
                         Reset Filter
                       </button>
@@ -980,8 +980,8 @@ const Dashboard = () => {
                 {filteredGroupedStudents.length === 0 ? (
                   <div className="text-center py-12 space-y-2">
                     <ShieldCheck className="text-4xl text-emerald-500 mx-auto" />
-                    <div className="font-bold text-gray-800 text-sm">Tidak ada siswa sesuai filter</div>
-                    <p className="text-xs text-gray-400">Tidak ada riwayat pelanggaran untuk kriteria pencarian ini.</p>
+                    <div className="font-bold text-zinc-800 text-sm">Tidak ada siswa sesuai filter</div>
+                    <p className="text-xs text-zinc-400">Tidak ada riwayat pelanggaran untuk kriteria pencarian ini.</p>
                   </div>
                 ) : (
                   <>
@@ -990,12 +990,12 @@ const Dashboard = () => {
                       {filteredGroupedStudents.map((s, i) => {
                         const latestViolation = s.violations[0];
                         return (
-                          <div key={s.student_id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs space-y-2.5">
+                          <div key={s.student_id} className="bg-white p-3.5 rounded-xl border border-zinc-200 shadow-sm space-y-2.5">
                             {/* Header: Nama Siswa & Badge Poin */}
                             <div className="flex items-start justify-between gap-2">
                               <div className="min-w-0">
-                                <div className="font-bold text-gray-900 text-xs sm:text-sm leading-tight truncate">{s.student_name}</div>
-                                <div className="text-[11px] text-gray-500 mt-0.5">
+                                <div className="font-bold text-zinc-900 text-xs sm:text-sm leading-tight truncate">{s.student_name}</div>
+                                <div className="text-[11px] text-zinc-500 mt-0.5">
                                   NIPD: {s.nipd || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{s.class_name || '-'}</span>
                                 </div>
                               </div>
@@ -1003,11 +1003,11 @@ const Dashboard = () => {
                             </div>
 
                             {/* Info Pelanggaran & Tanggal */}
-                            <div className="flex items-center justify-between text-xs pt-2 border-t border-gray-100">
-                              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
+                            <div className="flex items-center justify-between text-xs pt-2 border-t border-zinc-100">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-zinc-100 text-purple-700 border border-purple-200">
                                 {s.violations.length} Kasus Pelanggaran
                               </span>
-                              <span className="text-[11px] text-gray-500">
+                              <span className="text-[11px] text-zinc-500">
                                 Terakhir: {latestViolation ? new Date(latestViolation.violation_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }) : '-'}
                               </span>
                             </div>
@@ -1016,14 +1016,14 @@ const Dashboard = () => {
                             <div className="grid grid-cols-2 gap-2 pt-1">
                               <button
                                 onClick={() => setSelectedStudentForDetail(s)}
-                                className="w-full py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
+                                className="w-full py-2 bg-zinc-100 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
                               >
                                 <Eye className="text-sm" />
                                 <span>Rincian ({s.violations.length})</span>
                               </button>
                               <button
                                 onClick={() => setSelectedStudentForSanction(s.student_id)}
-                                className="w-full py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
+                                className="w-full py-2 bg-zinc-100 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition cursor-pointer"
                               >
                                 <FileText className="text-sm" />
                                 <span>Surat Sanksi</span>
@@ -1035,10 +1035,10 @@ const Dashboard = () => {
                     </div>
 
                     {/* Desktop View: Table (Tampil di Layar Lebar tanpa Scroll Samping) */}
-                    <div className="hidden md:block overflow-hidden border border-gray-200 rounded-xl shadow-2xs">
+                    <div className="hidden md:block overflow-hidden border border-zinc-200 rounded-xl shadow-sm">
                       <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse text-xs table-fixed min-w-[900px]">
-                          <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500 tracking-wider">
+                          <thead className="bg-zinc-50 border-b border-zinc-200 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider tracking-wider">
                             <tr>
                               <th className="px-2 py-3 text-center w-10">No</th>
                               <th className="px-3 py-3 w-[25%]">Nama Siswa</th>
@@ -1049,30 +1049,30 @@ const Dashboard = () => {
                               <th className="px-2 py-3 text-center w-[180px]">Aksi</th>
                             </tr>
                           </thead>
-                        <tbody className="divide-y divide-gray-200 bg-white">
+                        <tbody className="divide-y divide-zinc-200 bg-white">
                           {filteredGroupedStudents.map((s, i) => {
                             const latestViolation = s.violations[0];
                             return (
-                              <tr key={s.student_id} className="hover:bg-purple-50/30 transition">
-                                <td className="px-2 py-3 text-center text-gray-500 font-semibold">{i + 1}</td>
+                              <tr key={s.student_id} className="hover:bg-zinc-100/30 transition">
+                                <td className="px-2 py-3 text-center text-zinc-500 font-semibold">{i + 1}</td>
                                 <td className="px-3 py-3">
-                                  <div className="font-bold text-gray-900 text-xs truncate" title={s.student_name}>{s.student_name}</div>
-                                  <div className="text-[10px] text-gray-500 font-mono mt-0.5">NIPD: {s.nipd || '-'}</div>
+                                  <div className="font-bold text-zinc-900 text-xs truncate" title={s.student_name}>{s.student_name}</div>
+                                  <div className="text-[10px] text-zinc-500 font-mono mt-0.5">NIPD: {s.nipd || '-'}</div>
                                 </td>
                                 <td className="px-2 py-3 text-center">
-                                  <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap">
+                                  <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] bg-zinc-100 text-indigo-700 border border-indigo-200 whitespace-nowrap">
                                     {s.class_name || '-'}
                                   </span>
                                 </td>
                                 <td className="px-2 py-3 text-center">
-                                  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200 whitespace-nowrap">
+                                  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold bg-zinc-100 text-purple-700 border border-purple-200 whitespace-nowrap">
                                     {s.violations.length} Kasus
                                   </span>
                                 </td>
                                 <td className="px-2 py-3 text-center">
                                   <PointBadge points={s.student_total_points} />
                                 </td>
-                                <td className="px-2 py-3 text-center text-gray-600 font-medium text-[11px] whitespace-nowrap">
+                                <td className="px-2 py-3 text-center text-zinc-600 font-medium text-[11px] whitespace-nowrap">
                                   {latestViolation ? new Date(latestViolation.violation_date).toLocaleDateString('id-ID', {
                                     day: 'numeric',
                                     month: 'short'
@@ -1082,7 +1082,7 @@ const Dashboard = () => {
                                   <div className="flex items-center justify-center gap-1">
                                     <button
                                       onClick={() => setSelectedStudentForDetail(s)}
-                                      className="text-purple-700 hover:text-purple-900 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-1 rounded-md text-[11px] font-semibold transition inline-flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                                      className="text-purple-700 hover:text-zinc-900 bg-zinc-100 hover:bg-purple-100 border border-purple-200 px-2 py-1 rounded-md text-[11px] font-semibold transition inline-flex items-center gap-1 cursor-pointer whitespace-nowrap"
                                       title="Lihat Daftar Bentuk Pelanggaran Siswa"
                                     >
                                       <Eye className="text-xs" />
@@ -1090,7 +1090,7 @@ const Dashboard = () => {
                                     </button>
                                     <button
                                       onClick={() => setSelectedStudentForSanction(s.student_id)}
-                                      className="text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-2 py-1 rounded-md text-[11px] font-semibold transition inline-flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                                      className="text-indigo-700 hover:text-zinc-900 bg-zinc-100 hover:bg-indigo-100 border border-indigo-200 px-2 py-1 rounded-md text-[11px] font-semibold transition inline-flex items-center gap-1 cursor-pointer whitespace-nowrap"
                                       title="Lihat Surat Sanksi Siswa"
                                     >
                                       <FileText className="text-xs" />
@@ -1111,12 +1111,12 @@ const Dashboard = () => {
             )}
 
             {/* Modal Footer */}
-            <div className="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-gray-200 bg-gray-50 flex flex-wrap justify-between items-center gap-2">
+            <div className="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-zinc-200 bg-zinc-50 flex flex-wrap justify-between items-center gap-2">
               {selectedStudentForDetail ? (
                 <div className="flex flex-wrap items-center gap-2 w-full justify-between">
                   <button
                     onClick={() => setSelectedStudentForDetail(null)}
-                    className="px-3.5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    className="px-3.5 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
                   >
                     <ArrowLeft className="text-sm" />
                     <span>Kembali</span>
@@ -1128,7 +1128,7 @@ const Dashboard = () => {
                         setSelectedStudentForDetail(null);
                         setSelectedStudentForSanction(sid);
                       }}
-                      className="px-3.5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
+                      className="px-3.5 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
                     >
                       <FileText className="text-base" />
                       <span>Surat Sanksi</span>
@@ -1138,7 +1138,7 @@ const Dashboard = () => {
                         setActiveModal(null);
                         setSelectedStudentForDetail(null);
                       }}
-                      className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition text-xs sm:text-sm font-medium cursor-pointer"
+                      className="px-4 py-2 bg-white border border-zinc-300 rounded-lg text-zinc-700 hover:bg-zinc-100 transition text-xs sm:text-sm font-medium cursor-pointer"
                     >
                       Tutup
                     </button>
@@ -1152,7 +1152,7 @@ const Dashboard = () => {
                         setActiveModal(null);
                         navigate('/violations');
                       }}
-                      className="px-3.5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
+                      className="px-3.5 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition text-xs sm:text-sm font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer"
                     >
                       <span>Buka Menu Pelanggaran</span>
                       <ArrowRight className="text-sm" />
@@ -1171,7 +1171,7 @@ const Dashboard = () => {
                       setActiveModal(null);
                       setSelectedStudentForDetail(null);
                     }}
-                    className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition text-xs sm:text-sm font-medium cursor-pointer"
+                    className="px-4 py-2 bg-white border border-zinc-300 rounded-lg text-zinc-700 hover:bg-zinc-100 transition text-xs sm:text-sm font-medium cursor-pointer"
                   >
                     Tutup
                   </button>
@@ -1185,21 +1185,21 @@ const Dashboard = () => {
       {/* ================= MODAL DETAIL 4: PERLU PENANGANAN (>= 21 POIN) ================= */}
       {activeModal === 'attention' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black/50 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-gray-200 flex justify-between items-center bg-rose-50/80">
+            <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-zinc-200 flex justify-between items-center bg-rose-50/80">
               <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                 <div className="p-2 bg-rose-600 text-white rounded-xl flex-shrink-0">
                   <AlertTriangle className="text-lg sm:text-xl" />
                 </div>
                 <div className="truncate">
-                  <h3 className="text-sm sm:text-lg font-bold text-gray-900 truncate">Siswa Perlu Penanganan Khusus</h3>
-                  <p className="text-[11px] sm:text-xs text-gray-500 truncate">Siswa dengan akumulasi &ge; 21 Poin</p>
+                  <h3 className="text-sm sm:text-lg font-bold text-zinc-900 truncate">Siswa Perlu Penanganan Khusus</h3>
+                  <p className="text-[11px] sm:text-xs text-zinc-500 truncate">Siswa dengan akumulasi &ge; 21 Poin</p>
                 </div>
               </div>
               <button 
                 onClick={() => setActiveModal(null)}
-                className="text-gray-400 hover:text-gray-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
+                className="text-zinc-400 hover:text-zinc-600 transition p-1.5 rounded-full hover:bg-white flex-shrink-0"
               >
                 <X className="text-xl" />
               </button>
@@ -1210,19 +1210,19 @@ const Dashboard = () => {
               {stats.studentsNeedAttentionList.length === 0 ? (
                 <div className="text-center py-12 space-y-2">
                   <ShieldCheck className="text-4xl text-emerald-500 mx-auto" />
-                  <div className="font-bold text-gray-800 text-sm">Tidak ada siswa yang mencapai &ge;21 Poin</div>
-                  <p className="text-xs text-gray-400">Seluruh siswa berada dalam batas aman tata tertib sekolah.</p>
+                  <div className="font-bold text-zinc-800 text-sm">Tidak ada siswa yang mencapai &ge;21 Poin</div>
+                  <p className="text-xs text-zinc-400">Seluruh siswa berada dalam batas aman tata tertib sekolah.</p>
                 </div>
               ) : (
                 <>
                   {/* Mobile View: Cards */}
                   <div className="sm:hidden space-y-3">
                     {stats.studentsNeedAttentionList.map((s, i) => (
-                      <div key={s.id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs space-y-2.5">
+                      <div key={s.id} className="bg-white p-3.5 rounded-xl border border-zinc-200 shadow-sm space-y-2.5">
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
-                            <div className="font-bold text-gray-900 text-xs sm:text-sm leading-tight truncate">{s.student_name}</div>
-                            <div className="text-[11px] text-gray-500 mt-0.5">
+                            <div className="font-bold text-zinc-900 text-xs sm:text-sm leading-tight truncate">{s.student_name}</div>
+                            <div className="text-[11px] text-zinc-500 mt-0.5">
                               NIPD: {s.nipd || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{s.class_name || '-'}</span>
                             </div>
                           </div>
@@ -1231,7 +1231,7 @@ const Dashboard = () => {
                         <div className="pt-1">
                           <button
                             onClick={() => setSelectedStudentForSanction(s.id)}
-                            className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow-xs cursor-pointer"
+                            className="w-full py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow-xs cursor-pointer"
                           >
                             <FileText className="text-sm" />
                             <span>Lihat & Cetak Surat Sanksi</span>
@@ -1242,9 +1242,9 @@ const Dashboard = () => {
                   </div>
 
                   {/* Desktop View: Table */}
-                  <div className="hidden sm:block overflow-hidden border border-gray-200 rounded-xl shadow-2xs">
+                  <div className="hidden sm:block overflow-hidden border border-zinc-200 rounded-xl shadow-sm">
                     <table className="w-full text-left border-collapse text-xs table-fixed">
-                      <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-bold text-gray-500">
+                      <thead className="bg-zinc-50 border-b border-zinc-200 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider">
                         <tr>
                           <th className="px-2 py-3 text-center w-10">No</th>
                           <th className="px-3 py-3 w-[35%]">Nama Siswa</th>
@@ -1253,16 +1253,16 @@ const Dashboard = () => {
                           <th className="px-2 py-3 text-center w-[25%]">Aksi Tindakan</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200 bg-white">
+                      <tbody className="divide-y divide-zinc-200 bg-white">
                         {stats.studentsNeedAttentionList.map((s, i) => (
                           <tr key={s.id} className="hover:bg-rose-50/30 transition">
-                            <td className="px-2 py-3 text-center text-gray-500 font-semibold">{i + 1}</td>
+                            <td className="px-2 py-3 text-center text-zinc-500 font-semibold">{i + 1}</td>
                             <td className="px-3 py-3">
-                              <div className="font-bold text-gray-900 text-xs truncate">{s.student_name}</div>
-                              <div className="text-[10px] text-gray-500 font-mono mt-0.5">NIPD: {s.nipd || '-'}</div>
+                              <div className="font-bold text-zinc-900 text-xs truncate">{s.student_name}</div>
+                              <div className="text-[10px] text-zinc-500 font-mono mt-0.5">NIPD: {s.nipd || '-'}</div>
                             </td>
                             <td className="px-2 py-3 text-center whitespace-nowrap">
-                              <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap">
+                              <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] bg-zinc-100 text-indigo-700 border border-indigo-200 whitespace-nowrap">
                                 {s.class_name || '-'}
                               </span>
                             </td>
@@ -1272,7 +1272,7 @@ const Dashboard = () => {
                             <td className="px-2 py-3 text-center whitespace-nowrap">
                               <button
                                 onClick={() => setSelectedStudentForSanction(s.id)}
-                                className="px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-[11px] transition inline-flex items-center gap-1 shadow-2xs cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-zinc-900 hover:bg-zinc-800 text-white font-semibold text-[11px] transition inline-flex items-center gap-1 shadow-sm cursor-pointer"
                                 title="Lihat & Cetak Surat Sanksi"
                               >
                                 <FileText className="text-xs" /> Surat Sanksi
@@ -1288,7 +1288,7 @@ const Dashboard = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-gray-200 bg-gray-50 flex justify-between items-center">
+            <div className="px-4 py-3 sm:px-6 sm:py-3.5 border-t border-zinc-200 bg-zinc-50 flex justify-between items-center">
               <button
                 onClick={() => {
                   setActiveModal(null);
@@ -1301,7 +1301,7 @@ const Dashboard = () => {
               </button>
               <button
                 onClick={() => setActiveModal(null)}
-                className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition text-xs sm:text-sm font-medium"
+                className="px-4 py-2 bg-white border border-zinc-300 rounded-lg text-zinc-700 hover:bg-zinc-100 transition text-xs sm:text-sm font-medium"
               >
                 Tutup
               </button>

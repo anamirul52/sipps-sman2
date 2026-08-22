@@ -173,13 +173,13 @@ const ViolationForm = ({ onSuccess }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-6 border border-gray-200">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-3 border-b border-gray-100">
+    <div className="bg-white rounded-2xl shadow-sm p-4 sm:p-6 border border-zinc-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-3 border-b border-zinc-100">
         <div>
-          <h2 className="text-base sm:text-lg font-bold text-gray-800">
+          <h2 className="text-base sm:text-lg font-bold text-zinc-800">
             Input Pelanggaran Baru
           </h2>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <p className="text-xs text-zinc-500 mt-0.5">
             Pilih siswa dan centang satu atau beberapa bentuk pelanggaran yang dilakukan
           </p>
         </div>
@@ -190,7 +190,7 @@ const ViolationForm = ({ onSuccess }) => {
           
           {/* 1. Pencarian Siswa */}
           <div className="relative" ref={studentDropdownRef}>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-zinc-700 mb-1">
               Pilih Siswa <span className="text-red-500">*</span>
             </label>
             
@@ -209,8 +209,8 @@ const ViolationForm = ({ onSuccess }) => {
                   if (!selectedStudent) setShowStudentDropdown(true);
                 }}
                 placeholder="Ketik nama atau NIPD siswa..."
-                className={`w-full rounded-xl border px-4 py-2.5 pr-10 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm ${
-                  selectedStudent ? 'border-green-500 bg-green-50/30' : 'border-gray-300'
+                className={`w-full rounded-xl border px-4 py-2.5 pr-10 focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition text-sm ${
+                  selectedStudent ? 'border-green-500 bg-green-50/30' : 'border-zinc-300'
                 }`}
               />
               
@@ -219,13 +219,13 @@ const ViolationForm = ({ onSuccess }) => {
                   <button
                     type="button"
                     onClick={handleClearSelectedStudent}
-                    className="text-gray-400 hover:text-red-500 p-1"
+                    className="text-zinc-400 hover:text-red-500 p-1"
                     title="Hapus pilihan"
                   >
                     <X className="text-lg" />
                   </button>
                 ) : (
-                  <Search className="text-gray-400 text-lg" />
+                  <Search className="text-zinc-400 text-lg" />
                 )}
               </div>
             </div>
@@ -242,14 +242,14 @@ const ViolationForm = ({ onSuccess }) => {
             
             {/* Student Dropdown list */}
             {showStudentDropdown && !selectedStudent && (
-              <div className="absolute z-30 w-full mt-1 bg-white rounded-xl shadow-2xl max-h-60 overflow-y-auto border border-gray-200 divide-y divide-gray-100 animate-in fade-in">
-                <div className="px-3 py-1.5 bg-gray-50 text-[11px] font-semibold text-gray-500 uppercase tracking-wider sticky top-0 flex justify-between items-center z-10 border-b border-gray-100">
+              <div className="absolute z-30 w-full mt-1 bg-white rounded-xl shadow-xl max-h-60 overflow-y-auto border border-zinc-200 divide-y divide-zinc-100 animate-in fade-in">
+                <div className="px-3 py-1.5 bg-zinc-50 text-[11px] font-semibold text-zinc-500 uppercase tracking-wider sticky top-0 flex justify-between items-center z-10 border-b border-zinc-100">
                   <span>Daftar Siswa ({students.length})</span>
-                  {loadingStudents && <span className="text-indigo-600 animate-pulse font-normal">Mencari...</span>}
+                  {loadingStudents && <span className="text-zinc-600 animate-pulse font-normal">Mencari...</span>}
                 </div>
 
                 {students.length === 0 ? (
-                  <div className="px-4 py-3 text-sm text-gray-500 text-center">
+                  <div className="px-4 py-3 text-sm text-zinc-500 text-center">
                     Tidak ada siswa yang cocok dengan "{searchQuery}"
                   </div>
                 ) : (
@@ -257,18 +257,18 @@ const ViolationForm = ({ onSuccess }) => {
                     <div
                       key={student.id}
                       onClick={() => handleSelectStudent(student)}
-                      className={`px-4 py-2.5 hover:bg-indigo-50 cursor-pointer transition flex items-center justify-between ${
-                        selectedStudent?.id === student.id ? 'bg-indigo-50/80 font-semibold' : ''
+                      className={`px-4 py-2.5 hover:bg-zinc-100 cursor-pointer transition flex items-center justify-between ${
+                        selectedStudent?.id === student.id ? 'bg-zinc-100/80 font-semibold' : ''
                       }`}
                     >
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{student.name}</div>
-                        <div className="text-xs text-gray-500">
-                          NIPD: {student.nipd || student.nisn || '-'} &bull; Kelas: <span className="text-indigo-600 font-medium">{student.class_name || '-'}</span>
+                        <div className="text-sm font-medium text-zinc-900">{student.name}</div>
+                        <div className="text-xs text-zinc-500">
+                          NIPD: {student.nipd || student.nisn || '-'} &bull; Kelas: <span className="text-zinc-600 font-medium">{student.class_name || '-'}</span>
                         </div>
                       </div>
                       <div className="text-right">
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 font-mono">
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-700 font-mono">
                           {student.total_points || 0} Poin
                         </span>
                       </div>
@@ -282,7 +282,7 @@ const ViolationForm = ({ onSuccess }) => {
           {/* 2. Kategori Pelanggaran (MULTI-SELECT CHECKBOX DROPDOWN) */}
           <div className="relative" ref={categoryDropdownRef}>
             <div className="flex items-center justify-between mb-1">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-zinc-700">
                 Kategori Pelanggaran <span className="text-red-500">*</span>
               </label>
               {selectedCategoryIds.length > 0 && (
@@ -301,18 +301,18 @@ const ViolationForm = ({ onSuccess }) => {
               onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
               className={`w-full min-h-[42px] rounded-xl border px-3.5 py-2 cursor-pointer transition flex items-center justify-between text-sm bg-white ${
                 selectedCategoryIds.length > 0 
-                  ? 'border-indigo-500 ring-1 ring-indigo-500/20' 
-                  : 'border-gray-300 hover:border-gray-400'
+                  ? 'border-indigo-500 ring-1 ring-zinc-900/20' 
+                  : 'border-zinc-300 hover:border-zinc-400'
               }`}
             >
               <div className="flex-1 flex flex-wrap gap-1.5 items-center mr-2">
                 {selectedCategoryIds.length === 0 ? (
-                  <span className="text-gray-400 text-xs sm:text-sm">
+                  <span className="text-zinc-400 text-xs sm:text-sm">
                     -- Klik untuk memilih satu / beberapa pelanggaran (29 Kategori) --
                   </span>
                 ) : (
                   <>
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold bg-indigo-600 text-white shadow-2xs">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold bg-zinc-900 text-white shadow-sm">
                       {selectedCategoryIds.length} Pelanggaran Dipilih
                     </span>
                     <span className="text-xs font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-200">
@@ -321,23 +321,23 @@ const ViolationForm = ({ onSuccess }) => {
                   </>
                 )}
               </div>
-              <ChevronDown className={`text-gray-400 text-lg transition transform flex-shrink-0 ${showCategoryDropdown ? 'rotate-180 text-indigo-600' : ''}`} />
+              <ChevronDown className={`text-zinc-400 text-lg transition transform flex-shrink-0 ${showCategoryDropdown ? 'rotate-180 text-zinc-600' : ''}`} />
             </div>
 
             {/* Category Multi-Select Dropdown Content */}
             {showCategoryDropdown && (
-              <div className="absolute z-30 w-full mt-1 bg-white rounded-xl shadow-2xl border border-gray-200 max-h-80 flex flex-col overflow-hidden animate-in fade-in">
+              <div className="absolute z-30 w-full mt-1 bg-white rounded-xl shadow-xl border border-zinc-200 max-h-80 flex flex-col overflow-hidden animate-in fade-in">
                 {/* Search Bar inside dropdown */}
-                <div className="p-2.5 bg-gray-50 border-b border-gray-200 sticky top-0 z-10 flex items-center gap-2">
+                <div className="p-2.5 bg-zinc-50 border-b border-zinc-200 sticky top-0 z-10 flex items-center gap-2">
                   <div className="relative flex-1">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm" />
                     <input
                       type="text"
                       placeholder="Cari nama pelanggaran / poin..."
                       value={categorySearch}
                       onChange={(e) => setCategorySearch(e.target.value)}
                       onClick={(e) => e.stopPropagation()}
-                      className="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none bg-white"
+                      className="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg border border-zinc-300 focus:ring-2 focus:ring-zinc-900 focus:border-transparent outline-none bg-white"
                     />
                   </div>
                   <button
@@ -346,16 +346,16 @@ const ViolationForm = ({ onSuccess }) => {
                       e.stopPropagation();
                       setShowCategoryDropdown(false);
                     }}
-                    className="px-2.5 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-semibold hover:bg-indigo-700 flex-shrink-0 shadow-2xs"
+                    className="px-2.5 py-1.5 bg-zinc-900 text-white rounded-lg text-xs font-semibold hover:bg-zinc-800 flex-shrink-0 shadow-sm"
                   >
                     Selesai
                   </button>
                 </div>
 
                 {/* Categories List with Checkboxes */}
-                <div className="overflow-y-auto divide-y divide-gray-100 flex-1">
+                <div className="overflow-y-auto divide-y divide-zinc-100 flex-1">
                   {filteredCategories.length === 0 ? (
-                    <div className="p-4 text-center text-xs text-gray-500">
+                    <div className="p-4 text-center text-xs text-zinc-500">
                       Tidak ada kategori yang cocok dengan "{categorySearch}"
                     </div>
                   ) : (
@@ -365,8 +365,8 @@ const ViolationForm = ({ onSuccess }) => {
                         <div
                           key={cat.id}
                           onClick={() => handleToggleCategory(cat.id)}
-                          className={`px-3.5 py-2.5 hover:bg-indigo-50/60 cursor-pointer transition flex items-start gap-3 select-none ${
-                            isSelected ? 'bg-indigo-50/80 font-medium' : ''
+                          className={`px-3.5 py-2.5 hover:bg-zinc-100/60 cursor-pointer transition flex items-start gap-3 select-none ${
+                            isSelected ? 'bg-zinc-100/80 font-medium' : ''
                           }`}
                         >
                           {/* Checkbox */}
@@ -375,14 +375,14 @@ const ViolationForm = ({ onSuccess }) => {
                               type="checkbox"
                               checked={isSelected}
                               onChange={() => {}} // handled by parent onClick
-                              className="w-4 h-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500 cursor-pointer"
+                              className="w-4 h-4 text-zinc-600 rounded border-zinc-300 focus:ring-zinc-900 cursor-pointer"
                             />
                           </div>
 
                           {/* Detail Pelanggaran */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-2">
-                              <span className="text-xs text-gray-900 leading-snug">
+                              <span className="text-xs text-zinc-900 leading-snug">
                                 {idx + 1}. {cat.name}
                               </span>
                               <span className="inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-red-50 text-red-700 border border-red-200 whitespace-nowrap flex-shrink-0">
@@ -390,7 +390,7 @@ const ViolationForm = ({ onSuccess }) => {
                               </span>
                             </div>
                             {cat.penalty_description && (
-                              <p className="text-[10px] text-gray-500 mt-0.5 line-clamp-1 italic">
+                              <p className="text-[10px] text-zinc-500 mt-0.5 line-clamp-1 italic">
                                 {cat.penalty_description}
                               </p>
                             )}
@@ -402,7 +402,7 @@ const ViolationForm = ({ onSuccess }) => {
                 </div>
 
                 {/* Dropdown Summary Footer */}
-                <div className="p-2.5 bg-gray-50 border-t border-gray-200 flex items-center justify-between text-xs text-gray-600">
+                <div className="p-2.5 bg-zinc-50 border-t border-zinc-200 flex items-center justify-between text-xs text-zinc-600">
                   <span>
                     Terpilih: <strong>{selectedCategoryIds.length}</strong> pelanggaran
                   </span>
@@ -416,22 +416,22 @@ const ViolationForm = ({ onSuccess }) => {
             {/* List Tag Pelanggaran yang Dipilih */}
             {selectedCategoriesList.length > 0 && (
               <div className="mt-2 space-y-1.5 animate-in fade-in">
-                <div className="flex items-center justify-between text-xs text-gray-500">
+                <div className="flex items-center justify-between text-xs text-zinc-500">
                   <span>Daftar pelanggaran yang akan dicatat:</span>
                   <span className="font-semibold text-indigo-700">Total Akumulasi: +{totalSelectedPoints} Poin</span>
                 </div>
-                <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto p-2 bg-indigo-50/40 rounded-xl border border-indigo-100">
+                <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto p-2 bg-zinc-100/40 rounded-xl border border-indigo-100">
                   {selectedCategoriesList.map(c => (
                     <span 
                       key={c.id}
-                      className="inline-flex items-center gap-1.5 bg-white border border-indigo-200 text-gray-800 text-xs px-2.5 py-1 rounded-lg shadow-2xs"
+                      className="inline-flex items-center gap-1.5 bg-white border border-indigo-200 text-zinc-800 text-xs px-2.5 py-1 rounded-lg shadow-sm"
                     >
                       <span className="font-semibold text-red-600 font-mono">+{c.point_deduction}p</span>
                       <span className="truncate max-w-[220px]">{c.name}</span>
                       <button
                         type="button"
                         onClick={(e) => handleRemoveCategory(c.id, e)}
-                        className="text-gray-400 hover:text-red-600 ml-0.5 p-0.5 rounded-full hover:bg-gray-100"
+                        className="text-zinc-400 hover:text-red-600 ml-0.5 p-0.5 rounded-full hover:bg-zinc-100"
                         title="Hapus pilihan ini"
                       >
                         <X className="text-xs" />
@@ -445,38 +445,38 @@ const ViolationForm = ({ onSuccess }) => {
 
           {/* 3. Input Tanggal Pelanggaran */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-zinc-700 mb-1">
               Tanggal Pelanggaran <span className="text-red-500">*</span>
             </label>
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full rounded-xl border border-gray-300 px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm bg-white"
+              className="w-full rounded-xl border border-zinc-300 px-4 py-2.5 focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition text-sm bg-white"
             />
           </div>
 
           {/* 4. Textarea Catatan / Kronologi */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-zinc-700 mb-1">
               Catatan / Kronologi Kejadian (Opsional)
             </label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows="3"
-              className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition text-sm"
+              className="w-full rounded-xl border border-zinc-300 px-4 py-2 focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition text-sm"
               placeholder="Contoh: Terlambat 15 menit dan tidak menggunakan kelengkapan seragam..."
             ></textarea>
           </div>
         </div>
 
         {/* Footer Action & Submit */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-gray-100">
-          <div className="text-xs text-gray-500 text-center sm:text-left">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-zinc-100">
+          <div className="text-xs text-zinc-500 text-center sm:text-left">
             {selectedCategoryIds.length > 0 ? (
-              <span className="text-indigo-900 font-semibold flex items-center gap-1">
-                <Sparkles className="text-indigo-600 text-sm" />
+              <span className="text-zinc-900 font-semibold flex items-center gap-1">
+                <Sparkles className="text-zinc-600 text-sm" />
                 {selectedCategoryIds.length} bentuk pelanggaran akan dicatat sekaligus untuk {selectedStudent ? selectedStudent.name : 'siswa terpilih'}.
               </span>
             ) : (
@@ -487,7 +487,7 @@ const ViolationForm = ({ onSuccess }) => {
           <button
             type="submit"
             disabled={loading || selectedCategoryIds.length === 0 || !selectedStudent}
-            className="w-full sm:w-auto bg-indigo-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition disabled:opacity-40 disabled:cursor-not-allowed shadow-md flex items-center justify-center space-x-2 text-sm"
+            className="w-full sm:w-auto bg-zinc-900 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-zinc-800 focus:ring-2 focus:ring-zinc-900 focus:ring-offset-2 transition disabled:opacity-40 disabled:cursor-not-allowed shadow-sm flex items-center justify-center space-x-2 text-sm"
           >
             {loading ? (
               <span>Menyimpan {selectedCategoryIds.length} Pelanggaran...</span>

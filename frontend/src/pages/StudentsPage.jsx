@@ -286,13 +286,13 @@ const StudentsPage = () => {
         {/* Header Title & Main Action Buttons */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <div className="p-2 bg-indigo-600 text-white rounded-xl shadow-sm">
+            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-900 flex items-center gap-2">
+              <div className="p-2 bg-zinc-900 text-white rounded-xl shadow-sm">
                 <GraduationCap className="text-2xl" />
               </div>
               <span>Data Siswa</span>
             </h1>
-            <p className="text-xs sm:text-sm text-gray-500 mt-1">Kelola seluruh data siswa sekolah</p>
+            <p className="text-xs sm:text-sm text-zinc-500 mt-1">Kelola seluruh data siswa sekolah</p>
           </div>
 
           {/* Action Buttons Toolbar */}
@@ -300,15 +300,15 @@ const StudentsPage = () => {
             {/* 1. Tombol Unduh Template */}
             <button
               onClick={() => setShowTemplateModal(true)}
-              className="flex items-center gap-2 bg-white border border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/50 text-gray-700 font-semibold px-2.5 sm:px-3.5 py-2 rounded-xl shadow-xs text-xs sm:text-sm transition group"
+              className="flex items-center gap-2 bg-white border border-zinc-200 hover:border-indigo-300 hover:bg-zinc-100/50 text-zinc-700 font-semibold px-2.5 sm:px-3.5 py-2 rounded-xl shadow-xs text-xs sm:text-sm transition group"
               title="Unduh format file Excel resmi untuk pengisian data siswa"
             >
-              <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition flex-shrink-0">
+              <div className="p-1.5 bg-zinc-100 text-zinc-600 rounded-lg group-hover:bg-zinc-900 group-hover:text-white transition flex-shrink-0">
                 <Download className="text-sm sm:text-base" />
               </div>
               <div className="text-left truncate">
                 <div className="leading-tight truncate">Template Excel</div>
-                <div className="text-[10px] text-gray-400 font-normal truncate">Format Standar</div>
+                <div className="text-[10px] text-zinc-400 font-normal truncate">Format Standar</div>
               </div>
             </button>
 
@@ -354,7 +354,7 @@ const StudentsPage = () => {
                 });
                 setShowModal(true);
               }}
-              className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-2.5 sm:px-4 py-2 rounded-xl shadow-md text-xs sm:text-sm transition group"
+              className="flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 text-white font-semibold px-2.5 sm:px-4 py-2 rounded-xl shadow-sm text-xs sm:text-sm transition group"
               title="Tambah data satu siswa baru secara manual"
             >
               <div className="p-1.5 bg-white/20 text-white rounded-lg group-hover:bg-white group-hover:text-indigo-700 transition flex-shrink-0">
@@ -381,14 +381,14 @@ const StudentsPage = () => {
               });
               setShowModal(true);
             }}
-            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-indigo-300 hover:shadow-md transition cursor-pointer group flex items-start gap-3"
+            className="p-3.5 bg-white rounded-xl border border-zinc-200/80 hover:border-indigo-300 hover:bg-zinc-50 transition cursor-pointer group flex items-start gap-3"
           >
-            <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
+            <div className="p-2 bg-zinc-100 text-zinc-600 rounded-lg group-hover:bg-zinc-900 group-hover:text-white transition flex-shrink-0 mt-0.5">
               <UserPlus className="text-lg" />
             </div>
             <div>
-              <h4 className="font-semibold text-xs sm:text-sm text-slate-900 group-hover:text-indigo-600 transition">Tambah Siswa Manual</h4>
-              <p className="text-[11px] text-slate-500 leading-relaxed mt-0.5">
+              <h4 className="font-semibold text-xs sm:text-sm text-zinc-900 group-hover:text-zinc-600 transition">Tambah Siswa Manual</h4>
+              <p className="text-[11px] text-zinc-500 leading-relaxed mt-0.5">
                 Input data individu siswa baru beserta NIPD, kelas, dan kontak orang tua.
               </p>
             </div>
@@ -397,14 +397,14 @@ const StudentsPage = () => {
           {/* Card 2: Import Excel */}
           <div 
             onClick={() => { setShowImportModal(true); setImportResult(null); }}
-            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-emerald-300 transition cursor-pointer group flex items-start gap-3 shadow-sm hover:shadow-md"
+            className="p-3.5 bg-white rounded-xl border border-zinc-200/80 hover:border-emerald-300 transition cursor-pointer group flex items-start gap-3 shadow-sm hover:bg-zinc-50"
           >
             <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
               <Upload className="text-lg" />
             </div>
             <div>
-              <h4 className="font-semibold text-xs sm:text-sm text-slate-900 group-hover:text-emerald-600 transition">Import Excel Massal</h4>
-              <p className="text-[11px] text-slate-500 leading-relaxed mt-0.5">
+              <h4 className="font-semibold text-xs sm:text-sm text-zinc-900 group-hover:text-emerald-600 transition">Import Excel Massal</h4>
+              <p className="text-[11px] text-zinc-500 leading-relaxed mt-0.5">
                 Upload 1 angkatan ratusan siswa secara instan menggunakan spreadsheet.
               </p>
             </div>
@@ -413,14 +413,14 @@ const StudentsPage = () => {
           {/* Card 3: Export Excel */}
           <div 
             onClick={handleExportExcel}
-            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-blue-300 transition cursor-pointer group flex items-start gap-3 shadow-sm hover:shadow-md"
+            className="p-3.5 bg-white rounded-xl border border-zinc-200/80 hover:border-blue-300 transition cursor-pointer group flex items-start gap-3 shadow-sm hover:bg-zinc-50"
           >
             <div className="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
               <FileSpreadsheet className="text-lg" />
             </div>
             <div>
-              <h4 className="font-semibold text-xs sm:text-sm text-slate-900 group-hover:text-blue-600 transition">Export Rekap Excel</h4>
-              <p className="text-[11px] text-slate-500 leading-relaxed mt-0.5">
+              <h4 className="font-semibold text-xs sm:text-sm text-zinc-900 group-hover:text-blue-600 transition">Export Rekap Excel</h4>
+              <p className="text-[11px] text-zinc-500 leading-relaxed mt-0.5">
                 Unduh rekapitulasi data seluruh siswa aktif ke format file spreadsheet (.xlsx).
               </p>
             </div>
@@ -429,14 +429,14 @@ const StudentsPage = () => {
           {/* Card 4: Template Excel */}
           <div 
             onClick={() => setShowTemplateModal(true)}
-            className="p-3.5 bg-white rounded-xl border border-gray-200/80 hover:border-purple-300 transition cursor-pointer group flex items-start gap-3 shadow-sm hover:shadow-md"
+            className="p-3.5 bg-white rounded-xl border border-zinc-200/80 hover:border-purple-300 transition cursor-pointer group flex items-start gap-3 shadow-sm hover:bg-zinc-50"
           >
-            <div className="p-2 bg-purple-50 text-purple-600 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition flex-shrink-0 mt-0.5">
+            <div className="p-2 bg-zinc-100 text-zinc-600 rounded-lg group-hover:bg-zinc-900 group-hover:text-white transition flex-shrink-0 mt-0.5">
               <Download className="text-lg" />
             </div>
             <div>
-              <h4 className="font-bold text-xs sm:text-sm text-gray-900 group-hover:text-purple-600 transition">Template Resmi Excel</h4>
-              <p className="text-[11px] text-gray-500 leading-relaxed mt-0.5">
+              <h4 className="font-bold text-xs sm:text-sm text-zinc-900 group-hover:text-zinc-600 transition">Template Resmi Excel</h4>
+              <p className="text-[11px] text-zinc-500 leading-relaxed mt-0.5">
                 Unduh format tabel resmi dengan struktur kelas SMAN 2 Salatiga siap isi.
               </p>
             </div>
@@ -446,14 +446,14 @@ const StudentsPage = () => {
         {/* Tingkat Tabs & Filter Box */}
         <div className="bg-white rounded-xl shadow p-4 sm:p-5 space-y-4">
           {/* Quick Level Filter Tabs */}
-          <div className="flex items-center justify-between flex-wrap gap-2.5 pb-3 border-b border-gray-100">
+          <div className="flex items-center justify-between flex-wrap gap-2.5 pb-3 border-b border-zinc-100">
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full flex-nowrap sm:flex-wrap">
               <button
                 onClick={() => handleGradeChange('ALL')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition ${
                   gradeFilter === 'ALL'
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-zinc-900 text-white shadow-sm'
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
                 }`}
               >
                 Semua Tingkat
@@ -462,8 +462,8 @@ const StudentsPage = () => {
                 onClick={() => handleGradeChange('X')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition ${
                   gradeFilter === 'X'
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-zinc-900 text-white shadow-sm'
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
                 }`}
               >
                 Kelas 10 (X)
@@ -472,8 +472,8 @@ const StudentsPage = () => {
                 onClick={() => handleGradeChange('XI')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition ${
                   gradeFilter === 'XI'
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-zinc-900 text-white shadow-sm'
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
                 }`}
               >
                 Kelas 11 (XI)
@@ -482,8 +482,8 @@ const StudentsPage = () => {
                 onClick={() => handleGradeChange('XII')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap flex-shrink-0 transition ${
                   gradeFilter === 'XII'
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-zinc-900 text-white shadow-sm'
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
                 }`}
               >
                 Kelas 12 (XII)
@@ -491,7 +491,7 @@ const StudentsPage = () => {
             </div>
 
             {/* Quick Summary Pill */}
-            <div className="flex items-center space-x-1.5 text-xs bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-lg font-semibold border border-indigo-100 whitespace-nowrap">
+            <div className="flex items-center space-x-1.5 text-xs bg-zinc-100 text-indigo-700 px-2.5 py-1 rounded-lg font-semibold border border-indigo-100 whitespace-nowrap">
               <Users className="text-sm" />
               <span>{students.length} Siswa</span>
             </div>
@@ -500,13 +500,13 @@ const StudentsPage = () => {
           {/* Search & Specific Class Select */}
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="relative flex-1 w-full">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 text-lg" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Cari nama siswa atau NIPD..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-zinc-300 focus:ring-2 focus:ring-zinc-900 focus:border-transparent text-sm"
               />
             </div>
 
@@ -514,7 +514,7 @@ const StudentsPage = () => {
               <select
                 value={selectedClass}
                 onChange={(e) => setSelectedClass(e.target.value)}
-                className="w-full py-2.5 px-3.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm bg-white font-medium text-gray-700"
+                className="w-full py-2.5 px-3.5 rounded-lg border border-zinc-300 focus:ring-2 focus:ring-zinc-900 focus:border-transparent text-sm bg-white font-medium text-zinc-700"
               >
                 <option value="">
                   {gradeFilter === 'ALL' ? 'Semua Kelas (33 Kelas A - K)' : `Semua Kelas Tingkat ${gradeFilter} (A - K)`}
@@ -531,14 +531,14 @@ const StudentsPage = () => {
 
         {/* Table Banner Indicator */}
         <div className="flex items-center justify-between px-2">
-          <div className="text-sm font-semibold text-gray-700">
+          <div className="text-sm font-semibold text-zinc-700">
             {selectedClassObj ? (
               <span>
-                Menampilkan seluruh siswa di <span className="text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">Kelas {selectedClassObj.class_name}</span> ({students.length} siswa)
+                Menampilkan seluruh siswa di <span className="text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded border border-indigo-200">Kelas {selectedClassObj.class_name}</span> ({students.length} siswa)
               </span>
             ) : gradeFilter !== 'ALL' ? (
               <span>
-                Menampilkan seluruh siswa <span className="text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">Angkatan Kelas {gradeFilter} (A s/d K)</span> ({students.length} siswa)
+                Menampilkan seluruh siswa <span className="text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded border border-indigo-200">Angkatan Kelas {gradeFilter} (A s/d K)</span> ({students.length} siswa)
               </span>
             ) : (
               <span>Menampilkan seluruh siswa sekolah ({students.length} siswa)</span>
@@ -547,23 +547,23 @@ const StudentsPage = () => {
         </div>
 
         {/* Table / Cards of Students */}
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-zinc-200">
           {/* Mobile View: Cards (Tampil di Layar HP) */}
           <div className="md:hidden p-3 space-y-3">
             {loading ? (
-              <div className="p-8 text-center text-gray-400">
+              <div className="p-8 text-center text-zinc-400">
                 <div className="flex flex-col items-center justify-center space-y-2">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-900"></div>
                   <span className="text-xs">Memuat seluruh data siswa...</span>
                 </div>
               </div>
             ) : students.length === 0 ? (
-              <div className="p-8 text-center text-gray-500">
+              <div className="p-8 text-center text-zinc-500">
                 <div className="flex flex-col items-center justify-center space-y-2">
-                  <div className="bg-gray-100 p-3 rounded-full text-gray-400">
+                  <div className="bg-zinc-100 p-3 rounded-full text-zinc-400">
                     <Users className="text-2xl" />
                   </div>
-                  <div className="font-medium text-xs text-gray-700">
+                  <div className="font-medium text-xs text-zinc-700">
                     {selectedClassObj 
                       ? `Belum ada data siswa di Kelas ${selectedClassObj.class_name}` 
                       : 'Tidak ada data siswa yang cocok'}
@@ -572,14 +572,14 @@ const StudentsPage = () => {
               </div>
             ) : (
               students.map((student, index) => (
-                <div key={student.id} className="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs space-y-2.5">
+                <div key={student.id} className="bg-white p-3.5 rounded-xl border border-zinc-200 shadow-sm space-y-2.5">
                   {/* Header: Nama Siswa, Kelas & Poin */}
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <div className="font-bold text-gray-900 text-xs sm:text-sm leading-tight truncate">
+                      <div className="font-bold text-zinc-900 text-xs sm:text-sm leading-tight truncate">
                         {student.name}
                       </div>
-                      <div className="text-[11px] text-gray-500 mt-0.5">
+                      <div className="text-[11px] text-zinc-500 mt-0.5">
                         NIPD: {student.nipd || student.nisn || '-'} &bull; Kelas: <span className="font-semibold text-indigo-700">{student.class_name || '-'}</span>
                       </div>
                     </div>
@@ -587,18 +587,18 @@ const StudentsPage = () => {
                   </div>
 
                   {/* Kontak Ortu */}
-                  <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded-lg border border-gray-100 flex items-center justify-between">
-                    <span className="text-[11px] text-gray-500">No. HP Orang Tua:</span>
+                  <div className="text-xs text-zinc-600 bg-zinc-50 p-2 rounded-lg border border-zinc-100 flex items-center justify-between">
+                    <span className="text-[11px] text-zinc-500">No. HP Orang Tua:</span>
                     {student.parent_phone ? (
                       <a 
                         href={`tel:${student.parent_phone}`} 
-                        className="font-semibold text-indigo-600 flex items-center gap-1 hover:underline text-xs"
+                        className="font-semibold text-zinc-600 flex items-center gap-1 hover:underline text-xs"
                       >
                         <Phone className="text-xs" />
                         <span>{student.parent_phone}</span>
                       </a>
                     ) : (
-                      <span className="text-gray-400 italic text-[11px]">-</span>
+                      <span className="text-zinc-400 italic text-[11px]">-</span>
                     )}
                   </div>
 
@@ -606,7 +606,7 @@ const StudentsPage = () => {
                   <div className="grid grid-cols-2 gap-2 pt-0.5">
                     <button
                       onClick={() => handleOpenEdit(student)}
-                      className="w-full py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition"
+                      className="w-full py-1.5 bg-zinc-100 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition"
                       title="Edit data siswa ini"
                     >
                       <Edit className="text-sm" />
@@ -627,9 +627,9 @@ const StudentsPage = () => {
           </div>
 
           {/* Desktop View: Table (Tampil di Tablet / PC - Proporsional & Rapi) */}
-          <div className="hidden md:block overflow-hidden border border-gray-200">
+          <div className="hidden md:block overflow-hidden border border-zinc-200">
             <table className="w-full text-left border-collapse text-xs table-fixed">
-              <thead className="bg-gray-50 border-b border-gray-200 text-[11px] uppercase font-semibold text-slate-500 tracking-wider">
+              <thead className="bg-zinc-50 border-b border-zinc-200 text-[11px] uppercase font-semibold text-zinc-500 tracking-wider">
                 <tr>
                   <th className="px-2 py-3 text-center w-10">No</th>
                   <th className="px-3 py-3 w-[32%]">Nama Siswa</th>
@@ -640,35 +640,35 @@ const StudentsPage = () => {
                   <th className="px-2 py-3 text-center w-32">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 bg-white">
+              <tbody className="divide-y divide-zinc-200 bg-white">
                 {loading ? (
                   <tr>
-                    <td colSpan="7" className="px-6 py-12 text-center text-gray-400">
+                    <td colSpan="7" className="px-6 py-12 text-center text-zinc-400">
                       <div className="flex flex-col items-center justify-center space-y-2">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-900"></div>
                         <span className="text-sm">Memuat seluruh data siswa...</span>
                       </div>
                     </td>
                   </tr>
                 ) : students.length === 0 ? (
                   <tr>
-                    <td colSpan="7" className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan="7" className="px-6 py-12 text-center text-zinc-500">
                       <div className="flex flex-col items-center justify-center space-y-3">
-                        <div className="bg-gray-100 p-3 rounded-full text-gray-400">
+                        <div className="bg-zinc-100 p-3 rounded-full text-zinc-400">
                           <Users className="text-3xl" />
                         </div>
-                        <div className="font-medium text-gray-700">
+                        <div className="font-medium text-zinc-700">
                           {selectedClassObj 
                             ? `Belum ada data siswa di Kelas ${selectedClassObj.class_name}` 
                             : 'Tidak ada data siswa yang cocok'}
                         </div>
-                        <p className="text-xs text-gray-400 max-w-sm">
+                        <p className="text-xs text-zinc-400 max-w-sm">
                           Gunakan template 1 angkatan agar proses input data kelas X, XI, atau XII dapat selesai dengan sangat cepat.
                         </p>
                         <div className="flex gap-2 pt-1">
                           <button
                             onClick={() => setShowTemplateModal(true)}
-                            className="text-xs bg-indigo-50 text-indigo-700 border border-indigo-200 px-3 py-1.5 rounded-lg hover:bg-indigo-100 transition font-semibold flex items-center"
+                            className="text-xs bg-zinc-100 text-indigo-700 border border-indigo-200 px-3 py-1.5 rounded-lg hover:bg-indigo-100 transition font-semibold flex items-center"
                           >
                             <Download className="mr-1" /> Unduh Template Angkatan
                           </button>
@@ -684,33 +684,33 @@ const StudentsPage = () => {
                   </tr>
                 ) : (
                   students.map((student, index) => (
-                    <tr key={student.id} className="hover:bg-indigo-50/30 transition">
-                      <td className="px-2 py-3 text-center text-gray-500 font-semibold">{index + 1}</td>
+                    <tr key={student.id} className="hover:bg-zinc-100/30 transition">
+                      <td className="px-2 py-3 text-center text-zinc-500 font-semibold">{index + 1}</td>
                       <td className="px-3 py-3">
-                        <div className="font-bold text-gray-900 text-xs sm:text-sm leading-snug truncate" title={student.name}>
+                        <div className="font-bold text-zinc-900 text-xs sm:text-sm leading-snug truncate" title={student.name}>
                           {student.name}
                         </div>
                       </td>
-                      <td className="px-2 py-3 text-center text-xs text-gray-600 font-mono font-medium truncate">
+                      <td className="px-2 py-3 text-center text-xs text-zinc-600 font-mono font-medium truncate">
                         {student.nipd || student.nisn || '-'}
                       </td>
                       <td className="px-2 py-3 text-center whitespace-nowrap">
-                        <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] bg-indigo-50 text-indigo-700 border border-indigo-200 min-w-[55px]">
+                        <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md font-bold text-[11px] bg-zinc-100 text-indigo-700 border border-indigo-200 min-w-[55px]">
                           {student.class_name || '-'}
                         </span>
                       </td>
-                      <td className="px-2 py-3 text-center text-xs text-gray-600 truncate">
+                      <td className="px-2 py-3 text-center text-xs text-zinc-600 truncate">
                         {student.parent_phone ? (
                           <a 
                             href={`tel:${student.parent_phone}`} 
-                            className="inline-flex items-center justify-center text-gray-700 hover:text-indigo-600 font-medium truncate"
+                            className="inline-flex items-center justify-center text-zinc-700 hover:text-zinc-600 font-medium truncate"
                             title={`Hubungi: ${student.parent_phone}`}
                           >
-                            <Phone className="mr-1 text-gray-400 text-xs flex-shrink-0" />
+                            <Phone className="mr-1 text-zinc-400 text-xs flex-shrink-0" />
                             <span className="truncate">{student.parent_phone}</span>
                           </a>
                         ) : (
-                          <span className="text-gray-400 italic">-</span>
+                          <span className="text-zinc-400 italic">-</span>
                         )}
                       </td>
                       <td className="px-2 py-3 text-center">
@@ -720,7 +720,7 @@ const StudentsPage = () => {
                         <div className="flex items-center justify-center space-x-1.5">
                           <button
                             onClick={() => handleOpenEdit(student)}
-                            className="inline-flex items-center gap-1 text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2.5 py-1 rounded-lg text-xs font-semibold transition shadow-2xs cursor-pointer"
+                            className="inline-flex items-center gap-1 text-amber-700 hover:text-amber-900 bg-zinc-100 hover:bg-amber-100 border border-amber-200 px-2.5 py-1 rounded-lg text-xs font-semibold transition shadow-sm cursor-pointer"
                             title="Edit data siswa ini"
                           >
                             <Edit className="text-xs" />
@@ -728,7 +728,7 @@ const StudentsPage = () => {
                           </button>
                           <button
                             onClick={() => setStudentToDelete(student)}
-                            className="inline-flex items-center gap-1 text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 border border-red-200 px-2.5 py-1 rounded-lg text-xs font-semibold transition shadow-2xs cursor-pointer"
+                            className="inline-flex items-center gap-1 text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 border border-red-200 px-2.5 py-1 rounded-lg text-xs font-semibold transition shadow-sm cursor-pointer"
                             title="Hapus data siswa ini"
                           >
                             <Trash2 className="text-xs" />
@@ -747,52 +747,52 @@ const StudentsPage = () => {
         {/* MODAL PILIHAN TEMPLATE EXCEL CEPAT */}
         {showTemplateModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
-              <div className="px-6 py-4 bg-indigo-50 border-b border-indigo-100 flex justify-between items-center">
-                <h3 className="text-lg font-bold text-indigo-900 flex items-center">
-                  <Download className="mr-2 text-indigo-600 text-xl" />
+            <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden">
+              <div className="px-6 py-4 bg-zinc-100 border-b border-indigo-100 flex justify-between items-center">
+                <h3 className="text-lg font-bold text-zinc-900 flex items-center">
+                  <Download className="mr-2 text-zinc-600 text-xl" />
                   Pusat Template Excel Siswa
                 </h3>
                 <button
                   onClick={() => setShowTemplateModal(false)}
-                  className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white"
+                  className="text-zinc-400 hover:text-zinc-600 p-1 rounded-full hover:bg-white"
                 >
                   <X className="text-xl" />
                 </button>
               </div>
 
               <div className="p-6 space-y-4">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-zinc-600">
                   Pilih format template Excel yang ingin diunduh sesuai kebutuhan Anda:
                 </p>
 
                 <div className="space-y-3">
                   {/* Master 33 Kelas */}
-                  <div className="p-4 rounded-xl border-2 border-indigo-100 bg-indigo-50/40 hover:border-indigo-400 transition flex items-center justify-between gap-3">
+                  <div className="p-4 rounded-xl border-2 border-indigo-100 bg-zinc-100/40 hover:border-indigo-400 transition flex items-center justify-between gap-3">
                     <div>
-                      <div className="font-bold text-indigo-950 flex items-center text-sm">
-                        <Sparkles className="text-indigo-600 mr-1.5" />
+                      <div className="font-bold text-zinc-900 flex items-center text-sm">
+                        <Sparkles className="text-zinc-600 mr-1.5" />
                         Template Master Seluruh Angkatan (33 Sheet Kelas)
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-xs text-zinc-500 mt-0.5">
                         Berisi 33 sheet terpisah untuk seluruh kelas dari X-A s/d XII-K dalam 1 file master.
                       </p>
                     </div>
                     <button
                       onClick={() => { handleDownloadTemplate('all'); setShowTemplateModal(false); }}
-                      className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold shadow-sm flex items-center whitespace-nowrap"
+                      className="px-3.5 py-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg text-xs font-semibold shadow-sm flex items-center whitespace-nowrap"
                     >
                       <Download className="mr-1 text-sm" /> Unduh
                     </button>
                   </div>
 
                   {/* Angkatan 10 */}
-                  <div className="p-3.5 rounded-xl border border-gray-200 hover:border-emerald-400 bg-gray-50/50 hover:bg-emerald-50/30 transition flex items-center justify-between gap-3">
+                  <div className="p-3.5 rounded-xl border border-zinc-200 hover:border-emerald-400 bg-zinc-50/50 hover:bg-emerald-50/30 transition flex items-center justify-between gap-3">
                     <div>
-                      <div className="font-bold text-gray-900 text-sm">
+                      <div className="font-bold text-zinc-900 text-sm">
                         Template Angkatan Kelas 10 (11 Sheet: X-A s/d X-K)
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-xs text-zinc-500 mt-0.5">
                         11 Sheet terbagi rapi per kelas untuk siswa baru kelas 10.
                       </p>
                     </div>
@@ -805,12 +805,12 @@ const StudentsPage = () => {
                   </div>
 
                   {/* Angkatan 11 */}
-                  <div className="p-3.5 rounded-xl border border-gray-200 hover:border-emerald-400 bg-gray-50/50 hover:bg-emerald-50/30 transition flex items-center justify-between gap-3">
+                  <div className="p-3.5 rounded-xl border border-zinc-200 hover:border-emerald-400 bg-zinc-50/50 hover:bg-emerald-50/30 transition flex items-center justify-between gap-3">
                     <div>
-                      <div className="font-bold text-gray-900 text-sm">
+                      <div className="font-bold text-zinc-900 text-sm">
                         Template Angkatan Kelas 11 (11 Sheet: XI-A s/d XI-K)
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-xs text-zinc-500 mt-0.5">
                         11 Sheet terbagi rapi untuk angkatan kelas 11.
                       </p>
                     </div>
@@ -823,12 +823,12 @@ const StudentsPage = () => {
                   </div>
 
                   {/* Angkatan 12 */}
-                  <div className="p-3.5 rounded-xl border border-gray-200 hover:border-emerald-400 bg-gray-50/50 hover:bg-emerald-50/30 transition flex items-center justify-between gap-3">
+                  <div className="p-3.5 rounded-xl border border-zinc-200 hover:border-emerald-400 bg-zinc-50/50 hover:bg-emerald-50/30 transition flex items-center justify-between gap-3">
                     <div>
-                      <div className="font-bold text-gray-900 text-sm">
+                      <div className="font-bold text-zinc-900 text-sm">
                         Template Angkatan Kelas 12 (11 Sheet: XII-A s/d XII-K)
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-xs text-zinc-500 mt-0.5">
                         11 Sheet terbagi rapi untuk angkatan kelas 12.
                       </p>
                     </div>
@@ -841,29 +841,29 @@ const StudentsPage = () => {
                   </div>
 
                   {/* Standar 1 Sheet */}
-                  <div className="p-3 rounded-xl border border-gray-200 hover:border-gray-400 bg-white transition flex items-center justify-between gap-3">
+                  <div className="p-3 rounded-xl border border-zinc-200 hover:border-zinc-400 bg-white transition flex items-center justify-between gap-3">
                     <div>
-                      <div className="font-semibold text-gray-800 text-xs">
+                      <div className="font-semibold text-zinc-800 text-xs">
                         Template Standar (1 Sheet Campuran)
                       </div>
-                      <p className="text-[11px] text-gray-500">
+                      <p className="text-[11px] text-zinc-500">
                         1 Lembar kerja tunggal dengan kolom NIPD, Nama, Kelas, No. HP.
                       </p>
                     </div>
                     <button
                       onClick={() => { handleDownloadTemplate('standard'); setShowTemplateModal(false); }}
-                      className="px-2.5 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 rounded-lg text-xs font-medium flex items-center whitespace-nowrap"
+                      className="px-2.5 py-1 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 border border-zinc-300 rounded-lg text-xs font-medium flex items-center whitespace-nowrap"
                     >
                       <Download className="mr-1" /> Unduh
                     </button>
                   </div>
                 </div>
 
-                <div className="flex justify-end pt-3 border-t border-gray-100">
+                <div className="flex justify-end pt-3 border-t border-zinc-100">
                   <button
                     type="button"
                     onClick={() => setShowTemplateModal(false)}
-                    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm font-medium"
+                    className="px-4 py-2 rounded-lg border border-zinc-300 text-zinc-700 hover:bg-zinc-50 text-sm font-medium"
                   >
                     Tutup
                   </button>
@@ -876,7 +876,7 @@ const StudentsPage = () => {
         {/* Modal Konfirmasi Hapus Siswa */}
         {studentToDelete && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all animate-in fade-in">
+            <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden transform transition-all animate-in fade-in">
               <div className="px-6 py-4 bg-red-50 border-b border-red-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-red-900 flex items-center">
                   <AlertCircle className="mr-2 text-red-600 text-2xl" />
@@ -884,37 +884,37 @@ const StudentsPage = () => {
                 </h3>
                 <button
                   onClick={() => setStudentToDelete(null)}
-                  className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white"
+                  className="text-zinc-400 hover:text-zinc-600 p-1 rounded-full hover:bg-white"
                 >
                   <X className="text-xl" />
                 </button>
               </div>
 
               <div className="p-6 space-y-4">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-zinc-600">
                   Apakah Anda yakin ingin menghapus data siswa berikut?
                 </p>
 
-                <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 text-sm space-y-1">
-                  <div className="font-bold text-gray-900 text-base">{studentToDelete.name}</div>
-                  <div className="text-gray-600">NIPD: <span className="font-mono font-semibold">{studentToDelete.nipd || studentToDelete.nisn}</span></div>
-                  <div className="text-gray-600">Kelas: <span className="font-semibold text-indigo-600">{studentToDelete.class_name || '-'}</span></div>
-                  <div className="text-gray-600">Total Poin Saat Ini: <span className="font-semibold text-red-600">{studentToDelete.total_points || 0} Poin</span></div>
+                <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-200 text-sm space-y-1">
+                  <div className="font-bold text-zinc-900 text-base">{studentToDelete.name}</div>
+                  <div className="text-zinc-600">NIPD: <span className="font-mono font-semibold">{studentToDelete.nipd || studentToDelete.nisn}</span></div>
+                  <div className="text-zinc-600">Kelas: <span className="font-semibold text-zinc-600">{studentToDelete.class_name || '-'}</span></div>
+                  <div className="text-zinc-600">Total Poin Saat Ini: <span className="font-semibold text-red-600">{studentToDelete.total_points || 0} Poin</span></div>
                 </div>
 
-                <div className="p-3 bg-amber-50 rounded-lg border border-amber-200 text-xs text-amber-800 flex items-start space-x-2">
-                  <AlertTriangle className="text-lg text-amber-600 flex-shrink-0 mt-0.5" />
+                <div className="p-3 bg-zinc-100 rounded-lg border border-amber-200 text-xs text-amber-800 flex items-start space-x-2">
+                  <AlertTriangle className="text-lg text-zinc-600 flex-shrink-0 mt-0.5" />
                   <span>
                     <strong>Peringatan:</strong> Menghapus data siswa ini juga akan menghapus seluruh riwayat catatan pelanggaran dan surat sanksi yang terkait.
                   </span>
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-3 border-t border-gray-100">
+                <div className="flex justify-end space-x-3 pt-3 border-t border-zinc-100">
                   <button
                     type="button"
                     disabled={deleting}
                     onClick={() => setStudentToDelete(null)}
-                    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm font-medium transition"
+                    className="px-4 py-2 rounded-lg border border-zinc-300 text-zinc-700 hover:bg-zinc-50 text-sm font-medium transition"
                   >
                     Batal
                   </button>
@@ -942,7 +942,7 @@ const StudentsPage = () => {
         {/* Modal Import Excel (Mendukung 1 Angkatan & Multi-Sheet) */}
         {showImportModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all">
+            <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden transform transition-all">
               <div className="px-6 py-4 bg-emerald-50 border-b border-emerald-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-emerald-900 flex items-center">
                   <Upload className="mr-2 text-emerald-600 text-xl" />
@@ -950,7 +950,7 @@ const StudentsPage = () => {
                 </h3>
                 <button
                   onClick={handleCloseImportModal}
-                  className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white"
+                  className="text-zinc-400 hover:text-zinc-600 p-1 rounded-full hover:bg-white"
                 >
                   <X className="text-xl" />
                 </button>
@@ -969,7 +969,7 @@ const StudentsPage = () => {
                     <button
                       type="button"
                       onClick={() => setShowTemplateModal(true)}
-                      className="text-indigo-700 bg-white border border-indigo-200 hover:bg-indigo-50 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center shadow-sm"
+                      className="text-indigo-700 bg-white border border-indigo-200 hover:bg-zinc-100 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center shadow-sm"
                     >
                       <Download className="mr-1 text-sm" /> Buka Pusat Unduh Template Angkatan
                     </button>
@@ -979,7 +979,7 @@ const StudentsPage = () => {
                 {/* Upload File Input */}
                 <form onSubmit={handleImportExcel} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label className="block text-sm font-medium text-zinc-700 mb-1.5">
                       Pilih File Excel yang Siap Diimpor (.xlsx / .xls)
                     </label>
                     <input
@@ -988,32 +988,32 @@ const StudentsPage = () => {
                       accept=".xlsx, .xls"
                       required
                       onChange={(e) => setSelectedFile(e.target.files[0])}
-                      className="block w-full text-sm text-gray-500
+                      className="block w-full text-sm text-zinc-500
                         file:mr-4 file:py-2.5 file:px-4
                         file:rounded-lg file:border-0
                         file:text-sm file:font-semibold
                         file:bg-emerald-50 file:text-emerald-700
-                        hover:file:bg-emerald-100 cursor-pointer border border-gray-300 rounded-lg p-1"
+                        hover:file:bg-emerald-100 cursor-pointer border border-zinc-300 rounded-lg p-1"
                     />
                   </div>
 
                   {selectedFile && (
-                    <div className="text-xs text-gray-500 flex items-center">
-                      <span className="font-medium text-gray-700 mr-1">File terpilih:</span> {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
+                    <div className="text-xs text-zinc-500 flex items-center">
+                      <span className="font-medium text-zinc-700 mr-1">File terpilih:</span> {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
                     </div>
                   )}
 
                   {/* Hasil Import Summary */}
                   {importResult && (
-                    <div className="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
-                      <div className="flex items-center text-sm font-semibold text-gray-800">
+                    <div className="mt-4 p-4 bg-zinc-50 rounded-xl border border-zinc-200 space-y-2">
+                      <div className="flex items-center text-sm font-semibold text-zinc-800">
                         <CheckCircle className="mr-1 text-emerald-600 text-lg" />
                         Hasil Pemrosesan:
                       </div>
                       <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                        <div className="p-2 bg-white rounded-lg border border-gray-200">
-                          <div className="text-gray-500">Total Baris</div>
-                          <div className="font-bold text-gray-800 text-base">{importResult.total_processed}</div>
+                        <div className="p-2 bg-white rounded-lg border border-zinc-200">
+                          <div className="text-zinc-500">Total Baris</div>
+                          <div className="font-bold text-zinc-800 text-base">{importResult.total_processed}</div>
                         </div>
                         <div className="p-2 bg-emerald-50 rounded-lg border border-emerald-200">
                           <div className="text-emerald-700">Berhasil</div>
@@ -1027,11 +1027,11 @@ const StudentsPage = () => {
 
                       {/* Rincian per-sheet */}
                       {importResult.sheet_summaries && importResult.sheet_summaries.length > 0 && (
-                        <div className="mt-2 text-xs bg-white p-2.5 rounded-lg border border-gray-200 space-y-1">
-                          <span className="font-semibold text-gray-700 block">Rincian Siswa Masuk per Sheet:</span>
+                        <div className="mt-2 text-xs bg-white p-2.5 rounded-lg border border-zinc-200 space-y-1">
+                          <span className="font-semibold text-zinc-700 block">Rincian Siswa Masuk per Sheet:</span>
                           <div className="grid grid-cols-2 gap-1.5 max-h-28 overflow-y-auto">
                             {importResult.sheet_summaries.map((s, idx) => (
-                              <div key={idx} className="bg-gray-50 px-2 py-1 rounded text-[11px] flex justify-between">
+                              <div key={idx} className="bg-zinc-50 px-2 py-1 rounded text-[11px] flex justify-between">
                                 <span>Sheet <strong>{s.sheet}</strong></span>
                                 <span className="text-emerald-700 font-bold">+{s.imported}</span>
                               </div>
@@ -1053,11 +1053,11 @@ const StudentsPage = () => {
                     </div>
                   )}
 
-                  <div className="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+                  <div className="flex justify-end space-x-3 pt-4 border-t border-zinc-100">
                     <button
                       type="button"
                       onClick={handleCloseImportModal}
-                      className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm font-medium"
+                      className="px-4 py-2 rounded-lg border border-zinc-300 text-zinc-700 hover:bg-zinc-50 text-sm font-medium"
                     >
                       {importResult ? 'Selesai' : 'Batal'}
                     </button>
@@ -1082,15 +1082,15 @@ const StudentsPage = () => {
         {/* Modal Tambah Siswa Manual */}
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all">
-              <div className="px-6 py-4 bg-indigo-50 border-b border-indigo-100 flex justify-between items-center">
-                <h3 className="text-lg font-bold text-indigo-900 flex items-center">
-                  <UserPlus className="mr-2 text-indigo-600 text-xl" />
+            <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden transform transition-all">
+              <div className="px-6 py-4 bg-zinc-100 border-b border-indigo-100 flex justify-between items-center">
+                <h3 className="text-lg font-bold text-zinc-900 flex items-center">
+                  <UserPlus className="mr-2 text-zinc-600 text-xl" />
                   Tambah Siswa Baru Manual
                 </h3>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white"
+                  className="text-zinc-400 hover:text-zinc-600 p-1 rounded-full hover:bg-white"
                 >
                   <X className="text-xl" />
                 </button>
@@ -1098,7 +1098,7 @@ const StudentsPage = () => {
 
               <form onSubmit={handleAddStudent} className="p-6 space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-zinc-700 mb-1">
                     NIPD <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -1107,12 +1107,12 @@ const StudentsPage = () => {
                     value={formData.nipd}
                     onChange={(e) => setFormData({ ...formData, nipd: e.target.value })}
                     placeholder="Contoh: 0012345678"
-                    className="w-full rounded-lg border border-gray-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full rounded-lg border border-zinc-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-zinc-900 focus:border-transparent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-zinc-700 mb-1">
                     Nama Lengkap Siswa <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -1121,19 +1121,19 @@ const StudentsPage = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="Nama lengkap siswa"
-                    className="w-full rounded-lg border border-gray-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full rounded-lg border border-zinc-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-zinc-900 focus:border-transparent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-zinc-700 mb-1">
                     Kelas <span className="text-red-500">*</span>
                   </label>
                   <select
                     required
                     value={formData.class_id}
                     onChange={(e) => setFormData({ ...formData, class_id: e.target.value })}
-                    className="w-full rounded-lg border border-gray-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white"
+                    className="w-full rounded-lg border border-zinc-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-zinc-900 focus:border-transparent bg-white"
                   >
                     <option value="">-- Pilih Kelas --</option>
                     {classes.map((c) => (
@@ -1143,7 +1143,7 @@ const StudentsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-zinc-700 mb-1">
                     Nomor WhatsApp / Telp Orang Tua
                   </label>
                   <input
@@ -1151,22 +1151,22 @@ const StudentsPage = () => {
                     value={formData.parent_phone}
                     onChange={(e) => setFormData({ ...formData, parent_phone: e.target.value })}
                     placeholder="Contoh: 081234567890"
-                    className="w-full rounded-lg border border-gray-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full rounded-lg border border-zinc-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-zinc-900 focus:border-transparent"
                   />
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+                <div className="flex justify-end space-x-3 pt-4 border-t border-zinc-100">
                   <button
                     type="button"
                     onClick={() => setShowModal(false)}
-                    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm font-medium"
+                    className="px-4 py-2 rounded-lg border border-zinc-300 text-zinc-700 hover:bg-zinc-50 text-sm font-medium"
                   >
                     Batal
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="px-5 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium shadow disabled:opacity-50"
+                    className="px-5 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium shadow disabled:opacity-50"
                   >
                     {submitting ? 'Menyimpan...' : 'Simpan Siswa'}
                   </button>
@@ -1179,15 +1179,15 @@ const StudentsPage = () => {
         {/* Modal Edit Data Siswa */}
         {studentToEdit && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all">
-              <div className="px-6 py-4 bg-amber-50 border-b border-amber-100 flex justify-between items-center">
+            <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden transform transition-all">
+              <div className="px-6 py-4 bg-zinc-100 border-b border-amber-100 flex justify-between items-center">
                 <h3 className="text-lg font-bold text-amber-950 flex items-center">
-                  <Edit className="mr-2 text-amber-600 text-xl" />
+                  <Edit className="mr-2 text-zinc-600 text-xl" />
                   Edit Data Siswa
                 </h3>
                 <button
                   onClick={() => setStudentToEdit(null)}
-                  className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-white transition"
+                  className="text-zinc-400 hover:text-zinc-600 p-1 rounded-full hover:bg-white transition"
                 >
                   <X className="text-xl" />
                 </button>
@@ -1195,7 +1195,7 @@ const StudentsPage = () => {
 
               <form onSubmit={handleEditStudent} className="p-6 space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-zinc-700 mb-1">
                     NIPD / NISN <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -1204,12 +1204,12 @@ const StudentsPage = () => {
                     value={editFormData.nipd}
                     onChange={(e) => setEditFormData({ ...editFormData, nipd: e.target.value })}
                     placeholder="Contoh: 0012345678"
-                    className="w-full rounded-lg border border-gray-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    className="w-full rounded-lg border border-zinc-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-zinc-700 mb-1">
                     Nama Lengkap Siswa <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -1218,19 +1218,19 @@ const StudentsPage = () => {
                     value={editFormData.name}
                     onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })}
                     placeholder="Nama lengkap siswa"
-                    className="w-full rounded-lg border border-gray-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    className="w-full rounded-lg border border-zinc-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-zinc-700 mb-1">
                     Kelas <span className="text-red-500">*</span>
                   </label>
                   <select
                     required
                     value={editFormData.class_id}
                     onChange={(e) => setEditFormData({ ...editFormData, class_id: e.target.value })}
-                    className="w-full rounded-lg border border-gray-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white"
+                    className="w-full rounded-lg border border-zinc-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent bg-white"
                   >
                     <option value="">-- Pilih Kelas --</option>
                     {classes.map((c) => (
@@ -1240,7 +1240,7 @@ const StudentsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-zinc-700 mb-1">
                     Nomor WhatsApp / Telp Orang Tua
                   </label>
                   <input
@@ -1248,15 +1248,15 @@ const StudentsPage = () => {
                     value={editFormData.parent_phone}
                     onChange={(e) => setEditFormData({ ...editFormData, parent_phone: e.target.value })}
                     placeholder="Contoh: 081234567890"
-                    className="w-full rounded-lg border border-gray-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    className="w-full rounded-lg border border-zinc-300 px-3.5 py-2 text-sm focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   />
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+                <div className="flex justify-end space-x-3 pt-4 border-t border-zinc-100">
                   <button
                     type="button"
                     onClick={() => setStudentToEdit(null)}
-                    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 text-sm font-medium"
+                    className="px-4 py-2 rounded-lg border border-zinc-300 text-zinc-700 hover:bg-zinc-50 text-sm font-medium"
                   >
                     Batal
                   </button>

@@ -42,19 +42,19 @@ const Layout = ({ children }) => {
   const userInitials = getInitials(user?.name);
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen bg-zinc-50 overflow-hidden">
       {/* Responsive Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header bar */}
-        <header className="bg-white h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 z-10 border-b border-gray-200">
+        <header className="bg-white h-14 sm:h-16 flex items-center justify-between px-4 sm:px-6 z-10 border-b border-zinc-200">
           <div className="flex items-center space-x-3 min-w-0">
             {/* Hamburger Button for Mobile */}
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
-              className="md:hidden p-1.5 rounded-lg text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 focus:outline-none transition flex-shrink-0"
+              className="md:hidden p-1.5 rounded-lg text-zinc-600 hover:text-zinc-600 hover:bg-zinc-100 focus:outline-none transition flex-shrink-0"
               aria-label="Buka Menu"
             >
               <Menu className="text-2xl" />
@@ -62,14 +62,14 @@ const Layout = ({ children }) => {
 
             {/* School Identity (Sama di Mobile & Desktop: SMA NEGERI 2 SALATIGA) */}
             <div className="flex items-center space-x-2.5 min-w-0">
-              <div className="bg-white p-0.5 rounded-md border border-gray-200 shadow-sm flex items-center justify-center flex-shrink-0">
+              <div className="bg-white p-0.5 rounded-md border border-zinc-200 shadow-sm flex items-center justify-center flex-shrink-0">
                 <img src="/logo.png" alt="SMA Negeri 2 Salatiga" className="w-5 h-6 sm:w-6 sm:h-7 object-contain" />
               </div>
               <div className="leading-tight min-w-0">
-                <span className="font-semibold text-slate-900 tracking-wide text-xs sm:text-sm uppercase block truncate">
+                <span className="font-semibold text-zinc-900 tracking-wide text-xs sm:text-sm uppercase block truncate">
                   SMA NEGERI 2 SALATIGA
                 </span>
-                <span className="text-[10px] sm:text-xs text-slate-500 font-medium block leading-none mt-0.5 truncate">
+                <span className="text-[10px] sm:text-xs text-zinc-500 font-medium block leading-none mt-0.5 truncate">
                   Sistem Informasi BK
                 </span>
               </div>
@@ -80,17 +80,17 @@ const Layout = ({ children }) => {
           <div className="flex items-center space-x-3 sm:space-x-4 flex-shrink-0">
             {/* User Name & Role: Tampil di Desktop saja (Disembunyikan di Mobile) */}
             <div className="text-right leading-tight hidden sm:block">
-              <div className="font-semibold text-sm text-slate-900 truncate max-w-[180px]">
+              <div className="font-semibold text-sm text-zinc-900 truncate max-w-[180px]">
                 {user?.name || 'User'}
               </div>
-              <div className="text-xs text-slate-500 font-medium">
+              <div className="text-xs text-zinc-500 font-medium">
                 {user?.role || 'Admin'}
               </div>
             </div>
             
             {/* User Avatar Circle with Initials (Tampil di Mobile & Desktop) */}
             <div 
-              className="w-8 h-8 rounded-full bg-slate-100 text-slate-700 font-semibold text-xs flex items-center justify-center border border-gray-200 flex-shrink-0"
+              className="w-8 h-8 rounded-full bg-zinc-100 text-zinc-700 font-semibold text-xs flex items-center justify-center border border-zinc-200 flex-shrink-0"
               title={`${user?.name || 'User'} (${user?.role || 'Admin'})`}
             >
               {userInitials}
@@ -99,7 +99,7 @@ const Layout = ({ children }) => {
             {/* Logout Button */}
             <button
               onClick={logout}
-              className="p-1.5 sm:p-2 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition border border-transparent flex-shrink-0"
+              className="p-1.5 sm:p-2 text-zinc-400 hover:text-zinc-900 rounded-lg hover:bg-zinc-100 transition border border-transparent flex-shrink-0"
               title="Keluar / Logout"
             >
               <LogOut className="text-lg sm:text-xl" />
@@ -108,7 +108,7 @@ const Layout = ({ children }) => {
         </header>
 
         {/* Main Content Area */}
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-4 sm:p-6 md:p-8">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-zinc-50 p-4 sm:p-6 md:p-8">
           <div className="max-w-7xl mx-auto space-y-6">
             {children}
           </div>
